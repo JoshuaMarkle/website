@@ -23,6 +23,14 @@ body {
   font-family: "Helvetica Neue", sans-serif;
 }
 
+li {
+  color: var(--dark-gray);
+}
+
+ul {
+  color: var(--dark-gray);
+}
+
 .content {
   width: 100%;
   align-items: left;
@@ -86,7 +94,8 @@ main h2 {
 
 main h3 {
   font-size: 20px;
-  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 main p {
@@ -129,7 +138,7 @@ main p {
 }
 
 .image-row img {
-  width: 20%; /* Adjust this as needed */
+  width: 20%;
 }
 
 /* Skills */
