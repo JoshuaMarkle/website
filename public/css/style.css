@@ -1,0 +1,307 @@
+:root {
+  /* Base colors */
+  --black: #171717;
+  --dark-gray: #979197;
+  --gray: #c1bec1;
+  --light-gray: #edeced;
+  --white: #fbfbfb;
+
+  --accent: #4198ee;
+  --red: #ff5768;
+  --orange: #ffb347;
+  --blue: #55aaff;
+  --purple: #a29bfe;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Set the background color of the page */
+body {
+  background-color: var(--white);
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+.content {
+  width: 100%;
+  align-items: left;
+  justify-content: left;
+}
+
+.content p {
+  color: var(--dark-gray);
+}
+
+nav {
+  margin-top: 30px;
+}
+
+/* Style the top navigation bar */
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+nav ul li {
+  margin-right: 1%;
+  margin-left: 1%;
+  transition: all 0.2s ease-in-out;
+}
+
+nav ul li:hover {
+  transform: translateY(-10%);
+}
+
+nav ul li a {
+  color: var(--black);
+  text-decoration: none;
+  font-size: 18px;
+}
+
+/* Style the main content section */
+main {
+  background-color: var(--white);
+  padding: 2%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+main h1 {
+  font-size: 80px;
+  margin: 0px;
+  margin-bottom: 20px;
+}
+
+main h2 {
+  font-size: 30px;
+  margin: 0px;
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+main h3 {
+  font-size: 20px;
+  margin: 10px;
+}
+
+main p {
+  font-size: 18px;
+}
+
+/* Name and description */
+
+.title {
+  margin-top: 50px;
+}
+
+.title h1 {
+  text-align: center;
+  font-size: 90px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.title h2 {
+  text-align: center;
+  font-size: 50px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.description {
+  margin-bottom: 30px;
+}
+
+.description p {
+  color: var(--dark-gray);
+  text-align: center;
+}
+
+/* Image Stuff */
+
+.image-row {
+  display: flex;
+}
+
+.image-row img {
+  width: 20%; /* Adjust this as needed */
+}
+
+/* Skills */
+
+.skills {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.skills-title {
+  text-align: center;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.skills-list li {
+  background-color: var(--light-gray);
+  border-radius: 5px;
+  color: var(--dark-gray);
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px 20px;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: all 0.2s ease-in-out;
+}
+
+.skills-list li:hover {
+  transform: translateY(-10%);
+}
+
+/* Containers with Projects */
+
+.container-row {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.container-link {
+  border-radius: 20px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+  margin: 2%;
+  padding: 20px;
+  flex: 1;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  padding: 20px;
+  text-align: left;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.container:hover {
+  transform: translateY(-2%);
+}
+
+.container h1 {
+  text-align: center;
+}
+
+.container h3 {
+  text-align: center;
+}
+
+.container p {
+  color: var(--dark-gray);
+}
+
+/* Style the footer section */
+
+.site-footer {
+  background-color: var(--black);
+  color: var(--white);
+  padding: 1%;
+}
+
+.site-footer a {
+  color: var(--white);
+}
+
+.social-icons {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.social-icons li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.social-icons li a {
+  display: inline-block;
+  font-size: 20px;
+  color: var(--white);
+  padding: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.social-icons li a:hover {
+  transform: translateY(-5%);
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Contact Section */
+
+textarea {
+  resize: vertical;
+}
+
+.contact-description p {
+  color: var(--dark-gray);
+  text-align: center;
+}
+
+#contact form {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#contact input,
+#contact textarea {
+  background-color: var(--white);
+  min-height: 20px;
+  padding: 10px;
+  width: 400px;
+  margin-bottom: 10px;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 18px;
+  border-color: var(--light-gray);
+  border-style: dashed;
+  border-width: 3px;
+  border-radius: 10px;
+}
+
+#contact textarea[name="message"] {
+  height: 200px;
+}
+
+#contact input[type="submit"] {
+  background-color: var(--accent);
+  color: var(--white);
+  width: 100%;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 18px;
+  border-style: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 10px 0px 50px 0px;
+  transition: all 0.2s ease-in-out;
+}
+
+#contact input[type="submit"]:hover {
+  transform: translateY(-5%);
+}
