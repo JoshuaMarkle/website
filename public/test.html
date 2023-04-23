@@ -10,6 +10,10 @@
       transition: opacity 1s ease;
     }
     .fade-in {
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+    .fade-in.show {
       opacity: 1;
     }
   </style>
@@ -17,17 +21,15 @@
 <body>
   <div style="height: 1000px;"></div>
   <h1 id="title">My Title</h1>
-  <div style="height: 1000px;"></div>
+  <div style="height: 300px;"></div>
   <script>
-    function fadeInTitle() {
-      var title = document.getElementById("title");
-      var titlePosition = title.getBoundingClientRect().top;
-      var screenPosition = window.innerHeight;
-      if (titlePosition < screenPosition) {
-        title.classList.add("fade-in");
-      }
+    function fadeIn() {
+      let title = document.getElementById("title");
+      title.classList.add("fade-in", "show");
     }
-    window.addEventListener("scroll", fadeInTitle);
+    document.addEventListener("DOMContentLoaded", function() {
+        fadeIn();
+    });
   </script>
 </body>
 </html>

@@ -50,7 +50,7 @@ ul {
 
 .fade-in {
   opacity: 0;
-  transition: opacity 2s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .fade-in.show {
@@ -90,6 +90,8 @@ nav ul li a {
   font-weight: 600;
   color: var(--black);
   text-decoration: none;
+  opacity: 0;
+  transition: all 0.5s ease-out;
 }
 
 .social-icons li { 
@@ -99,11 +101,11 @@ nav ul li a {
 
 .social-icons li a {
   color: var(--black);
-  transition: all 0.2s ease-in-out;
+  transition: all 0.25s ease-in-out;
 }
 
 .social-icons li a:hover {
-  transform: translateY(-10%);
+  transform: translateY(-20%);
 }
 
 
@@ -150,10 +152,11 @@ main p {
 /* --- TITLE CONTENT --- */
 
 .title {
+  transform: translateY(50px);
   text-align: left;
   display: block;
   opacity: 0;
-  transition: opacity 1s ease;
+  transition: all 0.25s ease-out;
 }
 
 .title h1 {
@@ -181,6 +184,31 @@ main p {
   margin-left: 100px;
 }
 
+@media (max-width: 1100px) {
+  .title-row {
+    flex-direction: column;
+  }
+
+  .title-row img {
+    margin-top: 50px;
+    height: 30%;
+    width: 30%;
+    margin-left: 100px;
+  }
+
+  .title h1 {
+    text-align: center;
+  }
+
+  .title h2 {
+    text-align: center;
+  }
+
+  .title p {
+    text-align: center;
+  }
+}
+
 
 
 /* --- IMAGE STUFF --- */
@@ -205,7 +233,7 @@ main p {
   flex-wrap: wrap;
 }
 
-.container-link {
+.container {
   border-radius: 20px;
   background-color: var(--white);
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
@@ -213,29 +241,32 @@ main p {
   flex: 1;
   display: block;
   text-decoration: none;
-  color: inherit;
-  transition: all 0.2s ease-in-out;
-}
-
-.container {
   padding: 20px;
   text-align: left;
+  color: inherit;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.25s ease-in-out;
 }
 
-.container-link:hover {
-  transform: translateY(-2%);
+.animate {
+  opacity: 1;
+  transition: opacity 0.25s ease-out, transform 0.25s ease-out;
 }
 
 .container h1 {
   text-align: center;
+  margin: 0;
 }
 
 .container h3 {
   text-align: center;
+  margin: 0;
 }
 
 .container p {
   color: var(--dark-gray);
+  margin: 0;
 }
 
 
