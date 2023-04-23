@@ -21,14 +21,14 @@
 
   <nav>
     <ul class="social-icons">
-      <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-      <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+      <li><a id="nav-6" href="#"><i class="fa fa-instagram"></i></a></li>
+      <li><a id="nav-5" href="#"><i class="fa fa-linkedin"></i></a></li>
     </ul>
     <ul>
-      <li><a href="#name">Home</a></li>
-      <li><a href="test.html">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a id="nav-4" href="#name">Home</a></li>
+      <li><a id="nav-3" href="test.html">About</a></li>
+      <li><a id="nav-2" href="#projects">Projects</a></li>
+      <li><a id="nav-1"href="#contact">Contact</a></li>
     </ul>
   </nav>
 
@@ -42,7 +42,7 @@
             <h1>Joshua Markle</h1>
             <p>I am a student passionate about software development as well as AI</p>
           </div>
-          <img src="images/stick-guy.png">
+          <img id="title-image" style="transform: translateY(-50px); opacity: 0; transition: all 0.25s ease-out;" src="images/stick-guy.png">
         </div>
       </div>
     </div>
@@ -51,7 +51,9 @@
       <div class="content">
         <div style="margin-bottom: 50px">
           <div style="text-align: center; margin-bottom: 25px;">
-            <h2 id="projects">My Projects</h2>
+            <h2 id="projects" style="transform: translateY(50px); opacity: 0; transition: all 0.25s ease-out;">
+              My Projects
+            </h2>
           </div>
       
           <div class="container-row">
@@ -59,59 +61,59 @@
               <div>
                 <h1>📱</h1>
                 <h4>Milestone</h4>
-                <p>An app that helps student divers earn their driving license!</p>
+                <p>A mobile app designed for student drivers!</p>
               </div>
             </a>
             <a href="projects/ai.html" class="container">
               <div>
                 <h1>🧠</h1>
                 <h4>AI Projects</h4>
-                <p>A collection of projecs that I have used AI to solve!</p>
+                <p>A collection of projects that I used AI to solve!</p>
               </div>
             </a>
             <a href="projects/domjudge.html" class="container">
               <div>
                 <h1>💻</h1>
                 <h4>GSST DOMJudge</h4>
-                <p>Competative programming software I manage for my school!</p>
+                <p>Competitive programming server I run for school!</p>
               </div>
             </a>
             <a href="projects/web.html" class="container">
               <div>
                 <h1>🚀</h1>
                 <h4>Web Design</h4>
-                <p>I like to build websites such as this one!</p>
+                <p>Front end UI/UX experience and websites I made!</p>
               </div>
             </a>
           </div>
       
           <div class="container-row">
-            <a href="projects/youtube.html" class="container">
-              <div>
-                <h1><i class="fa fa-youtube-play" style="font-size:120px; margin-top: 10px; color: red"></i></h1>
-                <h4>YouTube</h4>
-                <p>Software that allows users to mass download YouTube content!</p>
-              </div>
-            </a>
             <a href="https://github.com/JoshuaMarkle/dotfiles" target="_blank" class="container">
               <div>
                 <h1>📂</h1>
                 <h4>Linux Dotfiles</h4>
-                <p>My linux dotfiles and configuration</p>
+                <p>My linux dotfiles based on Arch and AwesomeWM!</p>
               </div>
             </a>
             <a href="https://github.com/JoshuaMarkle" target="_blank" class="container">
               <div>
                 <h1><i class="fa fa-github" style="font-size:120px; margin-top: 10px; color: #171515"></i></h1>
                 <h4>Github</h4>
-                <p>My Github profile and projects</p>
+                <p>My Github profile that hosts many of my larger projects!</p>
               </div>
             </a>
             <a href="projects/videogames.html" class="container">
               <div>
                 <h1>🕹️</h1>
                 <h4>Video Games</h4>
-                <p>A collection of video games that I have created!</p>
+                <p>A collection of video games that I created + game jams!</p>
+              </div>
+            </a>
+            <a href="projects/youtube.html" class="container">
+              <div>
+                <h1>💡</h1>
+                <h4>Miscellaneous</h4>
+                <p>A collection of uncategorized side projects!</p>
               </div>
             </a>
           </div> 
@@ -131,6 +133,7 @@
         </p>
       </div>
     </div>
+    <div style="height:1000px"></div>
   </footer>
 </body>
 </html>
