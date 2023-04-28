@@ -50,7 +50,7 @@ ul {
 
 .fade-in {
   opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.25s ease-in-out;
 }
 
 .fade-in.show {
@@ -74,7 +74,7 @@ nav ul {
 
 nav ul li {
   margin-right: 10%;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 nav ul:last-child {
@@ -82,7 +82,7 @@ nav ul:last-child {
 }
 
 nav ul li:hover {
-  transform: translateY(-10%);
+  transform: translateY(-20%);
 }
 
 nav ul li a {
@@ -91,7 +91,7 @@ nav ul li a {
   color: var(--black);
   text-decoration: none;
   opacity: 0;
-  transition: all 0.5s ease-out;
+  transition: all 0.1s ease-out;
 }
 
 .social-icons li { 
@@ -101,7 +101,7 @@ nav ul li a {
 
 .social-icons li a {
   color: var(--black);
-  transition: all 0.25s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .social-icons li a:hover {
@@ -156,7 +156,7 @@ main p {
   text-align: left;
   display: block;
   opacity: 0;
-  transition: all 0.25s ease-out;
+  transition: all 0.1s ease-out;
 }
 
 .title h1 {
@@ -246,12 +246,12 @@ main p {
   color: inherit;
   opacity: 0;
   transform: translateY(50px);
-  transition: all 0.25s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .animate {
   opacity: 1;
-  transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 }
 
 .container h1 {
@@ -267,6 +267,31 @@ main p {
 .container p {
   color: var(--dark-gray);
   margin: 0;
+}
+
+.goto-items {
+  text-align: center;
+}
+
+.goto-items li {
+  display: inline-block;
+  color: var(--dark-gray);
+  border: 3px solid var(--gray);
+  border-radius: 5px;
+  padding: 10px;
+  margin-left: 0.25%;
+  margin-right: 0.25%;
+  transition: all 0.1s ease-out;
+}
+
+.goto-items li:hover {
+  transform: scale(1.1);
+}
+
+.goto-items li a {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
 }
 
 

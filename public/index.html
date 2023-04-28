@@ -1,3 +1,13 @@
+<!--
+          ██╗ ██████╗ ███████╗██╗  ██╗██╗   ██╗ █████╗ ███╗   ███╗ █████╗ ██████╗ ██╗  ██╗██╗     ███████╗    ██████╗ ██████╗ ███╗   ███╗
+          ██║██╔═══██╗██╔════╝██║  ██║██║   ██║██╔══██╗████╗ ████║██╔══██╗██╔══██╗██║ ██╔╝██║     ██╔════╝   ██╔════╝██╔═══██╗████╗ ████║
+          ██║██║   ██║███████╗███████║██║   ██║███████║██╔████╔██║███████║██████╔╝█████╔╝ ██║     █████╗     ██║     ██║   ██║██╔████╔██║
+     ██   ██║██║   ██║╚════██║██╔══██║██║   ██║██╔══██║██║╚██╔╝██║██╔══██║██╔══██╗██╔═██╗ ██║     ██╔══╝     ██║     ██║   ██║██║╚██╔╝██║
+     ╚█████╔╝╚██████╔╝███████║██║  ██║╚██████╔╝██║  ██║██║ ╚═╝ ██║██║  ██║██║  ██║██║  ██╗███████╗███████╗██╗╚██████╗╚██████╔╝██║ ╚═╝ ██║
+      ╚════╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝
+    Source: https://github.com/JoshuaMarkle/joshuamarkle.com
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,10 +30,7 @@
 <body>
 
   <nav>
-    <ul class="social-icons">
-      <li><a id="nav-6" href="#"><i class="fa fa-instagram"></i></a></li>
-      <li><a id="nav-5" href="#"><i class="fa fa-linkedin"></i></a></li>
-    </ul>
+    <ul></ul>
     <ul>
       <li><a id="nav-4" href="#name">Home</a></li>
       <li><a id="nav-3" href="test.html">About</a></li>
@@ -38,24 +45,54 @@
       <div style="margin-top:200px; margin-bottom: 300px">
         <div class="title-row">
           <div id="title" class="title">
-            <h2>Hello, It's Me</h2>
+            <h2>Hello, my name is</h2>
             <h1>Joshua Markle</h1>
             <p>I am a student passionate about software development as well as AI</p>
           </div>
-          <img id="title-image" style="transform: translateY(-50px); opacity: 0; transition: all 0.25s ease-out;" src="images/stick-guy.png">
+          <img id="title-image" style="transform: translateY(-50px); opacity: 0; transition: all 0.1s ease-out;" src="images/stick-guy.png">
         </div>
       </div>
     </div>
 
     <div class="background">
       <div class="content">
-        <div style="margin-bottom: 50px">
+        <div id="about" style="margin-top:50px; margin-bottom: 100px;">
+          <h2 id="about-title" style="transform: translateY(50px); opacity: 0; transition: all 0.1s ease-out;">About Me</h2>
+          <div id="about-content" style="transform: translateY(50px); opacity: 0; transition: all 0.1s ease-out;">
+            <p>Hello! My name is Josh and I enjoy creating things that live on the internet. My interest in web development started back in 2012 when I decided to try editing custom Tumblr themes — turns out hacking together a custom reblog button taught me a lot about HTML & CSS!</p>
+            <p>Fast-forward to today, and I’ve had the privilege of working at an advertising agency, a start-up, a huge corporation, and a student-led design studio. My main focus these days is building accessible, inclusive products and digital experiences at Upstatement for a variety of clients.</p>
+            <p>I also recently launched a course that covers everything you need to build a web app with the Spotify API using Node & React.</p>
+            <h4 align="center">Learn more about my:</h4>
+            <ul class="goto-items">
+              <li><a href="#skills"><p style="margin:0">Skills</p></a></li>
+              <li><a href="#projects"><p style="margin:0">Projects</p></a></li>
+              <li><a href="files/Joshua Markle Resume.pdf" target="_blank"><p style="margin:0">Resume</p></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div id="skills" style="margin-top:50px; margin-bottom: 100px;">
+        <h2 id="skills-title" style="transform: translateY(50px); opacity: 0; transition: all 0.1s ease-out;">Skills</h2>
+        <div id="skills-content" style="transform: translateY(50px); opacity: 0; transition: all 0.1s ease-out;">
+          <p>Hello! My name is Josh and I enjoy creating things that live on the internet. My interest in web development started back in 2012 when I decided to try editing custom Tumblr themes — turns out hacking together a custom reblog button taught me a lot about HTML & CSS!</p>
+          <p>Fast-forward to today, and I’ve had the privilege of working at an advertising agency, a start-up, a huge corporation, and a student-led design studio. My main focus these days is building accessible, inclusive products and digital experiences at Upstatement for a variety of clients.</p>
+          <p>I also recently launched a course that covers everything you need to build a web app with the Spotify API using Node & React.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="background">
+      <div class="content">
+        <div style="margin-top:50px; margin-bottom: 50px">
           <div style="text-align: center; margin-bottom: 25px;">
             <h2 id="projects" style="transform: translateY(50px); opacity: 0; transition: all 0.25s ease-out;">
               My Projects
             </h2>
           </div>
-      
+
           <div class="container-row">
             <a href="projects/milestone.html" class="container">
               <div>
@@ -78,28 +115,14 @@
                 <p>Competitive programming server I run for school!</p>
               </div>
             </a>
-            <a href="projects/web.html" class="container">
-              <div>
-                <h1>🚀</h1>
-                <h4>Web Design</h4>
-                <p>Front end UI/UX experience and websites I made!</p>
-              </div>
-            </a>
           </div>
-      
+
           <div class="container-row">
             <a href="https://github.com/JoshuaMarkle/dotfiles" target="_blank" class="container">
               <div>
                 <h1>📂</h1>
                 <h4>Linux Dotfiles</h4>
                 <p>My linux dotfiles based on Arch and AwesomeWM!</p>
-              </div>
-            </a>
-            <a href="https://github.com/JoshuaMarkle" target="_blank" class="container">
-              <div>
-                <h1><i class="fa fa-github" style="font-size:120px; margin-top: 10px; color: #171515"></i></h1>
-                <h4>Github</h4>
-                <p>My Github profile that hosts many of my larger projects!</p>
               </div>
             </a>
             <a href="projects/videogames.html" class="container">
@@ -124,16 +147,16 @@
   </main>
 
   <footer class="site-footer">
-    <div class="row">
-      <div class="col-md-12">
-        <p class="text-center">
-          &copy; 2023 joshuamarkle.com All Rights Reserved.
-          <a href="#">Privacy Policy</a>
-          <a href="#">Cookie Policy</a>
-        </p>
-      </div>
+    <div style="text-align: center;">
+      <a href="#"><i class="fa fa-instagram" style="margin-right: 10px"></i></a>
+      <a href="#"><i class="fa fa-linkedin"></i></a>
     </div>
-    <div style="height:1000px"></div>
+    <div class="text-center">
+      <p>
+        Designed & Built by Joshua Markle
+        <a href="https://github.com/JoshuaMarkle/joshuamarkle.com/tree/main">View Here</a>
+      </p>
+    </div>
   </footer>
 </body>
 </html>
