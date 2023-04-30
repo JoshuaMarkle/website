@@ -43,11 +43,25 @@ document.addEventListener("DOMContentLoaded", function() {
             let titlePosition = title.getBoundingClientRect().top;
             let screenPosition = window.innerHeight;
             if (titlePosition < screenPosition - 200) {
-                console.log("fadded early: content" + i);
                 fadeInElement("content" + i, false);
             } else {
                 window.addEventListener("scroll", function() {fadeInElement("content" + i, false);});
             }
+        }
+    }
+
+    const containers = document.querySelectorAll('.container');
+    containerLoop: for (let i = 0; i < containers.length; i++) {
+        const container = containers[i];
+        const containerPosition = container.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight;
+        if (containerPosition < screenPosition - 100) {
+            animateContainers();
+        } else {
+            window.addEventListener('scroll', () => {
+            animateContainers();
+            });
+            break containerLoop;
         }
     }
 });
@@ -68,12 +82,14 @@ function animateContainers() {
                 gsap.to(container, { opacity: 1, y: 0 });
                 container.classList.add('animate');
             }, 500);
+            container.style.transform = 'scale(1)';
+            container.addEventListener('mouseenter', () => {
+                container.classList.add('expanded');
+            });
+            container.addEventListener('mouseleave', () => {
+                container.classList.remove('expanded');
+                container.style.transform = 'scale(1)';
+            });       
         }
     });
 }
-
-window.addEventListener('scroll', () => {
-    animateContainers();
-});
-
-const container = document.querySelector('.container');

@@ -280,8 +280,13 @@ main p {
   text-align: left;
   color: inherit;
   opacity: 0;
+  cursor: pointer;
   transform: translateY(50px);
-  transition: all 0.1s ease-in-out;
+  transition: all 0.3s ease-out, flex 0.3s ease-out;
+}
+
+.container.expanded {
+  transform: scale(1.05) !important;
 }
 
 .animate {
@@ -474,6 +479,7 @@ textarea {
 
   .container {
     padding: 9vw;
+    margin-bottom: 5vh;
   }
 
   .container-row {
