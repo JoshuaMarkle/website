@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
     fadeInElement("title", true)
     fadeInElement("title-image", true);
     fadeInElement("banner", true, 250);
+    fadeInElement("contact-form", true);
 
     fadeInElement("nav-1", true);
     fadeInElement("nav-2", true);

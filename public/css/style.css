@@ -333,6 +333,52 @@ main p {
 }
 
 
+/* -- CONTACT INFORMATION STYLE --- */
+
+form { max-width: 50%; margin: auto; margin-top: 5vh; margin-bottom: 20vh; }
+
+.feedback-input {
+  color: var(--black);
+  font-family: 'Montserrat', Calibri, sans-serif;
+  font-weight:500;
+  font-size: 1vw;
+  border-radius: 5px;
+  line-height: 22px;
+  border: 3px solid var(--black);
+  transition: all 0.3s;
+  padding: 1vh;
+  margin-bottom: 2vh;
+  width:100%;
+  box-sizing: border-box;
+  outline:0;
+}
+
+.feedback-input:focus { border: 3px solid var(--orange); }
+
+textarea {
+  height: 150px;
+  line-height: 150%;
+  resize:vertical;
+}
+
+[type="submit"] {
+  width: 100%;
+  background:var(--black);
+  border-radius:5px;
+  border:0;
+  cursor:pointer;
+  color: var(--light-gray);
+  font-family: 'Montserrat', Calibri, sans-serif;
+  font-size: 1vw;
+  padding-top:10px;
+  padding-bottom:10px;
+  transition: all 0.3s;
+  margin-top:-4px;
+  font-weight: 600;
+}
+[type="submit"]:hover { background: var(--orange); }
+
+
 
 /* --- PAGE FOOTER --- */
 
@@ -432,5 +478,15 @@ main p {
 
   .container-row {
     flex-direction: column;
+  }
+
+  form { max-width: 100%; margin: auto; margin-top: 5vh; margin-bottom: 20vh; }
+
+  .feedback-input {
+    font-size: 3vw;
+  }
+
+  [type="submit"] {
+    font-size: 3vw;
   }
 }
