@@ -38,6 +38,8 @@ ul {
 .content {
   max-width: 1100px;
   margin: 0 auto;
+  padding-left: 5%;
+  padding-right: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,7 +66,6 @@ ul {
 nav {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
 }
 
 nav ul {
@@ -72,27 +73,83 @@ nav ul {
   display: flex;
 }
 
-nav ul li {
-  margin-right: 10%;
-  transition: all 0.1s ease-in-out;
-}
 
 nav ul:last-child {
-  margin-right: 150px
+  margin-right: 5%
 }
 
-nav ul li:hover {
-  transform: translateY(-20%);
+/* Navbar container */
+.navbar {
+  overflow: hidden;
 }
 
-nav ul li a {
+/* Links inside the navbar */
+.navbar a {
   font-size: 20px;
   font-weight: 600;
   color: var(--black);
   text-decoration: none;
-  opacity: 0;
-  transition: all 0.1s ease-out;
+  float: left;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: all 0.1s ease-in-out;
 }
+
+/* The dropdown container */
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--black);
+  text-decoration: none;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+  transition: all 0.1s ease-in-out;
+}
+
+/* Add a red background color to navbar links on hover */
+.navbar a:hover, .dropdown:hover .dropbtn {
+  transform: translateY(-10%);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--white);
+  min-width: 160px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: var(--black);
+  padding: 15px 20px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  border-radius: 10px;
+}
+
+.dropdown-content a:hover {
+  background-color: var(--orange);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
 
 .social-icons li { 
   margin: 0;
@@ -275,12 +332,11 @@ main p {
 
 .goto-items li {
   display: inline-block;
-  color: var(--dark-gray);
-  border: 3px solid var(--gray);
+  border: 3px solid var(--black);
   border-radius: 5px;
   padding: 10px;
-  margin-left: 0.25%;
-  margin-right: 0.25%;
+  margin-left: 0.3%;
+  margin-right: 0.3%;
   transition: all 0.1s ease-out;
 }
 
@@ -292,6 +348,10 @@ main p {
   text-decoration: inherit;
   color: inherit;
   cursor: auto;
+}
+
+.goto-items li a p {
+  color: var(--black);
 }
 
 
