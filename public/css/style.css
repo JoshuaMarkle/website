@@ -85,12 +85,12 @@ nav ul:last-child {
 
 /* Links inside the navbar */
 .navbar a {
-  font-size: 20px;
+  font-size: 1vw;
   font-weight: 600;
   color: var(--black);
   text-decoration: none;
   float: left;
-  padding: 14px 16px;
+  padding: 1vw 1vw;
   text-decoration: none;
   transition: all 0.1s ease-in-out;
 }
@@ -103,13 +103,13 @@ nav ul:last-child {
 
 /* Dropdown button */
 .dropdown .dropbtn {
-  font-size: 20px;
+  font-size: 1vw;
   font-weight: 600;
   color: var(--black);
   text-decoration: none;
   border: none;
   outline: none;
-  padding: 14px 16px;
+  padding: 1vw 1vw;
   background-color: inherit;
   font-family: inherit;
   margin: 0;
@@ -149,7 +149,9 @@ nav ul:last-child {
   display: block;
 }
 
-
+.extra-navbar {
+  display: block;
+}
 
 .social-icons li { 
   margin: 0;
@@ -170,14 +172,14 @@ nav ul:last-child {
 /* --- MAIN CONTENT --- */
 
 main h1 {
-  font-size: 100px;
+  font-size: 4vw;
   font-weight: 500;
   margin: 0px;
   margin-bottom: 20px;
 }
 
 main h2 {
-  font-size: 60px;
+  font-size: 3vw;
   font-weight: 500;
   margin: 0px;
   margin-top: 50px;
@@ -185,21 +187,21 @@ main h2 {
 }
 
 main h3 {
-  font-size: 40px;
+  font-size: 2vw;
   font-weight: 500;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
 main h4 {
-  font-size: 20px;
+  font-size: 1vw;
   font-weight: 600;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
 main p {
-  font-size: 20px;
+  font-size: 1vw;
   font-weight: 500;
   color: var(--dark-gray);
 }
@@ -217,7 +219,7 @@ main p {
 }
 
 .title h1 {
-  font-size: 90px;
+  font-size: 4vw;
   font-weight: 700;
   margin: 0px;
   margin-top: 10px;
@@ -225,7 +227,7 @@ main p {
 }
 
 .title h2 {
-  font-size: 60px;
+  font-size: 3vw;
   font-weight: 500;
   margin: 0px;
 }
@@ -239,31 +241,6 @@ main p {
   height: 400px;
   width: 300px;
   margin-left: 100px;
-}
-
-@media (max-width: 1100px) {
-  .title-row {
-    flex-direction: column;
-  }
-
-  .title-row img {
-    margin-top: 50px;
-    height: 30%;
-    width: 30%;
-    margin-left: 100px;
-  }
-
-  .title h1 {
-    text-align: center;
-  }
-
-  .title h2 {
-    text-align: center;
-  }
-
-  .title p {
-    text-align: center;
-  }
 }
 
 
@@ -285,6 +262,7 @@ main p {
 
 .container-row {
   display: flex;
+  flex-direction: row;
   width: 100%;
   justify-content: center;
   flex-wrap: wrap;
@@ -298,7 +276,7 @@ main p {
   flex: 1;
   display: block;
   text-decoration: none;
-  padding: 20px;
+  padding: 2%;
   text-align: left;
   color: inherit;
   opacity: 0;
@@ -370,4 +348,89 @@ main p {
 
 .text-center {
   text-align: center;
+}
+
+/* --- Small Sizing --- */
+
+@media (max-width: 800px) {
+
+  nav {
+    justify-content: center;
+  }
+
+  .navbar a {
+    font-size: 3vw;
+  }
+
+  .dropdown .dropbtn {
+    font-size: 3vw;
+  }
+
+  .extra-navbar {
+    display: none;
+  }
+
+  .title-row {
+    flex-direction: column;
+  }
+
+  .title-row img {
+    margin-top: 50px;
+    height: 30%;
+    width: 30%;
+    margin-left: 100px;
+  }
+
+  .title h1 {
+    font-size: 8vw;
+    text-align: center;
+  }
+
+  .title h2 {
+    font-size: 7vw;
+    text-align: center;
+  }
+
+  main h1 {
+    font-size: 20vw;
+    font-weight: 500;
+    margin: 0px;
+    margin-bottom: 20px;
+  }
+  
+  main h2 {
+    font-size: 7vw;
+    font-weight: 500;
+    margin: 0px;
+    margin-top: 50px;
+    margin-bottom: 10px;
+  }
+  
+  main h3 {
+    font-size: 8vw;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  main h4 {
+    font-size: 5vw;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  main p {
+    font-size: 5vw;
+    font-weight: 500;
+    color: var(--dark-gray);
+  }
+
+  .container {
+    padding: 9vw;
+  }
+
+  .container-row {
+    flex-direction: column;
+  }
 }
