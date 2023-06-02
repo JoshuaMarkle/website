@@ -5,24 +5,18 @@
   joshuamarkle.com
 </h1>
 <p align="center">
-  A simple website built using HTML, CSS, and JavaScript
+  A simple static website built using HTML, CSS, and JavaScript
 </p>
 
 ![image](https://user-images.githubusercontent.com/89358825/235251756-2e76bfd0-a7de-4d62-aebc-48c3ae00a7f7.png)
 
-## 🚨 Forking this repo (please read!)
-
-Many people have contacted me asking me if they can use this code for their own website, and the answer to that question is usually **yes, with attribution**.
-
-I value keeping my site open source, but as you all know, _**plagiarism is bad**_. It's always disheartening whenever I find that someone has copied my site without giving me credit. I spent a non-trivial amount of effort building and designing this iteration of my website, and I am proud of it! All I ask of you all is to not claim this effort as your own.
-
-### TL;DR
-
-Yes, you can fork this repo. Please give me proper credit by linking back to [joshuamarkle.com](https://joshuamarkle.com). Thanks!
-
 ## 🛠 Installation & Set Up
 
 You can just clone the repo or sift through the code to find anything you want!
+
+## 🚨 Forking this repo (please read!)
+
+Yes, you can fork this repo. Please give me proper credit by linking back to [joshuamarkle.com](https://joshuamarkle.com). Thanks!
 
 ## 🎨 Color Reference
 
