@@ -194,14 +194,14 @@ main h3 {
 }
 
 main h4 {
-  font-size: 1.5vw;
+  font-size: 1vw;
   font-weight: 600;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
 main p {
-  font-size: 1.5vw;
+  font-size: 1vw;
   font-weight: 500;
   color: var(--dark-gray);
 }
@@ -219,7 +219,7 @@ main p {
 }
 
 .title h1 {
-  font-size: 6vw;
+  font-size: 4vw;
   font-weight: 700;
   margin: 0px;
   margin-top: 10px;
@@ -227,7 +227,7 @@ main p {
 }
 
 .title h2 {
-  font-size: 4vw;
+  font-size: 2vw;
   font-weight: 500;
   margin: 0px;
 }
@@ -238,8 +238,7 @@ main p {
 }
 
 .title-row img {
-  height: 400px;
-  width: 300px;
+  max-width: 15vw;
   margin-left: 100px;
 }
 
@@ -261,7 +260,7 @@ main p {
 }
 
 .single-image {
-  max-width: 50vw;
+  max-width: 15vw;
 }
 
 
