@@ -36,7 +36,7 @@ ul {
 }
 
 .content {
-  max-width: 80%;
+  max-width: 60%;
   margin: 0 auto;
   padding-left: 5%;
   padding-right: 5%;
@@ -214,8 +214,6 @@ main p {
   transform: translateY(50px);
   text-align: left;
   display: block;
-  opacity: 0;
-  transition: all 0.1s ease-out;
 }
 
 .title h1 {
@@ -398,7 +396,7 @@ textarea {
   background-color: var(--black);
   color: var(--white);
   padding: 1%;
-  font-size:1.5vw
+  font-size:1vw
 }
 
 .site-footer a {
@@ -485,6 +483,10 @@ textarea {
     color: var(--dark-gray);
   }
 
+  .content {
+    max-width: 90%;
+  }
+
   .container {
     padding: 9vw;
     margin-bottom: 5vh;
@@ -505,6 +507,6 @@ textarea {
   }
 
   .site-footer {
-    font-size:5vw
+    font-size: 4vw
   }
 }
