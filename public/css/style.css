@@ -20,6 +20,9 @@ body {
 	font-family: 'Montserrat', Calibri, sans-serif;
 	font-size: calc(15px + 0.390625vw);
 	color: var(--black);
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 }
 
 /* --- NAVIGATION BAR --- */
@@ -62,7 +65,6 @@ nav ul li a:hover::before { width: 80%; }
 /* --- PAGE FOOTER --- */
 
 footer {
-	position: fixed;
 	display: flex;
 	justify-content: center;
 	left: 0;
