@@ -12,13 +12,14 @@
 		<link href="css/style.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<script type="module" src="https://md-block.verou.me/md-block.js"></script>
+		<script src="scripts/animations.js"></script>
 	</head>
 	<body>
 		<nav>
 			<ul>
 				<li><a>🏠 Home</a></li>
-				<li><a>👨‍💻 About</a></li>
-				<li><a>📂 Projects</a></li>
+				<li><a id="about-toggler">👨‍💻 About</a></li>
+				<li><a href="#projects">📂 Projects</a></li>
 			</ul>
 		</nav>
 		<iframe src="marquee.html" width="100%" height="34px" frameborder="0" scrolling="no"></iframe>
@@ -27,12 +28,76 @@
 				<h2>Hi, my name is</h2>
 				<h1>Joshua Markle</h1>
 				<p>I enjoy creating things that live on the internet ✨</p>
+				<div id="about" class="collapse">
+					<p>My name is Joshua Markle, I just turned 18 🎂, and I am soon to graduate from high school. I have a passion for all things technology and design, from software engineering to UI/UX.</p>
+					<p>Below are some of the projects I have developed over my programming career.</p>
+				</div>
 				<h3>Learn more about my:</h3>
 				<ul id="goto-items">
-					<li><a href="#skills"><p>🔧 Skills</p></a></li>
+					<li><a href="#projects"><p>🔧 Skills</p></a></li>
 					<li><a href="#projects"><p>💡 Projects</p></a></li>
 					<li><a href="files/Joshua Markle Resume.pdf" target="_blank"><p>📝 Resume</p></a></li>
 				</ul>
+			</div>
+		</div>
+		<div id="projects">
+			<h2>Projects</h2>
+			<p>A bit of stuff I do in my free time</p>
+			<div class="cards">
+				<a class="card" href="https://play.google.com/store/apps/details?id=com.joshuamarkle.milestone" target="_blank">
+					<div class="container">
+						<img src="images/milestone/showcase.png" alt="Milestone">
+					</div>
+					<div class="details">
+						<h3>Milestone</h3>
+						<p>An app designed to assit aspiring drivers track their hours and ultimately get their license!</p>
+					</div>
+				</a>
+				<a class="card" href="https://github.com/JoshuaMarkle/AlgoType" target="_blank">
+					<div class="container">
+						<img src="images/algotype.png" alt="AlgoType.net">
+					</div>
+					<div class="details">
+						<h3>AlgoType.net</h3>
+						<p>A website designed for programmers to improve their typing speed. It contains a series of typing tests on real code.</p>
+					</div>
+				</a>
+				<a class="card" href="https://tavyz.itch.io/" target="_blank">
+					<div class="container">
+						<img src="https://img.itch.zone/aW1nLzYzMTkxNzIuZ2lm/original/FMZaRA.gif" alt="Video Game Dashboard">
+					</div>
+					<div class="details">
+						<h3>Video Games</h3>
+						<p>I've made a bunch of video games, mainly for Game Jams. Check em' out!<br><strong>RIP - Unity</strong></p>
+					</div>
+				</a>
+				<a class="card" href="https://github.com/JoshuaMarkle/dotfiles" target="_blank">
+					<div class="container">
+						<img src="https://github.com/JoshuaMarkle/dotfiles/raw/main/docs/screenshot1.png" alt="Dotfiles">
+					</div>
+					<div class="details">
+						<h3>Dotfiles</h3>
+						<p>An Arch Linux based operating system designed specifically for my workflow. The core is built on wayland (hyprland).</p>
+					</div>
+				</a>
+				<a class="card" href="https://github.com/JoshuaMarkle/nvim" target="_blank">
+					<div class="container">
+						<img src="https://github.com/JoshuaMarkle/nvim-config/raw/main/docs/screenshot1.png?raw=true" alt="Neovim">
+					</div>
+					<div class="details">
+						<h3>Neovim</h3>
+						<p>A custom "IDE" for nvim. It is its own entity within my workflow/operating system enhancement project</p>
+					</div>
+				</a>
+				<a class="card" href="https://joshuamarkle.github.io/research-project/research.pdf" target="_blank">
+					<div class="container">
+						<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.draketo.de%2Fsoftware%2F11020379-crieo-mnths.png&f=1&nofb=1&ipt=04ad2fe410ee01caeccdd5c37fbf377b9384b8f142077be13c73264c61f46da8&ipo=images" alt="Keyboard Layout Optimization">
+					</div>
+					<div class="details">
+						<h3>Keyboard Layout Optimization</h3>
+						<p>A research study on optimizing keyboard layouts using AI (a genetic algorithm) and constructing a physical split, ortholinear keyboard.</p>
+					</div>
+				</a>
 			</div>
 		</div>
 		<div style="flex: 1;"></div>
