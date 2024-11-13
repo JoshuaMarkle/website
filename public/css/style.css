@@ -56,7 +56,6 @@ nav ul {
 
 nav ul li a {
 	font-size: 1rem;
-	font-weight: 600;
 	text-decoration: none;
 	color: var(--white);
 	position: relative;
@@ -150,14 +149,8 @@ md-block {
 	font-size: 2.5rem;
 	text-align: center;
 	margin: 0;
-	margin-top: 10vh;
+	margin-top: 20vh;
 	transition: all .3s ease;
-}
-
-@media (max-width: 1000px) {
-    #title h1 { font-size: 3rem; }
-    #title h1:hover { font-size: 3rem; }
-    #title h2 { font-size: 1.5rem; }
 }
 
 #title p {
@@ -191,7 +184,7 @@ md-block {
 
 #goto-items li a p { 
 	margin: 0;
-	font-size: 1rem;
+	font-size: 1.5rem;
 }
 
 #goto-items li::before {
@@ -212,6 +205,15 @@ md-block {
 #goto-items li:hover { transform: translateY(-5px); }
 #goto-items li:hover::before { width: 80%; }
 
+@media (max-width: 1000px) {
+    #title h1 { font-size: 3rem; }
+    #title h1:hover { font-size: 3rem; }
+    #title h2 { font-size: 1.5rem; }
+	#title p { font-size: 1.5rem; }
+	#goto-items li a p { font-size: 1rem; }
+}
+
+
 /* --- PROJECTS --- */
 
 #projects {
@@ -219,7 +221,7 @@ md-block {
 	color: var(--black);
 	text-align: center;
 	margin: auto;
-	margin-top: 20rem;
+	margin-top: 10rem;
     display: grid;
 	width: 100%;
     place-items: center center;
@@ -229,18 +231,26 @@ md-block {
 
 #projects h2 {
 	font-size: 4rem;
-	font-weight: 700;
 	text-align: center;
 	margin: 0;
 	margin-top: 10vh;
+	margin-bottom: 5vh;
 	transition: all .3s ease;
 }
 
 #projects p {
+	font-family: 'Montserrat', Calibri, sans-serif;
 	color: var(--black);
 	margin: 0;
 	margin-top: 1rem;
 	margin-bottom: 3rem;
+}
+
+#projects .poem {
+	color: var(--black);
+	width: 30vw;
+	text-align: left;
+	margin: 0.5rem;
 }
 
 @media (max-width: 1000px) {
@@ -288,18 +298,17 @@ md-block {
 .details { padding: 1rem 1rem; }
 
 .details h3 {
-	color: var(--white);
+	font-family: 'Montserrat', Calibri, sans-serif;
+	color: var(--black);
 	font-size: 1.5rem;
-	font-weight: 600;
     margin: 0;
 }
 
 .details p {
 	text-align: left;
-    color: var(--white);
+    color: var(--black);
     font-size: 1rem;
     line-height: 30px;
-    font-weight: 400;
 }
 
 
