@@ -226,7 +226,7 @@ md-block {
 	width: 100%;
     place-items: center center;
     box-sizing: border-box;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2); */
 }
 
 #projects h2 {
@@ -365,3 +365,16 @@ md-block {
 /* 	background-size: 200px 200px; */
 /* 	animation: move-it 2s linear infinite; */
 /* } */
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 3rem solid transparent;
+  border-right: 3rem solid transparent;
+  
+  border-top: 3rem solid var(--blue);
+}
+
+.parallax-text {
+  transition: transform 0.1s;
+}
