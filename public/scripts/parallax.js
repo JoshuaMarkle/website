@@ -6,9 +6,9 @@ const centerY = window.innerHeight / 2;
 
 // Map movement strengths to each strength class
 const strengthMap = {
-  'parallax-1': 10,  // Lower movement
-  'parallax-2': 20,  // Medium movement
-  'parallax-3': 10   // Higher movement
+  'parallax-1': 10,
+  'parallax-2': 20,
+  'parallax-3': 30
 };
 
 document.addEventListener('mousemove', (event) => {
