@@ -88,6 +88,7 @@ nav ul li a:hover::before { width: 80%; }
 /* --- PAGE FOOTER --- */
 
 footer {
+	font-family: 'Montserrat', Calibri, sans-serif;
 	display: flex;
 	justify-content: center;
 	left: 0;
@@ -247,13 +248,14 @@ md-block {
 
 #projects .poem {
 	color: var(--black);
-	width: 40vw;
+	width: 50vw;
 	text-align: left;
 	margin: 0.5rem;
 }
 
 @media (max-width: 1000px) {
     #projects h2 { font-size: 3rem; }
+	#projects .poem { width: 80vw; }
 }
 
 .cards {
@@ -261,19 +263,20 @@ md-block {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     padding: 20px;
     grid-gap: 2rem;
-	margin: 0 2rem 2rem 2rem;
+    margin: 0 2rem 2rem 2rem;
+    perspective: 1000px;
 }
 
 .card {
     background-color: var(--white);
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-	text-decoration: none;
-	transition: all 0.3s ease;
+    text-decoration: none;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    transform-style: preserve-3d;
 }
 
 .card:hover {
-    transform: scale(1.05);
     box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.3);
 }
 
