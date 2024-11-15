@@ -3,8 +3,7 @@
 	--dark-gray: #878287;
 	--gray: #c1bec1;
 	--light-gray: #edeced;
-	--white: #fbfbfb;
-
+	--white: #ffffff;
 	--red: #ff5768;
 	--orange: #ffb347;
 	--blue: #55aaff;
@@ -248,7 +247,7 @@ md-block {
 
 #projects .poem {
 	color: var(--black);
-	width: 30vw;
+	width: 40vw;
 	text-align: left;
 	margin: 0.5rem;
 }
@@ -377,4 +376,27 @@ md-block {
 
 .parallax-text {
   transition: transform 0.1s;
+}
+
+/* Animations */ 
+
+@keyframes titleAnimation {
+    0% {
+        transform: translateY(3rem); /* Start above */
+        clip-path: inset(0 0 100% 0); /* Clip everything (start at the top) */
+    }
+    100% {
+        transform: translateY(0); /* Slide to its position */
+        clip-path: inset(0 0 0 0); /* Reveal the full text */
+    }
+}
+
+.title-animation {
+    animation-name: titleAnimation;
+    animation-duration: 1s;
+	animation-delay: 0.1s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    clip-path: inset(100% 0 0 0);
+    transform: translateY(50px);
 }
