@@ -10,16 +10,6 @@
 	--purple: #a29bfe;
 }
 
-/* @media (prefers-color-scheme: dark) { */
-/* 	:root { */
-/* 		--black: #ffffff; */
-/* 		--dark-gray: #c1bec1; */
-/* 		--gray: #878287; */
-/* 		--light-gray: #2a2a2a; */
-/* 		--white: #000000; */
-/* 	} */
-/* } */
-
 :root.dark {
 	--black: #ffffff;
 	--dark-gray: #c1bec1;
@@ -43,7 +33,7 @@ body {
 }
 
 header {
-	position: fixed;
+	position: absolute;
 	top: 0;
 	width: calc(100vw - 4vw);
 	display: flex;
@@ -88,7 +78,7 @@ h1, h2, h3, h4, p, a { transition: color 0.5s ease-in-out; }
 header button,
 header a {
 	text-decoration: none;
-	color: var(--gray);
+	color: var(--dark-gray);
 	font-size: 1.5rem;
 	font-weight: 400;
 	margin: 0;
