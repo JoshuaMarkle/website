@@ -8,7 +8,7 @@ export default function ScrollDownIndicator() {
 	const [positionFromTop, setPositionFromTop] = useState(0);
 
 	useEffect(() => {
-		const mediaQuery = window.matchMedia('(min-height: 550px)');
+		const mediaQuery = window.matchMedia('(min-height: 670px)');
 
 		// Function to update visibility and position
 		const handleResize = () => {

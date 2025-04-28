@@ -29,7 +29,6 @@ export default function RootLayout({
 			<body className={`${dmSans.variable} antialiased`}>
 				<LocomotiveScrollProvider>
 					<GridBackground/>
-					<Navbar/>
 					<ScrollDownIndicator/>
 					{children}
 				</LocomotiveScrollProvider>
