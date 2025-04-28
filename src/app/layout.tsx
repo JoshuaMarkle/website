@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
-import Navbar from "./components/Navbar.jsx"
+import LocomotiveScrollProvider from '@/components/LocomotiveScrollProvider';
+import ScrollDownIndicator from '@/components/ScrollDownIndicator';
+import Navbar from "@/components/Navbar.jsx"
+import GridBackground from "@/components/GridBackground";
 import "./globals.css";
 
 // Fonts
@@ -24,8 +27,12 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={`${dmSans.variable} antialiased`}>
-				<Navbar/>
-				{children}
+				<LocomotiveScrollProvider>
+					<GridBackground/>
+					<Navbar/>
+					<ScrollDownIndicator/>
+					{children}
+				</LocomotiveScrollProvider>
 			</body>
 		</html>
 	);
