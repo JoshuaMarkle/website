@@ -1,23 +1,24 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 export default function Marquee() {
-	const textPathRef = useRef<SVGTextPathElement>(null);
+	const textPathRef = useRef(null);
 
 	useEffect(() => {
-		let animationFrameId: number;
+		let animationFrameId;
 
 		const animate = () => {
 			if (textPathRef.current) {
-				const startOffset = parseFloat(textPathRef.current.getAttribute("startOffset") || "0");
+				const startOffset = parseFloat(textPathRef.current.getAttribute('startOffset') || '0');
 				const newOffset = (startOffset - 1) % 450;
-				textPathRef.current.setAttribute("startOffset", `${newOffset}`);
+				textPathRef.current.setAttribute('startOffset', `${newOffset}`);
 			}
 			animationFrameId = requestAnimationFrame(animate);
 		};
 
 		animationFrameId = requestAnimationFrame(animate);
+
 		return () => cancelAnimationFrame(animationFrameId);
 	}, []);
 

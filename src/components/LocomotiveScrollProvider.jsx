@@ -3,8 +3,8 @@
 import { useEffect, useRef } from 'react';
 import 'locomotive-scroll/dist/locomotive-scroll.css';
 
-export default function LocomotiveScrollProvider({ children }: { children: React.ReactNode }) {
-	const containerRef = useRef<HTMLDivElement>(null);
+export default function LocomotiveScrollProvider({ children }) {
+	const containerRef = useRef(null);
 
 	useEffect(() => {
 		if (!containerRef.current) return;
@@ -30,7 +30,7 @@ export default function LocomotiveScrollProvider({ children }: { children: React
 
 	return (
 		<div ref={containerRef} data-scroll-container>
-		{children}
+			{children}
 		</div>
 	);
 }
