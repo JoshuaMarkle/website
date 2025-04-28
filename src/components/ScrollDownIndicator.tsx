@@ -13,7 +13,7 @@ export default function ScrollDownIndicator() {
 		// Function to update visibility and position
 		const handleResize = () => {
 			const screenHeight = window.innerHeight;
-			const paddingFromBottom = 100; // pixels above the bottom
+			const paddingFromBottom = 120; // pixels above the bottom
 			setPositionFromTop(screenHeight - paddingFromBottom);
 			setShouldShow(mediaQuery.matches);
 		};
