@@ -15,7 +15,7 @@ export default function LocomotiveScrollProvider({ children }: { children: React
 				el: containerRef.current,
 				smooth: true,
 				lerp: 0.05,
-				multiplier: 1,
+				multiplier: 2,
 			});
 
 			window.addEventListener('load', () => {
