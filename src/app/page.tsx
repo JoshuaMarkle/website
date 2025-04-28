@@ -32,21 +32,23 @@ export default function Home() {
 							View My Work
 							<HiArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
 						</Button>
-						<Button size="lg" variant="outline">
-							<HiDownload className="mr-2 h-5 w-5" />
-							Resume
-						</Button>
+						<a href="/JoshuaMarkleResume.pdf" target="_blank" rel="noopener noreferrer">
+							<Button size="lg" variant="outline">
+								<HiDownload className="mr-2 h-5 w-5" />
+								Resume
+							</Button>
+						</a>
 					</div>
 				</div>
 			</div>
 			<div id="projects">
 				<MarqueeSine/>
 			</div>
-			<div className="p-8 mx-0 md:mx-32 xl:mx-64" data-scroll data-scroll-speed="2">
-				<ProjectCard title="Milestone" subtitle="2020 to 2024"/>
-				<ProjectCard title="Sandwich" subtitle="2024 to 2025"/>
-				<ProjectCard title="GECKO" subtitle="2022 to 2024"/>
-				<ProjectCard title="AlgoType.net" subtitle="2020 to 2022"/>
+			<div className="p-8 mx-0 md:mx-32 xl:mx-64 mt-16" data-scroll data-scroll-speed="2">
+				<ProjectCard title="Milestone" subtitle="2020 to 2024" link="https://play.google.com/store/apps/details?id=com.joshuamarkle.milestone&hl=en"/>
+				<ProjectCard title="Sandwich" subtitle="2024 to 2025" link="https://github.com/JoshuaMarkle/sandwich"/>
+				<ProjectCard title="GECKO" subtitle="2022 to 2024" link="https://github.com/JoshuaMarkle/keyboard-optimization"/>
+				<ProjectCard title="AlgoType.net" subtitle="2020 to 2022" link="https://github.com/JoshuaMarkle/algotype"/>
 			</div>
 			<div className="p-8 mx-0 md:mx-32 xl:mx-64">
 				<p className="text-4xl mb-16">“I know of no better life purpose than to perish in attempting the great and the impossible.”</p>

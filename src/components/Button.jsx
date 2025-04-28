@@ -10,7 +10,7 @@ const sizes = {
 
 const variants = {
 	default: 'bg-white text-black',
-	outline: 'border border-neutral-800 text-white hover:bg-neutral-800',
+	outline: 'border border-neutral-800 text-white bg-black hover:bg-neutral-800',
 };
 
 export default function Button({ children, size = 'default', variant = 'default', className = '', ...props }) {

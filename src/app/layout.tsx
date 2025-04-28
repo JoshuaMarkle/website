@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import LocomotiveScrollProvider from '@/components/LocomotiveScrollProvider';
 import ScrollDownIndicator from '@/components/ScrollDownIndicator';
-import Navbar from "@/components/Navbar.jsx"
+import Footer from "@/components/Footer"
 import GridBackground from "@/components/GridBackground";
 import "./globals.css";
 
@@ -31,6 +31,7 @@ export default function RootLayout({
 					<GridBackground/>
 					<ScrollDownIndicator/>
 					{children}
+					<Footer/>
 				</LocomotiveScrollProvider>
 			</body>
 		</html>
