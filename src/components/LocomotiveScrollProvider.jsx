@@ -20,8 +20,9 @@ export default function LocomotiveScrollProvider({ children }) {
 			locoScroll = new LocomotiveScroll({
 				el: containerRef.current,
 				smooth: true,
+				smoothMobile: true,
 				lerp: 0.05,
-				multiplier: 1,
+				multiplier: 1.5,
 			});
 
 			// force an update once images / fonts are in
