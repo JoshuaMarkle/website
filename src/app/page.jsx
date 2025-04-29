@@ -52,7 +52,7 @@ export default function Home() {
 				<ProjectCard title="GECKO" subtitle="2022 to 2024" link="https://github.com/JoshuaMarkle/keyboard-optimization" />
 				<ProjectCard title="AlgoType.net" subtitle="2020 to 2022" link="https://github.com/JoshuaMarkle/algotype" />
 			</div>
-			<div className="p-8 mx-0 md:mx-32 xl:mx-64">
+			<div className="p-8 mt-32 mb-16 mx-0 md:mx-32 xl:mx-64">
 				<p className="text-4xl mb-16">
 					“I know of no better life purpose than to perish in attempting the great and the impossible.”
 				</p>

@@ -27,7 +27,7 @@ export default function GridBackground() {
 		return () => window.removeEventListener('resize', fit);
 	}, []);
 
-	/* 2 ▸ position the torch in hero-local space */
+	// move torch into hero-local space
 	const renderTorch = ({ x, y }) => {
 		if (!heroRef.current || !torchRef.current) return;
 		const { left, top } = heroRef.current.getBoundingClientRect();
@@ -35,7 +35,7 @@ export default function GridBackground() {
 			`translate3d(${x - left - TORCH / 2}px, ${y - top - TORCH / 2}px,0)`;
 	};
 
-	/* pointer moves */
+	// Pointer moves
 	useEffect(() => {
 		const move = (e) => {
 			lastPos.current = { x: e.clientX, y: e.clientY };
@@ -45,14 +45,15 @@ export default function GridBackground() {
 		return () => window.removeEventListener('pointermove', move);
 	}, []);
 
-	/* smooth-scroll moves (user wheel / keyboard while mouse is still) */
+	// Smooth scroll
 	useEffect(() => {
 		const tick = () => renderTorch(lastPos.current);
 		if (scroll && typeof scroll.on === 'function') {
 			scroll.on('scroll', tick);
 			return () => scroll.off('scroll', tick);
 		}
-		/* fallback for any other scroll engine (or none) */
+
+		// Fallback for any other scroll engine
 		window.addEventListener('scroll', tick, { passive: true });
 		return () => window.removeEventListener('scroll', tick);
 	}, [scroll]);
@@ -67,7 +68,7 @@ export default function GridBackground() {
 		>
 			{/* ambient top glow */}
 			<div
-			className="glowtop absolute w-full h-[500vh] -z-10"
+			className="glowtop absolute w-full h-[300vh] -z-10"
 			style={{
 				transform: 'translateY(-50%)',
 				background: `radial-gradient(circle, rgba(255,255,255,${TOPGLOW}) 0%, transparent 60%)`,
@@ -77,7 +78,7 @@ export default function GridBackground() {
 
 			{/* ambient bottom glow */}
 			<div
-			className="glowtop absolute bottom-0 w-full h-[500vh] -z-10"
+			className="glowtop absolute bottom-0 w-full h-[300vh] -z-10"
 			style={{
 				transform: 'translateY(50%)',
 				background: `radial-gradient(circle, rgba(255,255,255,${TOPGLOW}) 0%, transparent 60%)`,
@@ -91,23 +92,23 @@ export default function GridBackground() {
 			className="absolute top-0 left-0 -z-10"
 			style={{
 				width: TORCH, height: TORCH, borderRadius: '50%',
-					background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 80%)',
-					mixBlendMode: 'screen',
-					willChange: 'transform',
+				background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 80%)',
+				mixBlendMode: 'screen',
+				willChange: 'transform',
 			}}
 			/>
 
 			{/* black-square overlay */}
 			<div
-			className="absolute inset-0 grid -z-10"
-			style={{
-				gridTemplateColumns: `repeat(${grid.cols}, ${SQUARE}px)`,
-					gridAutoRows: `${SQUARE}px`,
-					gap: `${GAP}px`,
-			}}
-			>
-			{cells.map((_, i) => <div key={i} className="bg-black" />)}
-		</div>
+				className="absolute inset-0 grid -z-10"
+					style={{
+						gridTemplateColumns: `repeat(${grid.cols}, ${SQUARE}px)`,
+							gridAutoRows: `${SQUARE}px`,
+							gap: `${GAP}px`,
+					}}
+				>
+					{cells.map((_, i) => <div key={i} className="bg-black" />)}
+			</div>
 		</section>
 	);
 }
