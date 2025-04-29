@@ -22,7 +22,13 @@ export default function LocomotiveScrollProvider({ children }) {
 				smooth: true,
 				smoothMobile: true,
 				lerp: 0.05,
-				multiplier: 1.5,
+				multiplier: 1.2,
+				smartphone: {
+					smooth: true,
+				},
+				tablet: {
+					smooth: true,
+				},
 			});
 
 			// force an update once images / fonts are in
