@@ -1,32 +1,34 @@
 'use client';
 
+import { useEffect } from 'react';
 import { HiArrowRight, HiDownload } from 'react-icons/hi';
-import Button from "@/components/Button"
-import ProjectCard from "@/components/ProjectCard"
+import Button from "@/components/Button";
+import ProjectCard from "@/components/ProjectCard";
 import MarqueeSine from "@/components/Marquee";
 import { useLocomotiveScroll } from '@/components/LocomotiveScrollProvider';
 
 export default function Home() {
-
 	const scroll = useLocomotiveScroll();
-	const scrollToProjects = () => {
-		const target = document.querySelector('#projects')
-		if (scroll) {
-			scroll.scrollTo(target, {
+	function scrollToProjects() {
+		const target = document.querySelector('#projects');
+		if (target && scroll) {
+			scroll.scrollTo(target.offsetTop, {
 				offset: 100,
 				duration: 500,
-				easing: [0.25, 0.0, 0.35, 1.0],
+				smooth: 'easeInOutQuart',
 			});
 		}
-	};
+	}
 
 	return (
 		<main>
 			<div className="px-8 pt-32 mx-0 md:mx-32 xl:mx-64 h-screen">
 				<div>
 					<h1 className="text-8xl" data-scroll data-scroll-speed="3">Hi</h1>
-					<h2 className="text-8xl" data-scroll data-scroll-speed="3">I&apos;m Josh</h2>
-					<p className="text-2xl md:text-4xl mt-4 md:mt-8" data-scroll data-scroll-speed="2">CS Student @ University of Virginia</p>
+					<h2 className="text-8xl" data-scroll data-scroll-speed="3">I'm Josh</h2>
+					<p className="text-2xl md:text-4xl mt-4 md:mt-8" data-scroll data-scroll-speed="2">
+						CS Student @ University of Virginia
+					</p>
 					<div className="flex row gap-6 mt-8" data-scroll data-scroll-speed="1.5">
 						<Button size="lg" className="group" onClick={scrollToProjects}>
 							View My Work
@@ -42,16 +44,18 @@ export default function Home() {
 				</div>
 			</div>
 			<div id="projects">
-				<MarqueeSine/>
+				<MarqueeSine />
 			</div>
 			<div className="p-8 mx-0 md:mx-32 xl:mx-64 mt-16" data-scroll data-scroll-speed="2">
-				<ProjectCard title="Milestone" subtitle="2020 to 2024" link="https://play.google.com/store/apps/details?id=com.joshuamarkle.milestone&hl=en"/>
-				<ProjectCard title="Sandwich" subtitle="2024 to 2025" link="https://github.com/JoshuaMarkle/sandwich"/>
-				<ProjectCard title="GECKO" subtitle="2022 to 2024" link="https://github.com/JoshuaMarkle/keyboard-optimization"/>
-				<ProjectCard title="AlgoType.net" subtitle="2020 to 2022" link="https://github.com/JoshuaMarkle/algotype"/>
+				<ProjectCard title="Milestone" subtitle="2020 to 2024" link="https://play.google.com/store/apps/details?id=com.joshuamarkle.milestone&hl=en" />
+				<ProjectCard title="Sandwich" subtitle="2024 to 2025" link="https://github.com/JoshuaMarkle/sandwich" />
+				<ProjectCard title="GECKO" subtitle="2022 to 2024" link="https://github.com/JoshuaMarkle/keyboard-optimization" />
+				<ProjectCard title="AlgoType.net" subtitle="2020 to 2022" link="https://github.com/JoshuaMarkle/algotype" />
 			</div>
 			<div className="p-8 mx-0 md:mx-32 xl:mx-64">
-				<p className="text-4xl mb-16">“I know of no better life purpose than to perish in attempting the great and the impossible.”</p>
+				<p className="text-4xl mb-16">
+					“I know of no better life purpose than to perish in attempting the great and the impossible.”
+				</p>
 			</div>
 		</main>
 	);
