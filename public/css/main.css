@@ -20,7 +20,7 @@
 
 html {
 	scroll-behavior: smooth;
-	font-size: 14px;
+	font-size: 11px;
 }
 
 body {
@@ -94,7 +94,7 @@ header a:hover {
 #main {
 	margin: 20vh auto 0 auto;
 	padding: 0 5vw;
-	max-width: 1200px;
+	max-width: 1000px;
 }
 
 .space {
