@@ -1,8 +1,8 @@
 <h1 align="center">
-  joshuamarkle.com
+    joshuamarkle.com
 </h1>
 <p align="center">
-  A simple static website built using HTML, CSS, and JavaScript
+    A pretty cool portfolio website built on Next.js and deployed on Vercel
 </p>
 
-![image](https://github.com/JoshuaMarkle/website/blob/main/docs/screenshot.png?raw=true)
+![Screenshot](docs/screenshot.png)
