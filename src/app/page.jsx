@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { HiArrowRight, HiDownload } from 'react-icons/hi';
 import Button from "@/components/Button";
+import GlimmerButton from "@/components/GlimmerButton"
 import ProjectCard from "@/components/ProjectCard";
 import MarqueeSine from "@/components/Marquee";
 import { useLocomotiveScroll } from '@/components/LocomotiveScrollProvider';
@@ -35,10 +36,9 @@ export default function Home() {
 							<HiArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
 						</Button>
 						<a href="/JoshuaMarkleResume.pdf" target="_blank" rel="noopener noreferrer">
-							<Button size="lg" variant="outline">
-								<HiDownload className="mr-2 h-5 w-5" />
+							<GlimmerButton size="lg" variant="outline" icon={<HiDownload className="mr-2 h-5 w-5" />}>
 								Resume
-							</Button>
+							</GlimmerButton>
 						</a>
 					</div>
 				</div>

@@ -13,7 +13,7 @@ export default function LocomotiveScrollProvider({ children }) {
 	useEffect(() => {
 		if (!containerRef.current) return;
 
-		let locoScroll;                           // will hold the instance
+		let locoScroll; // will hold the instance
 		(async () => {
 			const LocomotiveScroll = (await import('locomotive-scroll')).default;
 
@@ -22,12 +22,17 @@ export default function LocomotiveScrollProvider({ children }) {
 				smooth: true,
 				smoothMobile: true,
 				lerp: 0.05,
-				multiplier: 1.2,
+				multiplier: 1.5,
+				touchMultiplier: 1,
 				smartphone: {
 					smooth: true,
+					lerp: 0.15,
+					multiplier: 1.5,
 				},
 				tablet: {
 					smooth: true,
+					lerp: 0.1,
+					multiplier: 1.2,
 				},
 			});
 
