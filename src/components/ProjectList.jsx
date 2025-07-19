@@ -59,14 +59,18 @@ export default function ProjectList({ onSelect }) {
   const [showContent, setShowContent] = useState(false);
   const baseProjects = projects.slice(0, 3);
   const extraProjects = projects.slice(3);
-  const hasMounted = useRef(false);
+  const [firstRender, setFirstRender] = useState(true);
 
   const handleClick = (project) => {
     onSelect(project.title);
   };
 
   useEffect(() => {
-    hasMounted.current = true;
+    const timeout = setTimeout(() => {
+      setFirstRender(false);
+    }, 800);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
@@ -87,7 +91,7 @@ export default function ProjectList({ onSelect }) {
             onClick={() => handleClick(project)}
           >
             <div className="py-2 group-hover:ml-4 transition-margin duration-300">
-              <h3 className="font-semibold text-lg">{project.title}</h3>
+              <h2 className="font-semibold text-lg">{project.title}</h2>
               <p className="text-fg-2 text-md">{project.description}</p>
             </div>
             <FaChevronRight className="hidden md:block my-auto size-5 text-fg-3 opacity-0 group-hover:opacity-100 transition-all duration-200" />
@@ -120,10 +124,10 @@ export default function ProjectList({ onSelect }) {
                 onClick={() => handleClick(project)}
               >
                 <div className="py-2 group-hover:ml-4 transition-margin duration-300">
-                  <h3 className="font-semibold text-lg">{project.title}</h3>
+                  <h2>{project.title}</h2>
                   <p className="text-fg-2 text-md">{project.description}</p>
                 </div>
-                <FaChevronRight className="hidden md:block size-4 text-fg-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                <FaChevronRight className="hidden md:block my-auto size-5 text-fg-3 opacity-0 group-hover:opacity-100 transition-all duration-200" />
               </motion.div>
             ))}
           </motion.div>
@@ -137,7 +141,7 @@ export default function ProjectList({ onSelect }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            delay: hasMounted ? 0 : 0.8,
+            delay: firstRender ? 0.8 : 0,
             duration: 0.15,
             ease: "easeOut",
           }}

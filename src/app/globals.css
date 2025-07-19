@@ -26,6 +26,9 @@
 
   --color-border: var(--color-bg-2);
 
+  --shadow-default: 0 6px 32px rgba(0, 0, 0, 0.1);
+  --shadow-subtle: 0 3px 12px rgba(0, 0, 0, 0.1);
+
   /* Animations */
   --animate-fade-up: fade-up 0.1s ease-out forwards;
   @keyframes fade-up {
@@ -61,4 +64,18 @@ html {
 ::selection {
   background-color: var(--color-blue-3, #315efc);
   color: var(--color-bg, #ffffff);
+}
+
+@layer base {
+  h1 {
+    @apply text-3xl font-bold;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold;
+  }
+
+  h3 {
+    @apply text-lg font-semibold;
+  }
 }

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaGithub } from "react-icons/fa";
+
 import ProjectsList from "@/components/ProjectList";
 import AlgoType from "@/components/projects/AlgoType";
 import Milestone from "@/components/projects/Milestone";
@@ -23,27 +25,38 @@ export default function Home() {
     <main className="flex flex-row w-screen h-screen p-4 lg:py-16 transition-all duration-100 overflow-hidden text-lg">
       {/* Left column */}
       <div className="flex-1 lg:px-16 overflow-auto">
-        <div className="w-full mx-auto space-y-8 max-w-2xl">
-          {/* Header */}
-          <div>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-3xl font-bold"
-            >
-              Hello, I'm Josh
-            </motion.h1>
+        <div className="w-full h-full flex flex-col mx-auto max-w-2xl">
+          {/* Header + Projects */}
+          <div className="flex-grow space-y-12">
+            <div>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-3xl font-bold"
+              >
+                Hello, I'm Josh
+              </motion.h1>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              I am a student at UVA
-            </motion.h2>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                I am a student at UVA
+              </motion.p>
+            </div>
+            <ProjectsList onSelect={setSelected} selected={selected} />
           </div>
-          <ProjectsList onSelect={setSelected} selected={selected} />
+          <motion.a
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1 }}
+            className="flex flex-row items-center gap-2 text-sm text-fg-2 hover:underline"
+            href="https://github.com/JoshuaMarkle/website"
+          >
+            <FaGithub /> JoshuaMarkle/website
+          </motion.a>
         </div>
       </div>
 
@@ -55,7 +68,7 @@ export default function Home() {
           animate={{ width: 2, height: "100%" }}
           exit={{ height: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-bg-2 my-auto"
+          className="bg-bg xl:bg-bg-2 my-auto"
         />
       )}
 
