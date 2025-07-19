@@ -1,27 +1,74 @@
 @import "tailwindcss";
 
 :root {
-	--background: #000000;
-	--foreground: #ffffff;
+  --font-sans: var(--font-geist-sans, "geist"), Arial, Helvetica, sans-serif;
+  --font-mono: var(--font-geist-mono, "geist mono"), monospace;
 }
 
 @theme inline {
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans, "geist");
+  --font-mono: var(--font-geist-mono, "geist mono"), monospace;
+
+  --color-bg: #fff;
+  --color-bg-2: #e5e6e7;
+  --color-fg: #101010;
+  --color-fg-2: #7a7e83;
+
+  --color-red: #da3633;
+  --color-red-2: #cf2926;
+  --color-green: #00c756;
+  --color-green-2: #00ac8e;
+  --color-blue: #0096f5;
+  --color-blue-2: #4971fc;
+  --color-blue-3: #315efc;
+  --color-yellow: #ffb347;
+
+  --color-border: var(--color-bg-2);
+
+  /* Animations */
+  --animate-fade-up: fade-up 0.5s ease-out forwards 250ms;
+  @keyframes fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(2rem);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  --animate-fade-down: fade-down 0.5s ease-out forwards 500ms;
+  @keyframes fade-down {
+    0% {
+      opacity: 0;
+      transform: translateY(-2rem);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
-html, body {
-	height: 100%;
-	width: 100%;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
+html {
+  font-family: var(--font-geist-sans), arial, helvetica, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  overscroll-behavior: none;
+  overflow-x: hidden;
+
+  /* Scrollbar stuff (thanks gpt) */
+  scrollbar-color: var(--color-bg-2) transparent;
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-bg-2);
+    border-radius: 4px;
+  }
 }
 
-body {
-	background: var(--background);
-	color: var(--foreground);
-	font-family: DM Sans, Arial, Helvetica, sans-serif;
+::selection {
+  background-color: var(--color-blue-3, #315efc);
+  color: var(--color-bg, #ffffff);
 }

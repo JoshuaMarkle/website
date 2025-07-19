@@ -1,62 +1,66 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { HiArrowRight, HiDownload } from 'react-icons/hi';
-import Button from "@/components/Button";
-import GlimmerButton from "@/components/GlimmerButton"
-import ProjectCard from "@/components/ProjectCard";
-import MarqueeSine from "@/components/Marquee";
-import { useLocomotiveScroll } from '@/components/LocomotiveScrollProvider';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import ProjectsList from "@/components/ProjectList";
+import AlgoType from "@/components/projects/AlgoType";
+import Milestone from "@/components/projects/Milestone";
+import UvaChatbot from "@/components/projects/UvaChatbot";
+import { cn } from "@/lib/utils";
+
+const projectComponents = {
+  "AlgoType.net": <AlgoType />,
+  Milestone: <Milestone />,
+  "UVA Chatbot": <UvaChatbot />,
+  // add more here
+};
 
 export default function Home() {
-	const scroll = useLocomotiveScroll();
-	function scrollToProjects() {
-		const target = document.querySelector('#projects');
-		if (target && scroll) {
-			scroll.scrollTo(target.offsetTop, {
-				offset: 100,
-				duration: 500,
-				smooth: 'easeInOutQuart',
-			});
-		}
-	}
+  const [selected, setSelected] = useState(null);
+  const hasSelection = Boolean(selected);
 
-	return (
-		<main>
-			<div className="px-8 pt-32 mx-0 md:mx-32 xl:mx-64 h-screen">
-				<div>
-					<h1 className="text-8xl" data-scroll data-scroll-speed="3">Hi</h1>
-					<h2 className="text-8xl" data-scroll data-scroll-speed="3">I'm Josh</h2>
-					<p className="text-2xl md:text-4xl mt-4 md:mt-8" data-scroll data-scroll-speed="2">
-						CS Student @ University of Virginia
-					</p>
-					<div className="flex row gap-6 mt-8" data-scroll data-scroll-speed="1.5">
-						<Button size="lg" className="group" onClick={scrollToProjects}>
-							View My Work
-							<HiArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-						</Button>
-						<a href="/JoshuaMarkleResume.pdf" target="_blank" rel="noopener noreferrer">
-							<GlimmerButton size="lg" variant="outline" icon={<HiDownload className="mr-2 h-5 w-5" />}>
-								Resume
-							</GlimmerButton>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div id="projects">
-				<MarqueeSine />
-			</div>
-			<div className="p-8 mx-0 md:mx-32 xl:mx-64 mt-16" data-scroll data-scroll-speed="2">
-				<ProjectCard title="Milestone" subtitle="2020 to 2024" link="https://play.google.com/store/apps/details?id=com.joshuamarkle.milestone&hl=en" />
-				<ProjectCard title="Sandwich" subtitle="2024 to 2025" link="https://github.com/JoshuaMarkle/sandwich" />
-				<ProjectCard title="GECKO" subtitle="2022 to 2024" link="https://github.com/JoshuaMarkle/keyboard-optimization" />
-				<ProjectCard title="AlgoType.net" subtitle="2020 to 2022" link="https://github.com/JoshuaMarkle/algotype" />
-			</div>
-			<div className="p-8 mt-32 mb-16 mx-0 md:mx-32 xl:mx-64">
-				<p className="text-4xl mb-16">
-					“I know of no better life purpose than to perish in attempting the great and the impossible.”
-				</p>
-			</div>
-		</main>
-	);
+  return (
+    <main className="flex flex-row w-screen h-screen p-4 lg:py-16 transition-all duration-100 overflow-hidden text-lg">
+      {/* Left column */}
+      <div className="flex-1 lg:px-16 overflow-auto">
+        <div className="w-full mx-auto space-y-8 max-w-2xl">
+          <div>
+            <h1 className="text-3xl font-bold">Hello, I'm Josh</h1>
+            <h2>I am a student at UVA</h2>
+          </div>
+          <ProjectsList onSelect={setSelected} selected={selected} />
+        </div>
+      </div>
+
+      {/* Separator */}
+      {hasSelection && (
+        <motion.div
+          layout
+          initial={{ height: 0 }}
+          animate={{ width: 2, height: "100%" }}
+          exit={{ height: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-bg-2 my-auto"
+        />
+      )}
+
+      {/* Right column */}
+      <AnimatePresence>
+        {hasSelection && (
+          <motion.div
+            key="projectContent"
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: "70%", opacity: 1 }}
+            exit={{ width: 0, opacity: 0 }}
+            transition={{ duration: 1, ease: [0.175, 0.885, 0.32, 1.0] }}
+            className="overflow-auto"
+          >
+            {projectComponents[selected] || (
+              <p>Content for {selected} coming soon.</p>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </main>
+  );
 }
