@@ -24,9 +24,24 @@ export default function Home() {
       {/* Left column */}
       <div className="flex-1 lg:px-16 overflow-auto">
         <div className="w-full mx-auto space-y-8 max-w-2xl">
+          {/* Header */}
           <div>
-            <h1 className="text-3xl font-bold">Hello, I'm Josh</h1>
-            <h2>I am a student at UVA</h2>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl font-bold"
+            >
+              Hello, I'm Josh
+            </motion.h1>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              I am a student at UVA
+            </motion.h2>
           </div>
           <ProjectsList onSelect={setSelected} selected={selected} />
         </div>

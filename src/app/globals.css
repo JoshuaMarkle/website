@@ -13,6 +13,7 @@
   --color-bg-2: #e5e6e7;
   --color-fg: #101010;
   --color-fg-2: #7a7e83;
+  --color-fg-3: #bbb;
 
   --color-red: #da3633;
   --color-red-2: #cf2926;
@@ -26,22 +27,11 @@
   --color-border: var(--color-bg-2);
 
   /* Animations */
-  --animate-fade-up: fade-up 0.5s ease-out forwards 250ms;
+  --animate-fade-up: fade-up 0.1s ease-out forwards;
   @keyframes fade-up {
     0% {
       opacity: 0;
-      transform: translateY(2rem);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  --animate-fade-down: fade-down 0.5s ease-out forwards 500ms;
-  @keyframes fade-down {
-    0% {
-      opacity: 0;
-      transform: translateY(-2rem);
+      transform: translateY(20px);
     }
     100% {
       opacity: 1;

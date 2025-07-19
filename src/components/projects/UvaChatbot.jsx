@@ -4,8 +4,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function UvaChatbot() {
-  const [isExpanded, setIsExpanded] = useState(false);
-
   return (
     <div className="relative min-h-screen max-w-4xl mx-auto space-y-4">
       {/* Text content */}
@@ -34,7 +32,6 @@ export default function UvaChatbot() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-        onClick={() => setIsExpanded(true)}
         className="w-full aspect-video overflow-hidden ring ring-border rounded-lg shadow-[0_12px_64px_rgba(0,0,0,.1)] cursor-pointer my-8"
       >
         <video
@@ -46,38 +43,6 @@ export default function UvaChatbot() {
           className="w-full h-full object-cover"
         />
       </motion.div>
-
-      {/* Fullscreen Expanded View */}
-      <AnimatePresence>
-        {isExpanded && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              className="fixed inset-0 bg-black/40 z-40"
-              onClick={() => setIsExpanded(false)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            />
-
-            {/* Centered Video */}
-            <motion.div
-              layoutId="chatbot-video"
-              className="fixed top-1/2 left-1/2 h-[80vh] aspect-video z-50 -translate-x-1/2 -translate-y-1/2 rounded-lg overflow-hidden shadow-2xl"
-              onClick={() => setIsExpanded(false)}
-            >
-              <video
-                src="/videos/uva_chatbot.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
