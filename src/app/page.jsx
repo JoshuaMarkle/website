@@ -6,13 +6,11 @@ import { FaGithub } from "react-icons/fa";
 
 import ProjectsList from "@/components/ProjectList";
 import AlgoType from "@/components/projects/AlgoType";
-import Milestone from "@/components/projects/Milestone";
 import UvaChatbot from "@/components/projects/UvaChatbot";
 import { cn } from "@/lib/utils";
 
 const projectComponents = {
   "AlgoType.net": <AlgoType />,
-  Milestone: <Milestone />,
   "UVA Chatbot": <UvaChatbot />,
   // add more here
 };

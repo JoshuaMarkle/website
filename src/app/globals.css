@@ -25,6 +25,8 @@
   --color-yellow: #ffb347;
 
   --color-border: var(--color-bg-2);
+  --color-pre: var(--color-bg-2);
+  --color-code: var(--color-bg-2);
 
   --shadow-default: 0 6px 32px rgba(0, 0, 0, 0.1);
   --shadow-subtle: 0 3px 12px rgba(0, 0, 0, 0.1);
@@ -78,4 +80,55 @@ html {
   h3 {
     @apply text-lg font-semibold;
   }
+
+  strong {
+    @apply font-semibold;
+  }
+
+  blockquote {
+    @apply border-l-4 border-border pl-8;
+  }
+
+  code {
+    @apply text-sm;
+  }
+}
+
+code {
+  font-family: var(--font-geist-mono, "geist mono"), monospace;
+  background-color: var(--color-code);
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.25rem;
+}
+
+pre {
+  font-family: var(--font-geist-mono, "geist mono"), monospace;
+  background-color: var(--color-pre);
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  overflow: auto;
+}
+
+pre code {
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0;
+}
+
+hr {
+  border-color: var(--color-border);
+  margin: 3rem 0;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
 }

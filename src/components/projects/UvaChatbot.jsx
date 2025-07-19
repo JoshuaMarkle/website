@@ -31,7 +31,7 @@ export default function UvaChatbot() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-        className="w-full aspect-video overflow-hidden ring ring-border rounded-lg shadow-default cursor-pointer my-16"
+        className="w-full aspect-video overflow-hidden ring ring-border rounded-lg shadow-default cursor-pointer mt-8 mb-16"
       >
         <video
           src="/videos/uva_chatbot.mp4"

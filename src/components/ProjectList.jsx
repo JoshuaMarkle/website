@@ -5,8 +5,8 @@ import { FaChevronRight } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
 const projects = [
-  { title: "AlgoType.net", description: "Typing website for programmers." },
   { title: "UVA Chatbot", description: "Chatbot for the UVA Career Center" },
+  { title: "AlgoType.net", description: "Typing website for programmers." },
   { title: "Milestone", description: "Mobile app for student drivers." },
   { title: "Sandwich", description: "Browser extension for students." },
   { title: "GECKO", description: "Keyboard layout optimization." },
@@ -91,8 +91,8 @@ export default function ProjectList({ onSelect }) {
             onClick={() => handleClick(project)}
           >
             <div className="py-2 group-hover:ml-4 transition-margin duration-300">
-              <h2 className="font-semibold text-lg">{project.title}</h2>
-              <p className="text-fg-2 text-md">{project.description}</p>
+              <h3>{project.title}</h3>
+              <p className="text-fg-2">{project.description}</p>
             </div>
             <FaChevronRight className="hidden md:block my-auto size-5 text-fg-3 opacity-0 group-hover:opacity-100 transition-all duration-200" />
           </motion.div>
@@ -124,8 +124,8 @@ export default function ProjectList({ onSelect }) {
                 onClick={() => handleClick(project)}
               >
                 <div className="py-2 group-hover:ml-4 transition-margin duration-300">
-                  <h2>{project.title}</h2>
-                  <p className="text-fg-2 text-md">{project.description}</p>
+                  <h3>{project.title}</h3>
+                  <p className="text-fg-2">{project.description}</p>
                 </div>
                 <FaChevronRight className="hidden md:block my-auto size-5 text-fg-3 opacity-0 group-hover:opacity-100 transition-all duration-200" />
               </motion.div>
