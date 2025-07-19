@@ -13,7 +13,7 @@ export default function UvaChatbot() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="text-3xl font-bold"
+        className="mt-0"
       >
         UVA Career Center Chatbot
       </motion.h1>

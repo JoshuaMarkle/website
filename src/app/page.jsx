@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 
@@ -26,22 +27,35 @@ export default function Home() {
         <div className="w-full h-full flex flex-col mx-auto max-w-2xl">
           {/* Header + Projects */}
           <div className="flex-grow space-y-12">
-            <div>
+            <div className="relative">
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-3xl font-bold"
+                className="mt-0"
               >
                 Hello, I'm Josh
               </motion.h1>
-
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2 }}
+                className="absolute top-0 right-0"
+              >
+                <Image
+                  src="/images/wave.png"
+                  alt="Wave Emoji"
+                  height={128}
+                  width={128}
+                  className="size-12 origin-[80%_80%] hover:animate-wave"
+                />
+              </motion.p>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                I am a student at UVA
+                I am a software developer and programmer
               </motion.p>
             </div>
             <ProjectsList onSelect={setSelected} selected={selected} />

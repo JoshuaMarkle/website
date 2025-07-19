@@ -5,13 +5,13 @@ import { IoGlobeOutline } from "react-icons/io5";
 
 export default function AlgoType() {
   return (
-    <div className="relative max-w-4xl mx-auto space-y-4">
+    <div className="relative max-w-4xl mx-auto">
       {/* Text content */}
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="text-3xl font-bold"
+        className="mt-0"
       >
         AlgoType.net
       </motion.h1>
@@ -42,17 +42,22 @@ export default function AlgoType() {
           alt="AlgoType.net website screenshot"
           width={2880}
           height={1628}
-          className="w-full ring ring-border rounded-lg shadow-default mt-8 mb-16"
+          className="w-full ring ring-border rounded-lg shadow-default mt-8"
         />
       </motion.div>
       {/* Technical explanation */}
       <motion.section
-        className="space-y-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
         <h2>Why I Built It</h2>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
         <p>
           I've always enjoyed training my typing speed. But I noticed something
           odd - when I was programming, all those hours on typing sites didn't
@@ -69,13 +74,31 @@ export default function AlgoType() {
           to share with the developer community - a place to train on real code,
           algorithms, and syntax.
         </p>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
         <h1>How The Typing System Works</h1>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
         <p>
           Designing a good typing test is harder than it seems — especially when
           you're dealing with code. Every user can type differently, make unique
           errors, and edge cases are everywhere.
         </p>
-        <p>Here’s how I tackled it:</p>
+        <p>Here's how I tackled it:</p>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
         <h2>How Tests Are Made</h2>
         <p>
           Each test is based on a real code file. All the files are first
@@ -91,48 +114,48 @@ export default function AlgoType() {
         </p>
         <h2>Typing Logic</h2>
         <p>
-          During a test, the user starts at the beginning of the tokens and must
-          type their way through to the end as fast as they can. AlgoType uses a
-          dual system to keep track of the current position within the tokens.
+          During a typing test, users move through a list of tokens, trying to
+          type as accurately and quickly as possible. To track their progress
+          and correctness, AlgoType uses two key systems:
         </p>
+        <h3>1. Syntax-Aware Typing</h3>
         <p>
-          First it has a <strong>syntax-aware typing system</strong> that is
-          aware of tokens as the user types. This system allows the typing test
-          to highlight code and skip certain tokens (like comments and tabs).
+          This system understands code structure. It highlights tokens as you
+          type and intelligently skips non-essential ones like comments and tab
+          characters. It’s what makes AlgoType feel fluid while typing real
+          code.
         </p>
+        <h3>2. Word-Aware Typing</h3>
         <p>
-          Second, it has a <strong>word-aware typing system</strong> where it
-          knows how many characters until the next <u>space</u> or{" "}
-          <u>newline</u>. This is necessary when the user makes many errors and
-          the error stack overflows onto the next token.
+          This system looks ahead to spaces and newlines — useful for handling
+          overflow situations, like when the user mistypes something early in
+          the line and it cascades into future tokens.
         </p>
         <h2>Error System</h2>
-        <p>This is the section that has all of the edge cases.</p>
+        <p>Here is where things get tricky.</p>
         <p>
-          It would be very easy to just ignore incorrect characters but then the
-          user wouldn't have to backspace and fix their misktake!
+          Simply ignoring typos would make tests too forgiving. That’s why
+          AlgoType uses an <strong>error stack</strong> — a list of incorrect
+          characters that the user must correct before moving on.
         </p>
+        <p>As you type:</p>
+        <ul>
+          <li>
+            If a character is wrong, it's marked red and pushed to the error
+            stack.
+            <li>
+              If the error occurs at the end of a word (like a space), the
+              overflow is visually added to the word.
+            </li>
+            <li>
+              Users must fix all errors before progressing past the word or
+              line.
+            </li>
+          </li>
+        </ul>
         <p>
-          To keep track of errors, we have to use a <strong>stack</strong> of
-          incorrect chars (the error stack).
-        </p>
-        <p>
-          When the user types, something wrong, they must go back and fix that
-          error before they can continue. But what should it <u>look like</u>? A
-          good system would make it easy for the user to see what they need to
-          fix but at the same time keep track of what they need to type.
-        </p>
-        <h3>What AlgoType Does</h3>
-        <p>
-          As a user makes an error, it will mark the current character incorrect
-          (red) and move the cursor forward. But if the current character is a
-          space (end of word), then we need to make a new stack of incorrect
-          characters that overflowed from the current word. This overflow stack
-          is added to the end of the current word (in red).
-        </p>
-        <p>
-          If the user is at the end of the word or line, then they can only move
-          forwards if they fix all of their mistakes.
+          This makes error correction intuitive but strict — encouraging
+          precision, not just speed.
         </p>
       </motion.section>
       <motion.div
@@ -145,7 +168,7 @@ export default function AlgoType() {
           alt="AlgoType.net website screenshot"
           width={2880}
           height={1628}
-          className="w-full ring ring-border rounded-lg shadow-default my-8"
+          className="w-full ring ring-border rounded-lg shadow-default mt-8"
         />
       </motion.div>
       <motion.div
@@ -158,7 +181,7 @@ export default function AlgoType() {
           alt="AlgoType.net website screenshot"
           width={2880}
           height={1628}
-          className="w-full ring ring-border rounded-lg shadow-default mt-8 mb-16"
+          className="w-full ring ring-border rounded-lg shadow-default mt-8"
         />
       </motion.div>
     </div>

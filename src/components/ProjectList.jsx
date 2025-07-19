@@ -91,8 +91,8 @@ export default function ProjectList({ onSelect }) {
             onClick={() => handleClick(project)}
           >
             <div className="py-2 group-hover:ml-4 transition-margin duration-300">
-              <h3>{project.title}</h3>
-              <p className="text-fg-2">{project.description}</p>
+              <h3 className="my-0">{project.title}</h3>
+              <p className="text-fg-2 mb-0">{project.description}</p>
             </div>
             <FaChevronRight className="hidden md:block my-auto size-5 text-fg-3 opacity-0 group-hover:opacity-100 transition-all duration-200" />
           </motion.div>
@@ -124,8 +124,8 @@ export default function ProjectList({ onSelect }) {
                 onClick={() => handleClick(project)}
               >
                 <div className="py-2 group-hover:ml-4 transition-margin duration-300">
-                  <h3>{project.title}</h3>
-                  <p className="text-fg-2">{project.description}</p>
+                  <h3 className="my-0">{project.title}</h3>
+                  <p className="text-fg-2 mb-0">{project.description}</p>
                 </div>
                 <FaChevronRight className="hidden md:block my-auto size-5 text-fg-3 opacity-0 group-hover:opacity-100 transition-all duration-200" />
               </motion.div>
