@@ -4,11 +4,13 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import ProjectsList from "@/components/ProjectList";
 import AlgoType from "@/components/projects/AlgoType";
 import UvaChatbot from "@/components/projects/UvaChatbot";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const projectComponents = {
   "AlgoType.net": <AlgoType />,
@@ -17,17 +19,27 @@ const projectComponents = {
 };
 
 export default function Home() {
-  const [view, setView] = (useState < "both") | "left" | ("right" > "both");
+  const [view, setView] = useState("left");
   const [selected, setSelected] = useState(null);
   const hasSelection = Boolean(selected);
   const contentRef = useRef(null);
+  const isMobile = useIsMobile();
 
   // Automatically switch view on mobile when selecting a project
   useEffect(() => {
-    if (selected && window.innerWidth < 1024) {
+    if (selected && isMobile) {
       setView("right");
+    } else if (selected) {
+      setView("both");
     }
   }, [selected]);
+
+  // Detect if switch to mobile view
+  useEffect(() => {
+    if (isMobile && view === "both") {
+      setView("right");
+    }
+  }, [isMobile, view]);
 
   // Reset scroll to top
   useEffect(() => {
@@ -39,8 +51,19 @@ export default function Home() {
   return (
     <main className="flex flex-row w-screen h-screen p-4 lg:py-16 transition-all duration-100 overflow-hidden text-lg">
       {/* Left column */}
-      <div className="flex-1 lg:px-16 overflow-auto">
-        <div className="w-full h-full flex flex-col mx-auto max-w-2xl">
+      <motion.div
+        animate={{
+          width:
+            view === "both"
+              ? "50%" // becomes 50% via flex automatically
+              : view === "left"
+                ? "100%"
+                : "0%",
+        }}
+        className="overflow-hidden"
+      >
+        {/*<div className="flex-1 lg:px-16 overflow-auto">*/}
+        <div className="h-full w-full max-w-2xl mx-auto flex flex-col">
           {/* Header + Projects */}
           <div className="flex-grow space-y-12">
             <div className="relative">
@@ -63,7 +86,7 @@ export default function Home() {
                   alt="Wave Emoji"
                   height={128}
                   width={128}
-                  className={`size-12 origin-[80%_80%] hover:animate-wave transition-opacity ${hasSelection ? "opacity-0" : "opacity-100"}`}
+                  className={`size-12 origin-[80%_80%] hover:animate-wave transition-opacity select-none ${hasSelection ? "opacity-0" : "opacity-100"}`}
                 />
               </motion.p>
               <motion.p
@@ -82,22 +105,54 @@ export default function Home() {
             transition={{ delay: 1 }}
             className="flex flex-row items-center gap-2 text-sm text-fg-2 hover:underline"
             href="https://github.com/JoshuaMarkle/website"
+            target="_blank"
           >
             <FaGithub /> JoshuaMarkle/website
           </motion.a>
         </div>
-      </div>
+      </motion.div>
 
       {/* Separator */}
       {hasSelection && (
-        <motion.div
-          layout
-          initial={{ height: 0 }}
-          animate={{ width: 2, height: "100%" }}
-          exit={{ height: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-bg xl:bg-bg-2 my-auto"
-        />
+        <div className="relative flex items-center justify-center text-fg-3 z-10">
+          {!isMobile && view === "both" && (
+            <motion.div layout className="w-1 h-full bg-border" />
+          )}
+
+          {/* Left toggle button */}
+          {view !== "left" && (
+            <button
+              className="absolute left-3/2 top-1/2 -translate-y-1/2 bg-bg hover:translate-x-1 rounded-full p-[2px] transition-all"
+              onClick={() => {
+                if (view === "right") {
+                  setView(isMobile ? "left" : "both");
+                } else {
+                  setView("left");
+                }
+              }}
+            >
+              <span className="sr-only">Show Left</span>
+              <FiChevronRight className="size-6" />
+            </button>
+          )}
+
+          {/* Right toggle button */}
+          {view !== "right" && (
+            <button
+              className="absolute right-3/2 top-1/2 -translate-y-1/2 bg-bg hover:-translate-x-1 rounded-full p-[2px] transition-all"
+              onClick={() => {
+                if (view === "left") {
+                  setView(isMobile ? "right" : "both");
+                } else {
+                  setView("right");
+                }
+              }}
+            >
+              <span className="sr-only">Show Right</span>
+              <FiChevronLeft className="size-6" />
+            </button>
+          )}
+        </div>
       )}
 
       {/* Right column */}
@@ -106,11 +161,19 @@ export default function Home() {
           <motion.div
             key="projectContent"
             ref={contentRef}
-            initial={{ width: 0, opacity: 0 }}
-            animate={{ width: "70%", opacity: 1 }}
-            exit={{ width: 0, opacity: 0 }}
-            transition={{ duration: 1, ease: [0.175, 0.885, 0.32, 1.0] }}
-            className="overflow-auto"
+            animate={{
+              width:
+                view === "both"
+                  ? "100%" // or match flex ratio
+                  : view === "right"
+                    ? "100%"
+                    : "0%",
+              opacity: 1,
+            }}
+            className={cn(
+              "mx-auto overflow-auto",
+              hasSelection ? "block" : "hidden",
+            )}
           >
             {projectComponents[selected] || (
               <p className="w-full max-w-4xl mx-auto">
