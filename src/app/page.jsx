@@ -47,7 +47,7 @@ export default function Home() {
                   alt="Wave Emoji"
                   height={128}
                   width={128}
-                  className="size-12 origin-[80%_80%] hover:animate-wave"
+                  className={`size-12 origin-[80%_80%] hover:animate-wave transition-opacity ${hasSelection ? "opacity-0" : "opacity-100"}`}
                 />
               </motion.p>
               <motion.p
@@ -96,7 +96,9 @@ export default function Home() {
             className="overflow-auto"
           >
             {projectComponents[selected] || (
-              <p>Content for {selected} coming soon.</p>
+              <p className="w-full max-w-4xl mx-auto">
+                Content for <strong>{selected}</strong> coming soon!
+              </p>
             )}
           </motion.div>
         )}

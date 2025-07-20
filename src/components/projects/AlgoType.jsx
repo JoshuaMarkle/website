@@ -49,7 +49,7 @@ export default function AlgoType() {
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.4 }}
       >
         <h2>Why I Built It</h2>
       </motion.section>
@@ -78,28 +78,34 @@ export default function AlgoType() {
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.6 }}
       >
         <h1>How The Typing System Works</h1>
       </motion.section>
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.7 }}
       >
         <p>
           Designing a good typing test is harder than it seems — especially when
           you're dealing with code. Every user can type differently, make unique
           errors, and edge cases are everywhere.
         </p>
-        <p>Here's how I tackled it:</p>
+        <p>Here's how I tackled it.</p>
       </motion.section>
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.8 }}
       >
         <h2>How Tests Are Made</h2>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9 }}
+      >
         <p>
           Each test is based on a real code file. All the files are first
           grouped into folders by their <code>gamemode</code> and{" "}
@@ -112,26 +118,74 @@ export default function AlgoType() {
           When a user starts a test, the app pulls in the tokens for that
           specific file and language.
         </p>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.0 }}
+      >
         <h2>Typing Logic</h2>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.1 }}
+      >
         <p>
           During a typing test, users move through a list of tokens, trying to
           type as accurately and quickly as possible. To track their progress
           and correctness, AlgoType uses two key systems:
         </p>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2 }}
+      >
         <h3>1. Syntax-Aware Typing</h3>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.3 }}
+      >
         <p>
           This system understands code structure. It highlights tokens as you
           type and intelligently skips non-essential ones like comments and tab
           characters. It’s what makes AlgoType feel fluid while typing real
           code.
         </p>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.4 }}
+      >
         <h3>2. Word-Aware Typing</h3>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5 }}
+      >
         <p>
           This system looks ahead to spaces and newlines — useful for handling
           overflow situations, like when the user mistypes something early in
           the line and it cascades into future tokens.
         </p>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.6 }}
+      >
         <h2>Error System</h2>
+      </motion.section>
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.7 }}
+      >
         <p>Here is where things get tricky.</p>
         <p>
           Simply ignoring typos would make tests too forgiving. That’s why
@@ -143,14 +197,13 @@ export default function AlgoType() {
           <li>
             If a character is wrong, it's marked red and pushed to the error
             stack.
-            <li>
-              If the error occurs at the end of a word (like a space), the
-              overflow is visually added to the word.
-            </li>
-            <li>
-              Users must fix all errors before progressing past the word or
-              line.
-            </li>
+          </li>
+          <li>
+            If the error occurs at the end of a word (like a space), the
+            overflow is visually added to the word.
+          </li>
+          <li>
+            Users must fix all errors before progressing past the word or line.
           </li>
         </ul>
         <p>
@@ -161,7 +214,7 @@ export default function AlgoType() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
+        transition={{ delay: 1.8, duration: 0.6, ease: "easeOut" }}
       >
         <Image
           src="/images/algotype/algotype_screenshot.png"
@@ -174,7 +227,7 @@ export default function AlgoType() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
+        transition={{ delay: 1.9, duration: 0.6, ease: "easeOut" }}
       >
         <Image
           src="/images/algotype/algotype_screenshot_2.png"

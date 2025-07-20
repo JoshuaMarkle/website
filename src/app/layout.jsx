@@ -23,7 +23,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Joshua Markle | Portfolio",
     description: "Hi, I'm Josh. Check out my stuff!",
-    images: ["https://joshuamarkle/images/twitter-card.png"],
+    images: ["https://joshuamarkle.com/images/twitter-card.png"],
   },
 };
 
