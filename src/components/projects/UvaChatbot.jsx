@@ -30,7 +30,7 @@ export default function UvaChatbot() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
+        transition={{ delay: 0.3 }}
         className="w-full aspect-video overflow-hidden ring ring-border rounded-lg shadow-default cursor-pointer mt-8 mb-16"
       >
         <video
@@ -44,20 +44,37 @@ export default function UvaChatbot() {
       </motion.div>
 
       {/* Technical explanation */}
-      <motion.section
-        className="space-y-6"
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+      >
+        <h2>How It Works</h2>
+      </motion.div>
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <h2>How It Works</h2>
         <p>
           The chatbot combines a conversational model (Gemini/GPT) with a
           Retrieval-Augmented Generation (RAG) pipeline. This gives the chatbot
           access to highly accurate, UVA specific resources, as context to
           produce the most relevant response.
         </p>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+      >
         <h3>The process would look like this:</h3>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7 }}
+      >
         <p>
           All UVA Career Center documents are first cleaned and turned into
           vectors (numerical representations). These vectors are stored in a{" "}
@@ -71,7 +88,7 @@ export default function UvaChatbot() {
           (LLM), which uses the extra context to generate a much more accurate
           and helpful response.
         </p>
-      </motion.section>
+      </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

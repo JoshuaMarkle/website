@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
@@ -17,8 +17,24 @@ const projectComponents = {
 };
 
 export default function Home() {
+  const [view, setView] = (useState < "both") | "left" | ("right" > "both");
   const [selected, setSelected] = useState(null);
   const hasSelection = Boolean(selected);
+  const contentRef = useRef(null);
+
+  // Automatically switch view on mobile when selecting a project
+  useEffect(() => {
+    if (selected && window.innerWidth < 1024) {
+      setView("right");
+    }
+  }, [selected]);
+
+  // Reset scroll to top
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.scrollTop = 0;
+    }
+  }, [selected]);
 
   return (
     <main className="flex flex-row w-screen h-screen p-4 lg:py-16 transition-all duration-100 overflow-hidden text-lg">
@@ -89,6 +105,7 @@ export default function Home() {
         {hasSelection && (
           <motion.div
             key="projectContent"
+            ref={contentRef}
             initial={{ width: 0, opacity: 0 }}
             animate={{ width: "70%", opacity: 1 }}
             exit={{ width: 0, opacity: 0 }}

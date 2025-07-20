@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { FaChevronRight } from "react-icons/fa";
+import { FiChevronRight } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
 const projects = [
@@ -94,7 +94,7 @@ export default function ProjectList({ onSelect }) {
               <h3 className="my-0">{project.title}</h3>
               <p className="text-fg-2 mb-0">{project.description}</p>
             </div>
-            <FaChevronRight className="hidden md:block my-auto size-5 text-fg-3 opacity-0 group-hover:opacity-100 transition-all duration-200" />
+            <FiChevronRight className="hidden md:block my-auto size-6 text-fg-3 opacity-0 group-hover:opacity-100 transition-all duration-200" />
           </motion.div>
         ))}
       </motion.div>
@@ -127,7 +127,7 @@ export default function ProjectList({ onSelect }) {
                   <h3 className="my-0">{project.title}</h3>
                   <p className="text-fg-2 mb-0">{project.description}</p>
                 </div>
-                <FaChevronRight className="hidden md:block my-auto size-5 text-fg-3 opacity-0 group-hover:opacity-100 transition-all duration-200" />
+                <FiChevronRight className="hidden md:block my-auto size-6 text-fg-3 opacity-0 group-hover:opacity-100 transition-all duration-200" />
               </motion.div>
             ))}
           </motion.div>

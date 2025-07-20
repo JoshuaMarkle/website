@@ -35,7 +35,7 @@ export default function AlgoType() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
+        transition={{ delay: 0.3 }}
       >
         <Image
           src="/images/algotype/algotype.png"
@@ -214,7 +214,7 @@ export default function AlgoType() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.8, duration: 0.6, ease: "easeOut" }}
+        transition={{ delay: 1.8 }}
       >
         <Image
           src="/images/algotype/algotype_screenshot.png"
@@ -227,7 +227,7 @@ export default function AlgoType() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.9, duration: 0.6, ease: "easeOut" }}
+        transition={{ delay: 1.9 }}
       >
         <Image
           src="/images/algotype/algotype_screenshot_2.png"
