@@ -49,7 +49,7 @@ export default function Home() {
   }, [selected]);
 
   return (
-    <main className="flex flex-row w-screen h-screen p-4 lg:py-8 xl:py-16 transition-all duration-100 overflow-hidden text-lg">
+    <main className="flex flex-row w-screen h-screen p-4 lg:py-8 xl:py-16 transition-all duration-100 overflow-hidden">
       {/* Left column */}
       <motion.div
         initial={{ width: "100%" }}
@@ -89,7 +89,7 @@ export default function Home() {
                   alt="Wave Emoji"
                   height={128}
                   width={128}
-                  className={`size-12 origin-[80%_80%] hover:animate-wave transition-opacity select-none ${view !== "left" ? "opacity-0" : "opacity-0 sm:opacity-100"}`}
+                  className={`size-8 origin-[80%_80%] hover:animate-wave transition-opacity select-none ${view !== "left" ? "opacity-0" : "opacity-0 sm:opacity-100"}`}
                 />
               </motion.p>
               <motion.p

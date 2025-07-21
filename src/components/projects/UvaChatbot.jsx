@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 
 export default function UvaChatbot() {
@@ -110,6 +109,8 @@ export default function UvaChatbot() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
         className="flex flex-row justify-center items-center gap-2 hover:underline"
+        href="https://github.com/JoshuaMarkle/chatbot"
+        target="_blank"
       >
         <FaGithub /> Checkout The Repo
       </motion.a>

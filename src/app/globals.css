@@ -115,7 +115,7 @@ html {
   }
 
   p {
-    @apply mb-4;
+    @apply mb-4 text-lg;
   }
 
   strong {
@@ -123,7 +123,7 @@ html {
   }
 
   blockquote {
-    @apply border-l-4 border-border pl-8 my-8;
+    @apply border-l-4 border-border pl-8 my-8 text-lg;
   }
 
   code {

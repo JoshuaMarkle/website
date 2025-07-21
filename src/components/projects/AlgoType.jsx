@@ -1,7 +1,7 @@
+"use client";
+
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { FaArrowRight } from "react-icons/fa";
-import { IoGlobeOutline } from "react-icons/io5";
 
 export default function AlgoType() {
   return (
