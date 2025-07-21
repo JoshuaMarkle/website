@@ -5,11 +5,13 @@ import "@/app/globals.css";
 
 export const metadata = {
   title: "Joshua Markle | Portfolio",
-  description: "Hi, I'm Josh. Check out my stuff!",
+  description:
+    "Hi, I'm Josh — a software developer building cool things. Check out my stuff!",
   openGraph: {
     url: "https://joshuamarkle.com",
     title: "Joshua Markle | Portfolio",
-    description: "Hi, I'm Josh. Check out my stuff!",
+    description:
+      "Hi, I'm Josh — a software developer building cool things. Check out my stuff!",
     images: [
       {
         url: "https://joshuamarkle.com/images/twitter-card.png",
@@ -22,7 +24,8 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Joshua Markle | Portfolio",
-    description: "Hi, I'm Josh. Check out my stuff!",
+    description:
+      "Hi, I'm Josh — a software developer building cool things. Check out my stuff!",
     images: ["https://joshuamarkle.com/images/twitter-card.png"],
   },
 };

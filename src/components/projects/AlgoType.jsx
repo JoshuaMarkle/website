@@ -5,7 +5,7 @@ import { IoGlobeOutline } from "react-icons/io5";
 
 export default function AlgoType() {
   return (
-    <div className="relative max-w-4xl mx-auto">
+    <>
       {/* Text content */}
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
@@ -237,6 +237,6 @@ export default function AlgoType() {
           className="w-full ring ring-border rounded-lg shadow-default mt-8"
         />
       </motion.div>
-    </div>
+    </>
   );
 }

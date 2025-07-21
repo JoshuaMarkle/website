@@ -49,9 +49,10 @@ export default function Home() {
   }, [selected]);
 
   return (
-    <main className="flex flex-row w-screen h-screen p-4 lg:py-16 transition-all duration-100 overflow-hidden text-lg">
+    <main className="flex flex-row w-screen h-screen p-4 lg:py-8 xl:py-16 transition-all duration-100 overflow-hidden text-lg">
       {/* Left column */}
       <motion.div
+        initial={{ width: "100%" }}
         animate={{
           width:
             view === "both"
@@ -60,12 +61,14 @@ export default function Home() {
                 ? "100%"
                 : "0%",
         }}
-        className="overflow-hidden"
+        className={cn(
+          "overflow-y-auto no-scrollbar pl-0 transition-[padding]",
+          view !== "right" && "lg:pl-4 xl:pl-12",
+        )}
       >
-        {/*<div className="flex-1 lg:px-16 overflow-auto">*/}
-        <div className="h-full w-full max-w-2xl mx-auto flex flex-col">
+        <div className="h-full w-2xl mx-auto flex flex-col">
           {/* Header + Projects */}
-          <div className="flex-grow space-y-12">
+          <div className="flex-grow space-y-8">
             <div className="relative">
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
@@ -86,7 +89,7 @@ export default function Home() {
                   alt="Wave Emoji"
                   height={128}
                   width={128}
-                  className={`size-12 origin-[80%_80%] hover:animate-wave transition-opacity select-none ${hasSelection ? "opacity-0" : "opacity-100"}`}
+                  className={`size-12 origin-[80%_80%] hover:animate-wave transition-opacity select-none ${view !== "left" ? "opacity-0" : "opacity-0 sm:opacity-100"}`}
                 />
               </motion.p>
               <motion.p
@@ -94,10 +97,20 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                I am a software developer and programmer
+                I'm a software developer and programmer building cool things.
               </motion.p>
             </div>
-            <ProjectsList onSelect={setSelected} selected={selected} />
+            <div>
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mt-0"
+              >
+                My Projects
+              </motion.h2>
+              <ProjectsList onSelect={setSelected} selected={selected} />
+            </div>
           </div>
           <motion.a
             initial={{ opacity: 0, y: 20 }}
@@ -114,15 +127,24 @@ export default function Home() {
 
       {/* Separator */}
       {hasSelection && (
-        <div className="relative flex items-center justify-center text-fg-3 z-10">
+        <div
+          className={cn(
+            "relative flex items-center justify-center text-fg-3 z-10",
+            view === "both" ? "lg:mx-8" : "",
+          )}
+        >
           {!isMobile && view === "both" && (
-            <motion.div layout className="w-1 h-full bg-border" />
+            <motion.div layout className="w-[2px] h-full bg-border" />
           )}
 
           {/* Left toggle button */}
           {view !== "left" && (
             <button
-              className="absolute left-3/2 top-1/2 -translate-y-1/2 bg-bg hover:translate-x-1 rounded-full p-[2px] transition-all"
+              className={cn(
+                "absolute top-1/2 -translate-y-1/2 hover:translate-x-1 rounded-full p-[2px] transition-all",
+                isMobile ? "bg-bg border" : " left-0",
+                view === "right" && "rotate-180",
+              )}
               onClick={() => {
                 if (view === "right") {
                   setView(isMobile ? "left" : "both");
@@ -139,7 +161,12 @@ export default function Home() {
           {/* Right toggle button */}
           {view !== "right" && (
             <button
-              className="absolute right-3/2 top-1/2 -translate-y-1/2 bg-bg hover:-translate-x-1 rounded-full p-[2px] transition-all"
+              className="absolute right-0 top-1/3 -translate-y-1/2 hover:-translate-x-1 rounded-full p-[2px] transition-all"
+              className={cn(
+                "absolute top-1/2 -translate-y-1/2 hover:-translate-x-1 rounded-full p-[2px] transition-all",
+                isMobile ? "bg-bg border" : "right-0",
+                view === "left" && "rotate-180",
+              )}
               onClick={() => {
                 if (view === "left") {
                   setView(isMobile ? "right" : "both");
@@ -161,6 +188,8 @@ export default function Home() {
           <motion.div
             key="projectContent"
             ref={contentRef}
+            initial={{ width: 0, opacity: 0 }}
+            exit={{ width: 0, opacity: 0 }}
             animate={{
               width:
                 view === "both"
@@ -171,15 +200,22 @@ export default function Home() {
               opacity: 1,
             }}
             className={cn(
-              "mx-auto overflow-auto",
-              hasSelection ? "block" : "hidden",
+              "overflow-y-auto pr-0 transition-[padding]",
+              view !== "left" && "lg:pr-4 xl:pr-12",
             )}
           >
-            {projectComponents[selected] || (
-              <p className="w-full max-w-4xl mx-auto">
-                Content for <strong>{selected}</strong> coming soon!
-              </p>
-            )}
+            <div
+              className={cn(
+                "relative mx-auto",
+                view === "left" ? "w-4xl" : "w-full max-w-4xl",
+              )}
+            >
+              {projectComponents[selected] || (
+                <p>
+                  Content for <strong>{selected}</strong> coming soon!
+                </p>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

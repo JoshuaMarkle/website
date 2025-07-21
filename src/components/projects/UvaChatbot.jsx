@@ -7,7 +7,7 @@ import { FaGithub } from "react-icons/fa";
 
 export default function UvaChatbot() {
   return (
-    <div className="relative max-w-4xl mx-auto space-y-4">
+    <>
       {/* Text content */}
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
@@ -113,6 +113,6 @@ export default function UvaChatbot() {
       >
         <FaGithub /> Checkout The Repo
       </motion.a>
-    </div>
+    </>
   );
 }

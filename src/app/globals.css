@@ -88,6 +88,14 @@ html {
   }
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 ::selection {
   background-color: var(--color-blue-3, #315efc);
   color: var(--color-bg, #ffffff);
