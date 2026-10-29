@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter-tight/wght.css";
+
+@theme {
+  --font-sans: "Inter Tight Variable", system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+}

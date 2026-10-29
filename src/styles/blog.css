@@ -1,0 +1,314 @@
+:root {
+  color-scheme: dark;
+  --bg: #000000;
+  --fg: #e8e8e8;
+  --box: #1c1c1c;
+  --muted: #6a6a6a; /* tags, dates */
+  --blurb: #9a9a9a; /* excerpts */
+  --gutter: 24px; /* page edge */
+  --content: 640px; /* width of the centered content column */
+  --pad: 56px; /* space between content and the docked nav / the dates */
+  --dock-top: 40px; /* where the stack starts */
+  --dock-gap: 14px; /* space between stacked nav items */
+  --tag-gap: 8px; /* space between stacked tags */
+  --group-gap: 36px; /* space between the nav stack and the tag stack */
+  /* static name, same size rule as site's (60% of the width, 6.5% of the height, 64px max) */
+  --name: min(64px, 6.5vh, 13vw);
+}
+html {
+  scrollbar-gutter: stable;
+  overflow-anchor: none; /* entries collapsing on filter shouldn't nudge the scroll */
+}
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+}
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+header {
+  padding: max(8vh, 24px) var(--gutter) 0;
+  text-align: center;
+}
+
+/* the settled name from site, just sitting there */
+h1 {
+  font-size: var(--name);
+  font-weight: 700;
+  line-height: 1;
+  margin: 0 0 32px;
+}
+h1 a {
+  color: inherit;
+  text-decoration: none;
+}
+h1 span {
+  display: block;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+  padding-left: 0.1em; /* balances the tracking after the last letter */
+}
+
+/* the static bars: only used to measure where items start */
+nav,
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  visibility: hidden;
+}
+nav {
+  gap: 12px 56px;
+}
+.tag-row {
+  gap: 10px 28px;
+  max-width: var(--content);
+  margin: 40px auto 0;
+}
+nav a,
+.fly.nav {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+}
+.tag-item {
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.tag-item .count {
+  margin-left: 0.5em;
+  font-size: 10px;
+}
+
+/* the items that actually move */
+.fly {
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  will-change: transform;
+}
+button.fly {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--muted);
+  transition: color 0.15s ease;
+}
+button.fly:hover,
+button.fly.active {
+  color: var(--fg);
+}
+
+/* glitch: each char keeps its real width; a random glyph is drawn over it */
+.ch {
+  position: relative;
+  display: inline-block;
+  white-space: pre;
+}
+.ch.scramble {
+  color: transparent;
+}
+.ch.scramble::after {
+  content: attr(data-g);
+  position: absolute;
+  inset: 0;
+  color: var(--glyph, var(--fg));
+  text-align: center;
+}
+.ch.hidden {
+  color: transparent;
+}
+
+/* glyph pointing at BLOG while the entries are docked beside */
+.marker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  pointer-events: none;
+  will-change: transform;
+}
+.marker span {
+  display: block;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+.marker.on span {
+  opacity: 1;
+  transform: none;
+}
+
+/* an entry's date left of it: rides with it, sticks level with docked ABOUT, leaves with its bottom */
+.side-title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-align: right;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.side-title.on {
+  opacity: 1;
+}
+.side-title .min {
+  color: var(--muted);
+  --glyph: var(--muted);
+}
+/* no room beside the content: dates go inline, the nav and tags stay in the header */
+html:not(.roomy) .side-title,
+html:not(.roomy) .marker {
+  visibility: hidden;
+}
+
+main {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 56px var(--gutter) 160px;
+}
+.entry {
+  position: relative;
+  padding-bottom: 72px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.entry.on {
+  opacity: 1;
+}
+/* back from a post: entries and dates are just there */
+.instant .entry,
+.instant .side-title {
+  transition: none;
+}
+.entry .when {
+  display: none;
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+html:not(.roomy) .entry .when {
+  display: block;
+}
+.entry h3 {
+  margin: 0 0 12px;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+/* the title's link covers the whole entry, so anywhere on it opens the post */
+.entry h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.entry p {
+  margin: 0 0 16px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--blurb);
+}
+.entry .excerpt {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.entry .excerpt p {
+  transition: color 0.15s ease;
+}
+.entry:hover .excerpt p {
+  color: var(--fg);
+}
+.entry .tags {
+  position: relative;
+  z-index: 1; /* above the title's link, so tags still filter */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  pointer-events: none; /* the gaps between tags still open the post */
+}
+.entry .tags button {
+  pointer-events: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--muted);
+  transition: color 0.15s ease;
+}
+.entry .tags button:hover,
+.entry .tags button.active {
+  color: var(--fg);
+}
+
+/* footer: same row as site's */
+footer {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 48px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+footer .row {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 var(--footer-inset, 16px);
+}
+footer .row > * {
+  margin: 0;
+  font: inherit;
+}
+footer .row a {
+  color: inherit;
+  text-decoration: none;
+}
+footer .label {
+  position: absolute;
+  right: calc(100% + var(--pad));
+}
+footer .github {
+  position: absolute;
+  left: calc(100% + var(--pad));
+}
+@media (max-width: 1000px) {
+  footer .row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  footer .label,
+  footer .github {
+    position: static;
+  }
+  footer .label {
+    order: -1;
+  }
+}

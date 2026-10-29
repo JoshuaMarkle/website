@@ -1,0 +1,20 @@
+---
+import { getCollection, render } from "astro:content";
+import Article from "../../layouts/Article.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, date, minutes, tags, excerpt } = post.data;
+---
+
+<Article title={title} description={excerpt} back={{ href: "/blog/", label: "BLOG" }}>
+  <p slot="meta" class="mt-3 text-xs tracking-[0.12em] text-[#6a6a6a]">
+    {date.toISOString().slice(0, 10)} · {minutes} MIN · {tags.join(" ").toUpperCase()}
+  </p>
+  <Content />
+</Article>

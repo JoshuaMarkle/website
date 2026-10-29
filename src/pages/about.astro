@@ -1,0 +1,77 @@
+---
+import Base from "../layouts/Base.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Base title="About · Joshua Markle" description="About Joshua Markle.">
+  <header>
+    <a class="name" href="/" aria-label="Joshua Markle">JOSHUA MARKLE</a>
+    <nav>
+      <a href="/about/" aria-current="page">ABOUT</a>
+      <a href="/">WORK</a>
+      <a href="/">PROJECTS</a>
+      <a href="/blog/">BLOG</a>
+    </nav>
+  </header>
+
+  <main>
+    <p>
+      I'm Joshua Markle, a programmer, artist and entrepreneur. I like building small, strange
+      interfaces and things that feel alive on the screen, and I'm always working on something new.
+    </p>
+  </main>
+
+  <Footer />
+</Base>
+
+<style is:global>
+  :root {
+    --bg: #000;
+    --fg: #e8e8e8;
+  }
+  html,
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+  }
+  body {
+    padding: 40px 24px;
+  }
+  header,
+  main,
+  footer {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .name {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+  nav {
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  nav a[aria-current] {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+  main p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+</style>

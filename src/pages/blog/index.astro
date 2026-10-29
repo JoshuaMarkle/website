@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/blog.css";
+
+const posts = (await getCollection("blog")).sort((a, b) => +b.data.date - +a.data.date);
+const iso = (d) => d.toISOString().slice(0, 10);
+---
+
+<Base title="Blog · Joshua Markle" description="Notes, experiments, build logs.">
+  <header>
+    <h1>
+      <a href="/" aria-label="Joshua Markle"><span>JOSHUA</span><span>MARKLE</span></a>
+    </h1>
+    <Nav />
+    <div class="tag-row" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    {
+      posts.map((p) => (
+        <article
+          class="entry"
+          data-date={iso(p.data.date)}
+          data-min={p.data.minutes}
+          data-tags={p.data.tags.join(" ")}
+        >
+          <h3>
+            <a href={`/blog/${p.id}/`}>{p.data.title}</a>
+          </h3>
+          <a class="excerpt" href={`/blog/${p.id}/`}>
+            <p>{p.data.excerpt}</p>
+          </a>
+        </article>
+      ))
+    }
+  </main>
+
+  <Footer />
+
+  <script>
+    import "../../scripts/blog.js";
+  </script>
+</Base>

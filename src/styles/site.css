@@ -1,0 +1,445 @@
+:root {
+  color-scheme: dark;
+  --bg: #000000;
+  --fg: #e8e8e8;
+  --box: #1c1c1c;
+  --accent: #7cc4ff; /* focused box outline and its project name */
+  --planet: #6a6a6a; /* ascii planet ink */
+  --blurb: #9a9a9a; /* project paragraphs */
+  --gutter: 24px; /* page edge */
+  --content: 640px; /* width of the centered content column */
+  --pad: 56px; /* space between content and docked nav */
+  --dock-top: 40px; /* where the stack starts */
+  --dock-gap: 14px; /* space between stacked items */
+  --peek: 72px; /* how much of the first project shows above the fold */
+  --name: 48px; /* settled name size, set from js */
+  --focus-ms: 250ms; /* how long a box takes to grow or shrink */
+  --tile-gap: 12px; /* space between side project tiles */
+}
+html {
+  scrollbar-gutter: stable; /* no layout shift when the intro scroll lock lifts */
+  overflow-anchor: none; /* boxes resizing shouldn't nudge the scroll */
+}
+html.locked {
+  overflow: hidden;
+}
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+}
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* nearly a full screen tall, so only the top of the first project peeks in */
+header {
+  box-sizing: border-box;
+  min-height: calc(100svh - var(--peek));
+  padding: max(8vh, 24px) var(--gutter) 48px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ringed ascii planet, centered in the space under the nav; fades in with the nav */
+.planet {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px; /* about line sits close to the planet, farther from the nav */
+  padding-top: 32px;
+  color: var(--planet);
+  font-size: min(
+    16px,
+    calc((100vw - 2 * var(--gutter)) / 40)
+  ); /* 64 cols fit on phones */
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+/* short about line just above the planet, same gray ink */
+.about {
+  margin: 0;
+  font-size: 1em; /* same as the planet (16px, smaller on phones) */
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+.planet.on {
+  opacity: 1;
+}
+.planet {
+  position: relative;
+}
+
+/* sparse stars scattered around the planet, slowly twinkling */
+.star {
+  position: absolute;
+  line-height: 1;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  pointer-events: none;
+  animation: twinkle var(--t) ease-in-out var(--d) infinite alternate;
+}
+@keyframes twinkle {
+  to {
+    opacity: 0.2;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .star {
+    animation: none;
+  }
+}
+
+/* the settled name; its letters are revealed one by one as the flying ones land */
+h1 {
+  font-size: var(--name);
+  font-weight: 700;
+  line-height: 1;
+  margin: 0 0 32px;
+}
+h1 > span {
+  display: flex;
+  justify-content: center;
+  gap: 0.1em;
+  white-space: nowrap;
+}
+h1 > span > span {
+  visibility: hidden;
+}
+h1 > span > span.on {
+  visibility: visible;
+}
+
+/* the big letters that grow in and fly up to the name */
+.letter {
+  position: fixed;
+  left: 0;
+  top: 0;
+  line-height: 1;
+  font-weight: 900;
+  opacity: 0;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  pointer-events: none;
+}
+/* invisible copy used only to measure letter widths */
+#meter {
+  position: fixed;
+  left: 50%;
+  display: flex;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  line-height: 1;
+  visibility: hidden;
+}
+
+/* the static bar: only used to measure where items start */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 56px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  visibility: hidden;
+}
+
+/* the items that actually move */
+.fly {
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+/* glitch: each char keeps its real width; a random glyph is drawn over it */
+.ch {
+  position: relative;
+  display: inline-block;
+  white-space: pre; /* keep spaces their real width */
+}
+.ch.scramble {
+  color: transparent;
+}
+.ch.scramble::after {
+  content: attr(data-g);
+  position: absolute;
+  inset: 0;
+  color: var(--glyph, var(--fg));
+  text-align: center;
+}
+.ch.hidden {
+  color: transparent;
+}
+
+/* glyph pointing at the active nav item; follows it, fades + nudges in */
+.marker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  pointer-events: none;
+  will-change: transform;
+}
+.marker span {
+  display: block;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+.marker.on span {
+  opacity: 1;
+  transform: none;
+}
+
+/* project name left of its box: rides with the box, sticks, then leaves with it */
+.side-title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-align: right; /* two-line names hug the content */
+  transition: color var(--focus-ms) ease;
+}
+.side-title.focus {
+  color: var(--accent);
+  --glyph: var(--accent);
+}
+
+/* a project's paragraph: rides under its name once the box has held focus a while;
+   glitches in right aligned, then a beat later its words slide out to justified lines */
+.blurb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  font-size: 16px; /* same as the names */
+  line-height: 1.5;
+  color: var(--blurb);
+  --glyph: var(--blurb); /* glitch glyphs in the paragraph's gray */
+  text-align: right;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.blurb.on {
+  opacity: 1;
+}
+.blurb.box-shape {
+  text-align: justify;
+  text-align-last: right; /* the last line stays as it was */
+}
+.blurb .word {
+  display: inline-block; /* so it can be slid (FLIP) and never breaks inside */
+  white-space: nowrap;
+}
+
+main {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 120px;
+  container-type: inline-size; /* so boxes can size off its width */
+}
+/* half height until focused */
+.box {
+  display: block; /* they're links, which are inline by default */
+  background: var(--box);
+  height: calc(100cqw * 5 / 16);
+  margin-bottom: 24px;
+  opacity: 0;
+  transition:
+    opacity 0.7s ease,
+    height var(--focus-ms) ease;
+}
+.box.on {
+  opacity: 1;
+}
+/* the box nearest the middle of the screen: full 16:10 */
+.box.focus {
+  height: calc(100cqw * 10 / 16);
+  outline: 1px solid var(--accent);
+  outline-offset: 6px;
+}
+
+/* wavy marquee (after design-packs' marquee-wavy): SIDE PROJECTS on repeat riding a sine path, full bleed */
+html {
+  overflow-x: clip; /* the full-bleed marquee is 100vw, which includes the scrollbar */
+}
+.marquee {
+  width: 100vw;
+  margin: 120px 0 0 calc(50% - 50vw);
+  height: 100px;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+.marquee.on {
+  opacity: 1;
+}
+.marquee {
+  position: relative;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  white-space: pre;
+}
+@media (max-width: 767px) {
+  .marquee {
+    font-size: 18px;
+  }
+}
+/* each letter is placed on the wave by js (own layer, so moving it never repaints) */
+.marquee span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* screenshake on the PRESS ME burst: js sets --shake-x/y on body; the fixed
+   items are body children, so they get the same offset as the page */
+header,
+main,
+footer,
+.fly,
+.marker,
+.side-title {
+  translate: var(--shake-x, 0) var(--shake-y, 0);
+}
+
+/* side projects: a mosaic of square-celled tiles, hidden (but holding its height) until
+   PRESS ME bursts them out; later presses suck them in and scatter them again */
+.mosaic {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: calc((100cqw - 3 * var(--tile-gap)) / 4);
+  grid-auto-flow: dense;
+  gap: var(--tile-gap);
+  margin-top: 96px;
+}
+.tile {
+  background: var(--box);
+  grid-column: span var(--w, 1);
+  grid-row: span var(--h, 1);
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+.tile.on {
+  opacity: 1;
+}
+/* scattered: placed by js, draggable */
+.tile.loose {
+  position: absolute;
+  grid-area: auto; /* never let a grid area become its containing block */
+  left: 0;
+  top: 0;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  touch-action: none;
+  cursor: grab;
+}
+.tile.loose.drag {
+  cursor: grabbing;
+}
+.press {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 10000; /* above every dragged tile */
+  transform: translate(-50%, -50%);
+  padding: 12px 20px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--fg);
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.7s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.press.on {
+  opacity: 1;
+}
+.press:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+/* footer: a content-wide row. FOOTER sits where the project names do (pad left of
+   the content), the name and email just inside the box edges, the GitHub link where the
+   nav docks (pad right of the content) */
+footer {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 48px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+footer .row {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 var(--footer-inset, 16px);
+}
+footer .row > * {
+  margin: 0;
+  font: inherit;
+}
+footer .row a {
+  color: inherit;
+  text-decoration: none;
+}
+footer .label {
+  position: absolute;
+  right: calc(100% + var(--pad));
+}
+footer .github {
+  position: absolute;
+  left: calc(100% + var(--pad));
+}
+/* no room beside the content: everything stacks inside it */
+@media (max-width: 1000px) {
+  footer .row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  footer .label,
+  footer .github {
+    position: static;
+  }
+  footer .label {
+    order: -1;
+  }
+}

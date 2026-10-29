@@ -1,0 +1,20 @@
+---
+import Base from "../layouts/Base.astro";
+import "../styles/keyboard.css";
+---
+
+<Base title="Keyboard · Joshua Markle">
+  <div class="hint"><b>CORNE</b><br />DRAG TO ORBIT — SCROLL TO ZOOM — RIGHT-DRAG TO PAN — W FOR WIREFRAME</div>
+  <div class="bar">
+    <button id="adjust" aria-pressed="false">ADJUST</button>
+    <button id="wire" aria-pressed="false">WIREFRAME</button>
+  </div>
+  <div class="panel" id="panel" hidden></div>
+  <nav class="presets" id="presets"></nav>
+  <canvas id="view"></canvas>
+
+  <!-- three.js is only imported here, so only this page's bundle carries it -->
+  <script>
+    import "../scripts/keyboard.js";
+  </script>
+</Base>

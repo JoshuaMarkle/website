@@ -1,0 +1,57 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/site.css";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+
+// side project tiles: [columns, rows] each spans
+const tiles = [[2, 2], [], [1, 2], [], [2], [], [], [1, 2], [2], [], [], []];
+---
+
+<Base title="Joshua Markle">
+  <header>
+    <h1 aria-label="Joshua Markle"></h1>
+    <Nav />
+    <div class="planet">
+      <p class="about">programmer, artist, entrepreneur</p>
+      <ascii-art piece="ringed"></ascii-art>
+    </div>
+  </header>
+
+  <main>
+    {
+      projects.map((p) => (
+        <a
+          class="box"
+          href={`/projects/${p.id}/`}
+          data-title={p.data.title}
+          data-blurb={p.data.summary}
+          aria-label={p.data.title}
+        />
+      ))
+    }
+
+    <div class="marquee" role="marquee" aria-label="Side projects"></div>
+
+    <section class="mosaic">
+      {
+        tiles.map(([w, h]) => (
+          <div class="tile" style={w || h ? `--w: ${w ?? 1}; --h: ${h ?? 1}` : undefined} />
+        ))
+      }
+      <button class="press" type="button">PRESS ME</button>
+    </section>
+  </main>
+
+  <Footer />
+
+  <div id="stage" aria-hidden="true"></div>
+  <div id="meter" aria-hidden="true"></div>
+
+  <script>
+    import "../scripts/site.js";
+  </script>
+</Base>

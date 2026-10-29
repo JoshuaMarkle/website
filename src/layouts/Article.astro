@@ -1,0 +1,54 @@
+---
+import Base from "./Base.astro";
+import Footer from "../components/Footer.astro";
+
+// dark long-form page shared by blog posts and project write-ups
+const { title, description, back } = Astro.props;
+---
+
+<Base title={`${title} · Joshua Markle`} description={description}>
+  <main class="mx-auto max-w-[640px] px-6 pt-[8vh] pb-32">
+    <p class="text-sm tracking-[0.12em] text-[#6a6a6a]">
+      <a href={back.href}>← {back.label}</a>
+    </p>
+    <h1 class="mt-10 text-4xl leading-tight font-bold">{title}</h1>
+    <slot name="meta" />
+    <div class="prose-post mt-10">
+      <slot />
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<style is:global>
+  html,
+  body {
+    margin: 0;
+    background: #000;
+    color: #e8e8e8;
+    color-scheme: dark;
+    -webkit-font-smoothing: antialiased;
+  }
+  .prose-post p {
+    margin: 0 0 1.25em;
+    line-height: 1.6;
+    color: #9a9a9a;
+  }
+  footer {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+  footer .row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  footer .row > * {
+    margin: 0;
+    font: inherit;
+  }
+</style>

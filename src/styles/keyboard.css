@@ -1,0 +1,25 @@
+html, body { margin: 0; height: 100%; background: #fff; color: #111; overflow: hidden; }
+body { font: 12px/1.5 ui-monospace, Menlo, Consolas, monospace; }
+.hint { position: fixed; top: 0; left: 0; padding: 24px; color: #888; letter-spacing: 0.1em; pointer-events: none; }
+.hint b { color: #111; font-weight: 400; }
+.bar { position: fixed; top: 0; right: 0; display: flex; gap: 20px; padding: 24px; }
+.presets { position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 24px; padding: 24px 16px; }
+button {
+  padding: 0; border: 0; background: none; font: inherit; letter-spacing: 0.1em;
+  color: #888; cursor: pointer;
+}
+button:hover, button[aria-pressed="true"] { color: #111; }
+.panel {
+  position: fixed; top: 64px; right: 16px; width: min(260px, calc(100vw - 32px));
+  max-height: calc(100vh - 140px); overflow-y: auto; padding: 8px 8px 12px;
+  background: rgba(255, 255, 255, 0.92); color: #888; letter-spacing: 0.1em;
+}
+.panel[hidden] { display: none; }
+.panel h2 { margin: 14px 0 4px; font: inherit; color: #111; }
+.panel h2:first-child { margin-top: 0; }
+.row { display: grid; grid-template-columns: 40px 1fr 40px; align-items: center; gap: 8px; height: 22px; }
+.row input { width: 100%; margin: 0; accent-color: #111; }
+.row output { text-align: right; color: #111; }
+.panel .actions { display: flex; gap: 20px; margin-top: 14px; }
+canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+canvas:active { cursor: grabbing; }
