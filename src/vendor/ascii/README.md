@@ -1,0 +1,1 @@
+`planet.js` is the `planet` piece from [ascii.rest](https://ascii.rest) by bas3line (MIT, see LICENSE), copied verbatim so the site has no runtime dependency on it. `../../scripts/ascii-art.js` is a small `<pre>`-only player for it.

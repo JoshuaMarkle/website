@@ -1,0 +1,24 @@
+---
+// the scripts on home and blog only measure this bar and build the real (flying) items;
+// about glitches these in place
+const here = Astro.url.pathname;
+const items = [
+  ["ABOUT", "/about/"],
+  ["PROJECTS", "/"],
+  ["BLOG", "/blog/"],
+  ["LIBRARY", "/library/"],
+  ["RESUME", "/JoshuaMarkleResume.pdf"],
+];
+---
+
+<nav>
+  {
+    items.map(([label, href]) => (
+      <a
+        href={href}
+        target={label === "RESUME" ? "_blank" : undefined}
+        aria-current={href === here && href !== "/" ? "page" : undefined}
+      >{label}</a>
+    ))
+  }
+</nav>

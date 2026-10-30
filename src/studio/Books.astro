@@ -1,0 +1,100 @@
+---
+import Shell from "./Shell.astro";
+import "../styles/book.css";
+---
+
+<Shell title="Books">
+  <div class="studio books">
+    <aside class="list">
+      <button type="button" class="btn" id="new">+ NEW BOOK</button>
+      <ul id="entries"></ul>
+    </aside>
+
+    <form class="fields" id="form" autocomplete="off">
+      <label>Title <input name="title" required /></label>
+      <label>Author <input name="author" required /></label>
+      <div class="pair">
+        <label
+          >Status
+          <select name="status" data-default="read">
+            <option value="reading">Reading</option>
+            <option value="read">Read</option>
+            <option value="queued">Up next</option>
+          </select>
+        </label>
+        <label
+          >Rating
+          <select name="rating" data-number>
+            <option value="">—</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+          </select>
+        </label>
+      </div>
+      <div class="pair">
+        <label>Finished <input type="date" name="finished" /></label>
+        <label>Pages <input type="number" name="pages" min="1" data-default="300" /></label>
+      </div>
+      <label class="check"><input type="checkbox" name="draft" /> Draft (shows in dev only)</label>
+
+      <h3>COVER</h3>
+      <div class="drop" id="cover-drop">Drop a cover image here, or click to pick one</div>
+      <div class="pair">
+        <label>Aspect (w / h) <input type="number" name="aspect" step="0.01" min="0.3" max="1.5" data-default="0.66" /></label>
+        <span></span>
+      </div>
+      <div class="swatches" id="palette" title="the cover's palette"></div>
+
+      <h3>SPINE</h3>
+      <div class="swatch-row">
+        COLOR <input type="color" name="spine.color" data-default="#2a2a2a" />
+        <div class="swatches" data-for="spine.color"></div>
+      </div>
+      <div class="swatch-row">
+        TEXT <input type="color" name="spine.ink" data-default="#e8e8e8" />
+        <div class="swatches" data-for="spine.ink"></div>
+      </div>
+      <div class="pair">
+        <label
+          >Font
+          <select name="spine.font" data-default="sans">
+            <option value="sans">Sans</option>
+            <option value="serif">Serif</option>
+            <option value="mono">Mono</option>
+          </select>
+        </label>
+        <label class="check"><input type="checkbox" name="spine.bands" /> Bands</label>
+      </div>
+      <div class="row-btns">
+        <button type="button" class="btn" id="suggest">SUGGEST FROM COVER</button>
+      </div>
+      <div class="drop small" id="spine-drop">Or drop a spine image to use instead of the drawn one</div>
+      <div class="row-btns">
+        <button type="button" class="btn" id="clear-spine" hidden>USE DRAWN SPINE</button>
+      </div>
+
+      <h3>REVIEW</h3>
+      <textarea class="md" name="body" placeholder="Markdown. Leave empty and the book just sits on the shelf, no page."
+      ></textarea>
+
+      <div class="save">
+        <button type="submit" class="btn primary">SAVE</button>
+        <span class="status" id="status">⌘S / CTRL+S</span>
+        <a id="view" target="_blank" hidden>ON THE SHELF ↗</a>
+      </div>
+    </form>
+
+    <section class="stage">
+      <div class="viewport" id="viewport"><div class="book3d" id="book"></div></div>
+      <div class="views">
+        <button type="button" class="btn" data-view="0,0">SPINE</button>
+        <button type="button" class="btn" data-view="-8,-38">ANGLE</button>
+        <button type="button" class="btn" data-view="0,-90">COVER</button>
+        <button type="button" class="btn" data-view="0,180">PAGES</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import "./books.js";
+  </script>
+</Shell>

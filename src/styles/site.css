@@ -1,0 +1,453 @@
+:root {
+  color-scheme: dark;
+  --bg: #000000;
+  --fg: #e8e8e8;
+  --box: #1c1c1c;
+  --accent: #7cc4ff; /* focused box outline and its project name */
+  --planet: #6a6a6a; /* ascii rings and stars ink */
+  --globe: #ff8c1a; /* ascii planet's globe ink */
+  --stem: #0b6623; /* ascii pumpkin stem ink */
+  --blurb: #9a9a9a; /* project paragraphs */
+  --gutter: 24px; /* page edge */
+  --content: 640px; /* width of the centered content column */
+  --pad: 56px; /* space between content and docked nav */
+  --dock-top: 40px; /* where the stack starts */
+  --dock-gap: 14px; /* space between stacked items */
+  --peek: 72px; /* how much of the first project shows above the fold */
+  --name: min(64px, 6.5vh, 13vw); /* as on blog */
+  --focus-ms: 400ms; /* how long a box takes to grow or shrink */
+  --focus-ease: cubic-bezier(0.34, 1.4, 0.64, 1); /* grows a little past its size, then settles */
+  --box-gap: 56px; /* space between project boxes */
+  --box-out: 200px; /* how far a box spreads past the content on each side */
+  --box-grow: 64px; /* and how much further once focused */
+  --side: 220px; /* kept clear on each side of the boxes for the names and docked nav (gutter + column + pad) */
+  --tile-gap: 12px; /* space between side project tiles */
+  --streak: #5a5a5a; /* lines swooping into PRESS ME */
+}
+html {
+  scrollbar-gutter: stable;
+  overflow-anchor: none; /* boxes resizing shouldn't nudge the scroll */
+}
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+}
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* nearly a full screen tall, so only the top of the first project peeks in */
+header {
+  box-sizing: border-box;
+  min-height: calc(100svh - var(--peek));
+  padding: max(8vh, 24px) var(--gutter) 48px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ringed ascii planet, centered in the space under the nav; fades in with the nav */
+.planet {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px; /* about line sits close to the planet, farther from the nav */
+  padding-top: 32px;
+  color: var(--planet);
+  font-size: min(
+    16px,
+    calc((100vw - 2 * var(--gutter)) / 40)
+  ); /* 64 cols fit on phones */
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+/* short about line just above the planet, same gray ink */
+.about {
+  margin: 0;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 1em; /* same as the planet (16px, smaller on phones) */
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+.planet .globe {
+  color: var(--globe);
+}
+.planet .stem {
+  color: var(--stem);
+}
+.planet.on {
+  opacity: 1;
+}
+.planet {
+  position: relative;
+}
+
+/* sparse stars scattered around the planet, slowly twinkling */
+.star {
+  position: absolute;
+  line-height: 1;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  pointer-events: none;
+  animation: twinkle var(--t) ease-in-out var(--d) infinite alternate;
+}
+@keyframes twinkle {
+  to {
+    opacity: 0.2;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .star {
+    animation: none;
+  }
+}
+
+/* the name, as on blog */
+h1 {
+  font-size: var(--name);
+  font-weight: 700;
+  line-height: 1;
+  margin: 0 0 32px;
+  visibility: hidden; /* until site.js splits it into chars, so it doesn't flash before glitching in */
+}
+h1 .ch {
+  visibility: visible;
+}
+h1 a {
+  color: inherit;
+  text-decoration: none;
+}
+h1 a > span {
+  display: block;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+  padding-left: 0.1em; /* balances the tracking after the last letter */
+}
+
+/* the static bar: only used to measure where items start */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 56px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  visibility: hidden;
+}
+
+/* the items that actually move */
+.fly {
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+/* glitch: each char keeps its real width; a random glyph is drawn over it */
+.ch {
+  position: relative;
+  display: inline-block;
+  white-space: pre; /* keep spaces their real width */
+}
+.ch.scramble {
+  color: transparent;
+}
+.ch.scramble::after {
+  content: attr(data-g);
+  position: absolute;
+  inset: 0;
+  color: var(--glyph, var(--fg));
+  text-align: center;
+}
+.ch.hidden {
+  color: transparent;
+}
+
+/* glyph pointing at the active nav item; follows it, fades + nudges in */
+.marker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  pointer-events: none;
+  will-change: transform;
+}
+.marker span {
+  display: block;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+.marker.on span {
+  opacity: 1;
+  transform: none;
+}
+
+/* project name left of its box: rides with the box, sticks, then leaves with it */
+.side-title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-align: right; /* two-line names hug the content */
+  transition: color var(--focus-ms) ease;
+}
+.side-title.focus {
+  color: var(--accent);
+  --glyph: var(--accent);
+}
+
+/* a project's paragraph: rides under its name once the box has held focus a while;
+   glitches in right aligned, then a beat later its words slide out to justified lines */
+.blurb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  font-size: 16px; /* same as the names */
+  line-height: 1.5;
+  color: var(--blurb);
+  --glyph: var(--blurb); /* glitch glyphs in the paragraph's gray */
+  text-align: right;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.blurb.on {
+  opacity: 1;
+}
+.blurb.box-shape {
+  text-align: justify;
+  text-align-last: right; /* the last line stays as it was */
+}
+.blurb .word {
+  display: inline-block; /* so it can be slid (FLIP) and never breaks inside */
+  white-space: nowrap;
+}
+
+main {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 120px;
+  container-type: inline-size; /* so boxes can size off its width */
+  position: relative; /* for the hint */
+}
+/* vim hint just above the first project; out of flow so the peek stays the same, fades in with the boxes */
+.hint {
+  position: absolute;
+  bottom: 100%;
+  --room: max(0px, (100vw - 100cqw) / 2 - var(--side)); /* same spread as a resting box, so it lines up with its left edge */
+  left: calc(var(--gutter) - max(0px, min(var(--box-out), var(--room) - var(--box-grow))));
+  margin: 0 0 18px; /* clears the focus outline */
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--planet);
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+main:has(.box.on) .hint {
+  opacity: 1;
+}
+@media (hover: none) {
+  .hint {
+    display: none; /* no keyboard on touch screens */
+  }
+}
+/* half height until focused */
+.box {
+  display: block; /* they're links, which are inline by default */
+  overflow: hidden; /* the promo is cropped to the half-height strip */
+  background: var(--box);
+  --room: max(0px, (100vw - 100cqw) / 2 - var(--side)); /* how far it may spread before running into the names or nav */
+  --wide: max(0px, min(var(--box-out), var(--room) - var(--box-grow))); /* how far it spreads past the content on each side */
+  width: calc(100cqw + 2 * var(--wide));
+  height: calc((100cqw + 2 * var(--wide)) * 9 / 32);
+  margin: 0 calc(-1 * var(--wide)) var(--box-gap);
+  opacity: 0;
+  transition:
+    opacity 0.7s ease,
+    width var(--focus-ms) var(--focus-ease),
+    margin var(--focus-ms) var(--focus-ease),
+    height var(--focus-ms) var(--focus-ease);
+}
+.box.on {
+  opacity: 1;
+}
+
+.box video,
+.box img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* the box nearest the middle of the screen: spreads wider, full 16:9 like the promos */
+.box.focus {
+  --wide: min(var(--box-out) + var(--box-grow), var(--room));
+  height: calc((100cqw + 2 * var(--wide)) * 9 / 16);
+  outline: 1px solid var(--accent);
+  outline-offset: 6px;
+}
+
+/* wavy marquee (after design-packs' marquee-wavy): SIDE PROJECTS on repeat riding a sine path, full bleed */
+html {
+  overflow-x: clip; /* the full-bleed marquee is 100vw, which includes the scrollbar */
+}
+.marquee {
+  width: 100vw;
+  margin: 120px 0 0 calc(50% - 50vw);
+  height: 100px;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+.marquee.on {
+  opacity: 1;
+}
+.marquee {
+  position: relative;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  white-space: pre;
+}
+@media (max-width: 767px) {
+  .marquee {
+    font-size: 18px;
+  }
+}
+/* each letter is placed on the wave by js (own layer, so moving it never repaints) */
+.marquee span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* screenshake on the PRESS ME burst: js sets --shake-x/y on body; the fixed
+   items are body children, so they get the same offset as the page */
+header,
+main,
+footer,
+.fly,
+.marker,
+.side-title {
+  translate: var(--shake-x, 0) var(--shake-y, 0);
+}
+
+/* side projects: two columns of 16:9 tiles (the promos' shape), hidden (but holding
+   its height) until PRESS ME bursts them out; later presses suck them in and scatter them again */
+.mosaic {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: calc((100cqw - var(--tile-gap)) / 2 * 9 / 16);
+  gap: var(--tile-gap);
+  margin-top: 96px;
+}
+.tile {
+  display: block;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--box);
+  /* --lift (0..1, from js) deepens the shadow while it's picked up */
+  box-shadow: 0 calc(3px + 9px * var(--lift, 0)) calc(10px + 20px * var(--lift, 0))
+    rgb(0 0 0 / calc(0.45 + 0.2 * var(--lift, 0)));
+  opacity: 0;
+  visibility: hidden; /* not clickable or focusable till they burst out */
+  transition: opacity 0.7s ease;
+}
+.tile:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* drags go to the tile, not the image */
+}
+.tile.on {
+  opacity: 1;
+  visibility: visible;
+}
+/* scattered: placed by js, draggable */
+.tile.loose {
+  position: absolute;
+  grid-area: auto; /* never let a grid area become its containing block */
+  left: 0;
+  top: 0;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  touch-action: none;
+  cursor: grab;
+}
+.tile.loose.drag {
+  cursor: grabbing;
+}
+/* the lines swooping into PRESS ME: drawn by js, behind the tiles; full bleed
+   and reaching past the mosaic so they can start from far out */
+.streaks {
+  position: absolute;
+  top: -200px;
+  bottom: -120px; /* main's bottom padding */
+  left: calc(50% - 50vw);
+  z-index: -1;
+  width: 100vw;
+  height: calc(100% + 320px);
+  pointer-events: none;
+}
+.press {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 10000; /* above every dragged tile */
+  transform: translate(-50%, -50%);
+  transform-origin: 0 0; /* scale (from js) applies around the centre the transform moved it to */
+  padding: 12px 20px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--fg);
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.7s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.press.on {
+  opacity: 1;
+}
+.press:hover {
+  background: var(--fg);
+  color: var(--bg);
+}

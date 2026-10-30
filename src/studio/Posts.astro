@@ -1,0 +1,58 @@
+---
+import Shell from "./Shell.astro";
+---
+
+<Shell title="Posts">
+  <div class="studio posts">
+    <aside class="list">
+      <button type="button" class="btn" id="new">+ NEW POST</button>
+      <button type="button" class="btn" id="upload-md">UPLOAD .MD</button>
+      <ul id="entries"></ul>
+    </aside>
+
+    <form class="fields" id="form" autocomplete="off">
+      <label>Title <input name="title" required /></label>
+      <div class="pair">
+        <label>Slug <input name="slug" pattern="[a-z0-9][a-z0-9\-]*" required /></label>
+        <label>Date <input type="date" name="date" required /></label>
+      </div>
+      <div class="pair">
+        <label>Minutes <input type="number" name="minutes" min="1" /></label>
+        <label class="check"><input type="checkbox" name="draft" /> Draft (shows in dev only)</label>
+      </div>
+      <label>Tags <input name="tags" placeholder="comma separated" /></label>
+      <div class="tags" id="tag-picks"></div>
+      <label>Excerpt <textarea name="excerpt" rows="3" required></textarea></label>
+      <div class="row-btns">
+        <button type="button" class="btn" id="first-para">USE FIRST PARAGRAPH</button>
+      </div>
+
+      <h3>COVER</h3>
+      <div class="drop" id="cover-drop">Drop a cover image here, or click to pick one (optional)</div>
+      <div class="row-btns">
+        <button type="button" class="btn" id="clear-cover" hidden>REMOVE COVER</button>
+      </div>
+
+      <h3>POST</h3>
+      <div class="row-btns">
+        <button type="button" class="btn" id="add-image">INSERT IMAGE</button>
+        <span class="status">or drop / paste one into the text</span>
+      </div>
+      <textarea class="md" name="body" spellcheck="true"></textarea>
+
+      <div class="save">
+        <button type="submit" class="btn primary">SAVE</button>
+        <span class="status" id="status">⌘S / CTRL+S</span>
+        <a id="view" target="_blank" hidden>OPEN ↗</a>
+      </div>
+    </form>
+
+    <section class="preview">
+      <iframe id="preview" src="/studio/preview/" title="Preview"></iframe>
+    </section>
+  </div>
+
+  <script>
+    import "./posts.js";
+  </script>
+</Shell>
