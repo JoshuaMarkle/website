@@ -1,0 +1,30 @@
+---
+import Article from "../layouts/Article.astro";
+
+// a blog post page with nothing in it; the posts editor sends it what to show (see posts.js)
+---
+
+<Article title="Untitled" description="" back={{ href: "/blog/", label: "BLOG" }} home>
+  <Fragment slot="meta">
+    <p class="mt-3 text-xs tracking-[0.12em] text-[#6a6a6a]" id="meta"></p>
+    <div class="mt-10 aspect-video bg-[#1c1c1c] bg-cover bg-center" id="cover" hidden></div>
+  </Fragment>
+  <div id="body"></div>
+</Article>
+
+<script>
+  const h1 = document.querySelector("h1");
+  const meta = document.getElementById("meta");
+  const cover = document.getElementById("cover");
+  const body = document.getElementById("body");
+
+  addEventListener("message", ({ data: p, origin }) => {
+    if (origin !== location.origin) return;
+    h1.textContent = p.title || "Untitled";
+    meta.textContent = [p.date, `${p.minutes} MIN`, p.tags.join(" ").toUpperCase()].filter(Boolean).join(" · ");
+    cover.hidden = !p.cover;
+    cover.style.backgroundImage = p.cover ? `url(${p.cover})` : "";
+    body.innerHTML = p.html;
+  });
+  parent.postMessage("ready", location.origin);
+</script>

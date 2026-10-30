@@ -1,77 +1,58 @@
 ---
 import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import "../styles/plain.css";
 ---
 
 <Base title="About · Joshua Markle" description="About Joshua Markle.">
   <header>
-    <a class="name" href="/" aria-label="Joshua Markle">JOSHUA MARKLE</a>
-    <nav>
-      <a href="/about/" aria-current="page">ABOUT</a>
-      <a href="/">WORK</a>
-      <a href="/">PROJECTS</a>
-      <a href="/blog/">BLOG</a>
-    </nav>
+    <h1>
+      <a href="/" aria-label="Joshua Markle"><span>JOSHUA</span><span>MARKLE</span></a>
+    </h1>
+    <Nav />
   </header>
 
   <main>
     <p>
-      I'm Joshua Markle, a programmer, artist and entrepreneur. I like building small, strange
-      interfaces and things that feel alive on the screen, and I'm always working on something new.
+    I am passionate and obsessive about fitness, programming, business, and philosophy. Currently a computer science student at UVA.
+    </p>
+    <p>
+    Outside of academia, I race on the triathlon team, surf and snowboard whenever I can, and read a lot about psychology and technology.
+    </p>
+    <p>
+    I'm currently looking for internships/job opportunities. Reach me at <a href="mailto:joshuamarkle25@gmail.com">joshuamarkle25@gmail.com</a>, or check out my <a href="/JoshuaMarkleResume.pdf">resume</a>.
     </p>
   </main>
 
   <Footer />
+
+  <script>
+    import "../scripts/about.js";
+  </script>
 </Base>
 
 <style is:global>
-  :root {
-    --bg: #000;
-    --fg: #e8e8e8;
-  }
-  html,
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--fg);
-  }
-  body {
-    padding: 40px 24px;
-  }
-  header,
-  main,
-  footer {
-    max-width: 640px;
+  main {
+    max-width: var(--content);
     margin: 0 auto;
-  }
-  header {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-bottom: 48px;
-  }
-  .name {
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-  }
-  nav {
-    display: flex;
-    gap: 32px;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-  }
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-  nav a[aria-current] {
-    text-decoration: underline;
-    text-underline-offset: 6px;
+    padding: 72px var(--gutter) 96px;
   }
   main p {
+    margin: 0;
+    margin-bottom: 16px;
     font-size: 18px;
     line-height: 1.6;
+  }
+  /* links as in blog posts */
+  main a {
+    color: #4ea1ff;
+    text-decoration: underline;
+    text-decoration-color: rgb(78 161 255 / 0.4);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s ease;
+  }
+  main a:hover {
+    text-decoration-color: currentColor;
   }
 </style>

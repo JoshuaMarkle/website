@@ -1,4 +1,6 @@
-  // ---- order: nav glitches in → tags glitch in → entries fade in with their dates glitching
+  // ---- order: name glitches in → nav glitches in → tags glitch in → entries fade in with their dates glitching
+
+  import { onLeave, arrivedAtTop } from "./handoff.js";
 
   // glitch (same as site)
   const START_DELAY = 250; // pause before the nav comes in
@@ -128,13 +130,24 @@
   });
   const slots = [...navSlots, ...tagSlots];
 
+  // the name at the top glitches in line by line too, unless we came from a page left at the
+  // top: then it and the nav are already where they were, so they just appear
+  const quiet = arrivedAtTop();
+  const nameLines = [...document.querySelectorAll("h1 span")];
+  for (const l of nameLines) chars(l, l.textContent);
+  if (quiet)
+    for (const l of nameLines)
+      for (const c of l.querySelectorAll(".ch")) c.className = "ch";
+
   const flies = navSlots.map((s) => {
     const a = document.createElement("a");
     a.className = "fly nav";
     a.href =
-      { BLOG: "#", ABOUT: "/about/", WORK: "/", PROJECTS: "/" }[
+      { BLOG: "#", ABOUT: "/about/", PROJECTS: "/", LIBRARY: "/library/", RESUME: "/JoshuaMarkleResume.pdf" }[
         s.textContent
       ] ?? "/";
+    if (s.textContent === "RESUME") a.target = "_blank";
+    if (s.hasAttribute("aria-current")) a.setAttribute("aria-current", "page");
     chars(a, s.textContent);
     document.body.appendChild(a);
     return a;
@@ -451,10 +464,19 @@
         requestAnimationFrame(() => root.classList.remove("instant")),
       );
     }
-    await wait(START_DELAY);
-    flies.forEach((a, i) => setTimeout(() => glitch(a), i * STAGGER * 0.5));
+    // quiet: the nav is just there, only the tags glitch in
+    const coming = quiet ? flies.slice(navCount) : flies;
+    if (quiet)
+      for (const a of flies.slice(0, navCount))
+        for (const c of a.querySelectorAll(".ch")) c.className = "ch";
+    else {
+      await wait(START_DELAY);
+      nameLines.forEach((l, i) => setTimeout(() => glitch(l), i * STAGGER));
+      await wait(nameLines.length * STAGGER);
+    }
+    coming.forEach((a, i) => setTimeout(() => glitch(a), i * STAGGER * 0.5));
     if (fromPost) return;
-    await wait(navCount * STAGGER * 0.5 + GLITCH_MS * 0.5);
+    await wait((quiet ? 0 : navCount) * STAGGER * 0.5 + GLITCH_MS * 0.5);
     visible.forEach((e, k) =>
       setTimeout(() => {
         const i = entries.indexOf(e);
@@ -465,6 +487,7 @@
   }
 
   addEventListener("scroll", onScroll, { passive: true });
+  onLeave(() => !docked);
   addEventListener("resize", refresh);
   // the list shrinking or growing on a filter can clamp the scroll; keep dates in step
   new ResizeObserver(() => starts.length && render()).observe(main);

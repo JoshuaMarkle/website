@@ -5,7 +5,7 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import "../../styles/blog.css";
 
-const posts = (await getCollection("blog")).sort((a, b) => +b.data.date - +a.data.date);
+const posts = (await getCollection("blog", (p) => import.meta.env.DEV || !p.data.draft)).sort((a, b) => +b.data.date - +a.data.date);
 const iso = (d) => d.toISOString().slice(0, 10);
 ---
 
@@ -22,11 +22,14 @@ const iso = (d) => d.toISOString().slice(0, 10);
     {
       posts.map((p) => (
         <article
-          class="entry"
+          class:list={["entry", { "has-cover": p.data.cover }]}
           data-date={iso(p.data.date)}
           data-min={p.data.minutes}
           data-tags={p.data.tags.join(" ")}
         >
+          {p.data.cover && (
+            <div class="cover" style={`background-image: url(${p.data.cover})`} aria-hidden="true" />
+          )}
           <h3>
             <a href={`/blog/${p.id}/`}>{p.data.title}</a>
           </h3>

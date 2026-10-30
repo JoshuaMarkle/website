@@ -1,0 +1,86 @@
+/* the shelves. the header and main's fade come from plain.css, each book's faces from book.css */
+:root {
+  --shelf: 960px;
+  --line: 290px; /* one shelf: the tallest book plus room to pull one out */
+}
+main {
+  max-width: var(--shelf);
+  margin: 0 auto;
+  padding: 72px var(--gutter) 96px;
+}
+.shelf + .shelf {
+  margin-top: 56px;
+}
+.shelf h2 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: #6a6a6a;
+}
+
+/* books stand on the line at the bottom of each wrapped row */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  column-gap: 3px;
+  perspective: 1400px;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--line) - 1px),
+    #333 calc(var(--line) - 1px) var(--line)
+  );
+}
+.book {
+  display: flex;
+  align-items: flex-end;
+  height: var(--line);
+  outline: none;
+  cursor: default;
+  transition: translate 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.book[href] {
+  cursor: pointer;
+}
+.book .book3d {
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* pulled out: forward, up, and turned to show the cover; the others make room (--push from library.js) */
+.book.out {
+  position: relative;
+  z-index: 1;
+}
+.book.out .book3d {
+  transform: translateY(-18px) translateZ(60px) rotateY(-62deg);
+}
+.row:has(.out) .book:has(~ .out) {
+  translate: calc(var(--push) * -1) 0;
+}
+.book.out ~ .book {
+  translate: var(--push) 0;
+}
+.book:focus-visible .book3d {
+  outline: 1px solid #4ea1ff;
+  outline-offset: 4px;
+}
+
+.caption {
+  min-height: 1.2em;
+  margin: 14px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: #6a6a6a;
+}
+.caption b {
+  font-weight: 500;
+  color: var(--fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book,
+  .book .book3d {
+    transition: none;
+  }
+}

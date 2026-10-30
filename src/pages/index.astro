@@ -7,21 +7,34 @@ import "../styles/site.css";
 
 const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
 
-// side project tiles: [columns, rows] each spans
-const tiles = [[2, 2], [], [1, 2], [], [2], [], [], [1, 2], [2], [], [], []];
+// side project tiles, in mosaic order: image in /promos, the name it's read out as, where a click goes
+const GITHUB = "https://github.com/JoshuaMarkle";
+const tiles = [
+  ["pigedex", "Pigedex", `${GITHUB}/pigedex`],
+  ["midi2furnace", "midi2furnace", `${GITHUB}/midi2furnace`],
+  ["fluid-sim", "Fluid Simulation", `${GITHUB}/fluid-simulation`],
+  ["evolution-sim", "Evolution Simulation", `${GITHUB}/evolution-simulation`],
+  ["drone-ai", "Drone Stabilization AI", `${GITHUB}/drone-ai`],
+  ["sandwich", "Sandwich", `${GITHUB}/sandwich`],
+  ["emacs", "Emacs config", `${GITHUB}/emacs`],
+  ["nvim", "Neovim config", `${GITHUB}/nvim`],
+];
 ---
 
 <Base title="Joshua Markle">
   <header>
-    <h1 aria-label="Joshua Markle"></h1>
+    <h1>
+      <a href="/" aria-label="Joshua Markle"><span>JOSHUA</span><span>MARKLE</span></a>
+    </h1>
     <Nav />
     <div class="planet">
-      <p class="about">programmer, artist, entrepreneur</p>
+      <p class="about">happy halloween</p>
       <ascii-art piece="ringed"></ascii-art>
     </div>
   </header>
 
   <main>
+    <p class="hint" aria-hidden="true">j / k to navigate</p>
     {
       projects.map((p) => (
         <a
@@ -30,7 +43,13 @@ const tiles = [[2, 2], [], [1, 2], [], [2], [], [], [1, 2], [2], [], [], []];
           data-title={p.data.title}
           data-blurb={p.data.summary}
           aria-label={p.data.title}
-        />
+        >
+          {p.data.video ? (
+            <video src={p.data.video} poster={p.data.poster} muted loop playsinline preload="none" />
+          ) : (
+            <img src={p.data.poster} alt="" />
+          )}
+        </a>
       ))
     }
 
@@ -38,8 +57,10 @@ const tiles = [[2, 2], [], [1, 2], [], [2], [], [], [1, 2], [2], [], [], []];
 
     <section class="mosaic">
       {
-        tiles.map(([w, h]) => (
-          <div class="tile" style={w || h ? `--w: ${w ?? 1}; --h: ${h ?? 1}` : undefined} />
+        tiles.map(([src, name, href]) => (
+          <a class="tile" href={href} target="_blank" rel="noopener" draggable="false">
+            <img src={`/promos/${src}.webp`} alt={name} loading="lazy" draggable="false" />
+          </a>
         ))
       }
       <button class="press" type="button">PRESS ME</button>
@@ -47,9 +68,6 @@ const tiles = [[2, 2], [], [1, 2], [], [2], [], [], [1, 2], [2], [], [], []];
   </main>
 
   <Footer />
-
-  <div id="stage" aria-hidden="true"></div>
-  <div id="meter" aria-hidden="true"></div>
 
   <script>
     import "../scripts/site.js";

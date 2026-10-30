@@ -4,7 +4,9 @@
   --fg: #e8e8e8;
   --box: #1c1c1c;
   --accent: #7cc4ff; /* focused box outline and its project name */
-  --planet: #6a6a6a; /* ascii planet ink */
+  --planet: #6a6a6a; /* ascii rings and stars ink */
+  --globe: #ff8c1a; /* ascii planet's globe ink */
+  --stem: #0b6623; /* ascii pumpkin stem ink */
   --blurb: #9a9a9a; /* project paragraphs */
   --gutter: 24px; /* page edge */
   --content: 640px; /* width of the centered content column */
@@ -12,16 +14,19 @@
   --dock-top: 40px; /* where the stack starts */
   --dock-gap: 14px; /* space between stacked items */
   --peek: 72px; /* how much of the first project shows above the fold */
-  --name: 48px; /* settled name size, set from js */
-  --focus-ms: 250ms; /* how long a box takes to grow or shrink */
+  --name: min(64px, 6.5vh, 13vw); /* as on blog */
+  --focus-ms: 400ms; /* how long a box takes to grow or shrink */
+  --focus-ease: cubic-bezier(0.34, 1.4, 0.64, 1); /* grows a little past its size, then settles */
+  --box-gap: 56px; /* space between project boxes */
+  --box-out: 200px; /* how far a box spreads past the content on each side */
+  --box-grow: 64px; /* and how much further once focused */
+  --side: 220px; /* kept clear on each side of the boxes for the names and docked nav (gutter + column + pad) */
   --tile-gap: 12px; /* space between side project tiles */
+  --streak: #5a5a5a; /* lines swooping into PRESS ME */
 }
 html {
-  scrollbar-gutter: stable; /* no layout shift when the intro scroll lock lifts */
+  scrollbar-gutter: stable;
   overflow-anchor: none; /* boxes resizing shouldn't nudge the scroll */
-}
-html.locked {
-  overflow: hidden;
 }
 html,
 body {
@@ -63,10 +68,17 @@ header {
 /* short about line just above the planet, same gray ink */
 .about {
   margin: 0;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
   font-size: 1em; /* same as the planet (16px, smaller on phones) */
   font-weight: 400;
   letter-spacing: 0.04em;
   text-align: center;
+}
+.planet .globe {
+  color: var(--globe);
+}
+.planet .stem {
+  color: var(--stem);
 }
 .planet.on {
   opacity: 1;
@@ -94,47 +106,26 @@ header {
   }
 }
 
-/* the settled name; its letters are revealed one by one as the flying ones land */
+/* the name, as on blog */
 h1 {
   font-size: var(--name);
   font-weight: 700;
   line-height: 1;
   margin: 0 0 32px;
+  visibility: hidden; /* until site.js splits it into chars, so it doesn't flash before glitching in */
 }
-h1 > span {
-  display: flex;
-  justify-content: center;
-  gap: 0.1em;
-  white-space: nowrap;
-}
-h1 > span > span {
-  visibility: hidden;
-}
-h1 > span > span.on {
+h1 .ch {
   visibility: visible;
 }
-
-/* the big letters that grow in and fly up to the name */
-.letter {
-  position: fixed;
-  left: 0;
-  top: 0;
-  line-height: 1;
-  font-weight: 900;
-  opacity: 0;
-  transform-origin: 50% 50%;
-  will-change: transform;
-  pointer-events: none;
+h1 a {
+  color: inherit;
+  text-decoration: none;
 }
-/* invisible copy used only to measure letter widths */
-#meter {
-  position: fixed;
-  left: 50%;
-  display: flex;
-  transform: translate(-50%, -50%);
+h1 a > span {
+  display: block;
   white-space: nowrap;
-  line-height: 1;
-  visibility: hidden;
+  letter-spacing: 0.1em;
+  padding-left: 0.1em; /* balances the tracking after the last letter */
 }
 
 /* the static bar: only used to measure where items start */
@@ -261,24 +252,62 @@ main {
   margin: 0 auto;
   padding: 0 var(--gutter) 120px;
   container-type: inline-size; /* so boxes can size off its width */
+  position: relative; /* for the hint */
+}
+/* vim hint just above the first project; out of flow so the peek stays the same, fades in with the boxes */
+.hint {
+  position: absolute;
+  bottom: 100%;
+  --room: max(0px, (100vw - 100cqw) / 2 - var(--side)); /* same spread as a resting box, so it lines up with its left edge */
+  left: calc(var(--gutter) - max(0px, min(var(--box-out), var(--room) - var(--box-grow))));
+  margin: 0 0 18px; /* clears the focus outline */
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--planet);
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+main:has(.box.on) .hint {
+  opacity: 1;
+}
+@media (hover: none) {
+  .hint {
+    display: none; /* no keyboard on touch screens */
+  }
 }
 /* half height until focused */
 .box {
   display: block; /* they're links, which are inline by default */
+  overflow: hidden; /* the promo is cropped to the half-height strip */
   background: var(--box);
-  height: calc(100cqw * 5 / 16);
-  margin-bottom: 24px;
+  --room: max(0px, (100vw - 100cqw) / 2 - var(--side)); /* how far it may spread before running into the names or nav */
+  --wide: max(0px, min(var(--box-out), var(--room) - var(--box-grow))); /* how far it spreads past the content on each side */
+  width: calc(100cqw + 2 * var(--wide));
+  height: calc((100cqw + 2 * var(--wide)) * 9 / 32);
+  margin: 0 calc(-1 * var(--wide)) var(--box-gap);
   opacity: 0;
   transition:
     opacity 0.7s ease,
-    height var(--focus-ms) ease;
+    width var(--focus-ms) var(--focus-ease),
+    margin var(--focus-ms) var(--focus-ease),
+    height var(--focus-ms) var(--focus-ease);
 }
 .box.on {
   opacity: 1;
 }
-/* the box nearest the middle of the screen: full 16:10 */
+
+.box video,
+.box img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* the box nearest the middle of the screen: spreads wider, full 16:9 like the promos */
 .box.focus {
-  height: calc(100cqw * 10 / 16);
+  --wide: min(var(--box-out) + var(--box-grow), var(--room));
+  height: calc((100cqw + 2 * var(--wide)) * 9 / 16);
   outline: 1px solid var(--accent);
   outline-offset: 6px;
 }
@@ -330,26 +359,42 @@ footer,
   translate: var(--shake-x, 0) var(--shake-y, 0);
 }
 
-/* side projects: a mosaic of square-celled tiles, hidden (but holding its height) until
-   PRESS ME bursts them out; later presses suck them in and scatter them again */
+/* side projects: two columns of 16:9 tiles (the promos' shape), hidden (but holding
+   its height) until PRESS ME bursts them out; later presses suck them in and scatter them again */
 .mosaic {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: calc((100cqw - 3 * var(--tile-gap)) / 4);
-  grid-auto-flow: dense;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: calc((100cqw - var(--tile-gap)) / 2 * 9 / 16);
   gap: var(--tile-gap);
   margin-top: 96px;
 }
 .tile {
+  display: block;
+  overflow: hidden;
+  border-radius: 6px;
   background: var(--box);
-  grid-column: span var(--w, 1);
-  grid-row: span var(--h, 1);
+  /* --lift (0..1, from js) deepens the shadow while it's picked up */
+  box-shadow: 0 calc(3px + 9px * var(--lift, 0)) calc(10px + 20px * var(--lift, 0))
+    rgb(0 0 0 / calc(0.45 + 0.2 * var(--lift, 0)));
   opacity: 0;
+  visibility: hidden; /* not clickable or focusable till they burst out */
   transition: opacity 0.7s ease;
+}
+.tile:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* drags go to the tile, not the image */
 }
 .tile.on {
   opacity: 1;
+  visibility: visible;
 }
 /* scattered: placed by js, draggable */
 .tile.loose {
@@ -365,12 +410,25 @@ footer,
 .tile.loose.drag {
   cursor: grabbing;
 }
+/* the lines swooping into PRESS ME: drawn by js, behind the tiles; full bleed
+   and reaching past the mosaic so they can start from far out */
+.streaks {
+  position: absolute;
+  top: -200px;
+  bottom: -120px; /* main's bottom padding */
+  left: calc(50% - 50vw);
+  z-index: -1;
+  width: 100vw;
+  height: calc(100% + 320px);
+  pointer-events: none;
+}
 .press {
   position: absolute;
   left: 50%;
   top: 50%;
   z-index: 10000; /* above every dragged tile */
   transform: translate(-50%, -50%);
+  transform-origin: 0 0; /* scale (from js) applies around the centre the transform moved it to */
   padding: 12px 20px;
   font: inherit;
   font-size: 14px;
@@ -392,54 +450,4 @@ footer,
 .press:hover {
   background: var(--fg);
   color: var(--bg);
-}
-/* footer: a content-wide row. FOOTER sits where the project names do (pad left of
-   the content), the name and email just inside the box edges, the GitHub link where the
-   nav docks (pad right of the content) */
-footer {
-  max-width: var(--content);
-  margin: 0 auto;
-  padding: 0 var(--gutter) 48px;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  line-height: 1.2;
-  white-space: nowrap;
-}
-footer .row {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 0 var(--footer-inset, 16px);
-}
-footer .row > * {
-  margin: 0;
-  font: inherit;
-}
-footer .row a {
-  color: inherit;
-  text-decoration: none;
-}
-footer .label {
-  position: absolute;
-  right: calc(100% + var(--pad));
-}
-footer .github {
-  position: absolute;
-  left: calc(100% + var(--pad));
-}
-/* no room beside the content: everything stacks inside it */
-@media (max-width: 1000px) {
-  footer .row {
-    flex-direction: column;
-    gap: 8px;
-  }
-  footer .label,
-  footer .github {
-    position: static;
-  }
-  footer .label {
-    order: -1;
-  }
 }

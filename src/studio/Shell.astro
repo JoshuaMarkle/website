@@ -1,0 +1,23 @@
+---
+import Base from "../layouts/Base.astro";
+import "./studio.css";
+
+// every studio page: a bar across the top, then the page fills the rest of the screen
+const { title } = Astro.props;
+const here = Astro.url.pathname.replace(/\/$/, "");
+const links = [
+  ["BOOKS", "/studio/books"],
+  ["POSTS", "/studio/posts"],
+];
+---
+
+<Base title={`${title} · Studio`}>
+  <div class="bar">
+    <a href="/studio" class="brand">STUDIO</a>
+    {links.map(([label, href]) => <a href={href} aria-current={href === here ? "page" : undefined}>{label}</a>)}
+    <span class="spacer"></span>
+    <span class="note">local only · saves straight into the repo</span>
+    <a href="/" target="_blank">SITE ↗</a>
+  </div>
+  <slot />
+</Base>

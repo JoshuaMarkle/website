@@ -12,6 +12,22 @@ const { Content } = await render(project);
 ---
 
 <Article title={project.data.title} description={project.data.summary} back={{ href: "/", label: "HOME" }}>
-  <div slot="meta" class="mt-8 aspect-[16/10] bg-[#1c1c1c]"></div>
+  {
+    project.data.video ? (
+      <video
+        slot="meta"
+        class="mt-8 aspect-video w-full bg-[#1c1c1c]"
+        src={project.data.video}
+        poster={project.data.poster}
+        controls
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      />
+    ) : (
+      <img slot="meta" class="mt-8 aspect-video w-full bg-[#1c1c1c]" src={project.data.poster} alt="" />
+    )
+  }
   <Content />
 </Article>

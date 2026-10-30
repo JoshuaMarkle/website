@@ -1,0 +1,366 @@
+/* the studio's look: the site's dark, with form fields */
+:root {
+  color-scheme: dark;
+  --bg: #000;
+  --fg: #e8e8e8;
+  --muted: #6a6a6a;
+  --line: #262626;
+  --field: #111;
+  --accent: #4ea1ff;
+  --bar: 44px;
+}
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: var(--bar);
+  padding: 0 20px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+.bar .brand {
+  font-weight: 700;
+}
+.bar a[aria-current] {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+.bar .spacer {
+  flex: 1;
+}
+.bar .note {
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  font-weight: 400;
+}
+
+.home {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 320px));
+  justify-content: center;
+  gap: 24px;
+  padding-top: 18vh;
+}
+.home a {
+  display: grid;
+  gap: 10px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  transition: border-color 0.15s;
+}
+.home a:hover {
+  border-color: var(--fg);
+}
+.home b {
+  font-size: 20px;
+  letter-spacing: 0.12em;
+}
+.home span {
+  color: #9a9a9a;
+  line-height: 1.5;
+}
+
+/* list | form | preview, each scrolling on its own */
+.studio {
+  display: grid;
+  grid-template-columns: 220px minmax(360px, 480px) 1fr;
+  height: calc(100dvh - var(--bar) - 1px);
+}
+.studio.posts {
+  grid-template-columns: 220px minmax(420px, 1fr) minmax(420px, 1fr);
+}
+.studio > * {
+  min-height: 0;
+  overflow: auto;
+}
+.list {
+  border-right: 1px solid var(--line);
+  padding: 16px 0;
+}
+.list ul {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.list li button {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  border: 0;
+  background: none;
+  color: #9a9a9a;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+.list li button:hover {
+  color: var(--fg);
+}
+.list li button[aria-current] {
+  color: var(--fg);
+  background: #141414;
+}
+.list li small {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.list > .btn {
+  margin: 0 16px 8px;
+  width: calc(100% - 32px);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px 24px 80px;
+  border-right: 1px solid var(--line);
+}
+.fields h3 {
+  margin: 18px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.fields label {
+  display: grid;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.fields label.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+input,
+select,
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--field);
+  color: var(--fg);
+  font: inherit;
+  font-size: 14px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+input[type="checkbox"] {
+  width: auto;
+}
+input[type="color"] {
+  width: 40px;
+  height: 32px;
+  padding: 2px;
+}
+textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+textarea.md {
+  min-height: 50vh;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: none;
+  color: var(--fg);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.btn:hover {
+  border-color: var(--fg);
+}
+.btn.primary {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+.row-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* drop an image here, or click to pick one */
+.drop {
+  display: grid;
+  place-items: center;
+  min-height: 90px;
+  padding: 12px;
+  border: 1px dashed #3a3a3a;
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+  background: center / contain no-repeat;
+}
+.drop.small {
+  min-height: 48px;
+}
+.drop.over {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+.drop.has {
+  min-height: 160px;
+  color: transparent;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.swatches button {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #333;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.swatches button[aria-pressed="true"] {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+.swatch-row {
+  display: grid;
+  grid-template-columns: 52px 40px 1fr;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tags button {
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+.tags button[aria-pressed="true"] {
+  color: var(--bg);
+  background: var(--fg);
+  border-color: var(--fg);
+}
+
+.save {
+  position: sticky;
+  bottom: -80px; /* sits on the form's bottom padding */
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+  padding: 14px 0;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+.status {
+  color: var(--muted);
+}
+.status.bad {
+  color: #ff3b3b;
+}
+.status.dirty::before {
+  content: "● ";
+  color: #ffd60a;
+}
+.save a {
+  margin-left: auto;
+  color: var(--accent);
+}
+
+/* the book preview: drag to turn it */
+.stage {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  background: radial-gradient(ellipse at 50% 60%, #161616, #000 70%);
+}
+.viewport {
+  display: grid;
+  place-items: center;
+  perspective: 1400px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.viewport:active {
+  cursor: grabbing;
+}
+.viewport .book3d {
+  scale: 1.6;
+}
+.viewport .book3d.ease {
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.views {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+}
+
+.preview iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}

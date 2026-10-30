@@ -1,0 +1,72 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { bookFaces, bookStyle } from "../../scripts/book.js";
+import "../../styles/plain.css";
+import "../../styles/book.css";
+import "../../styles/library.css";
+
+const books = await getCollection("books", (b) => import.meta.env.DEV || !b.data.draft);
+
+// one shelf per status; read books newest first, the rest by title
+const SHELVES = [
+  ["reading", "READING"],
+  ["read", "READ"],
+  ["queued", "UP NEXT"],
+];
+const byTitle = (a, b) => a.data.title.localeCompare(b.data.title);
+const byFinished = (a, b) => +(b.data.finished ?? 0) - +(a.data.finished ?? 0) || byTitle(a, b);
+const shelves = SHELVES.map(([status, label]) => ({
+  label,
+  books: books.filter((b) => b.data.status === status).sort(status === "read" ? byFinished : byTitle),
+})).filter((s) => s.books.length);
+const hasReview = (b) => Boolean(b.body?.trim());
+---
+
+<Base title="Library · Joshua Markle" description="Books I'm reading, have read, and want to.">
+  <header>
+    <h1>
+      <a href="/" aria-label="Joshua Markle"><span>JOSHUA</span><span>MARKLE</span></a>
+    </h1>
+    <Nav />
+  </header>
+
+  <main>
+    {
+      shelves.map((s) => (
+        <section class="shelf">
+          <h2>{s.label}</h2>
+          <div class="row">
+            {s.books.map((b) => (
+              <a
+                class="book"
+                href={hasReview(b) ? `/library/${b.id}/` : undefined}
+                tabindex="0"
+                aria-label={`${b.data.title} by ${b.data.author}`}
+                data-title={b.data.title}
+                data-author={b.data.author}
+                data-rating={b.data.rating}
+                data-finished={b.data.finished?.toISOString().slice(0, 7)}
+                data-review={hasReview(b) ? "" : undefined}
+              >
+                <div class="book3d" style={bookStyle(b.data)} set:html={bookFaces(b.data)} />
+              </a>
+            ))}
+          </div>
+          <p class="caption">
+            {s.books.length} {s.books.length === 1 ? "BOOK" : "BOOKS"}
+          </p>
+        </section>
+      ))
+    }
+  </main>
+
+  <Footer />
+
+  <script>
+    import "../../scripts/about.js"; // same intro as about: name, then nav, then main fades in
+    import "../../scripts/library.js";
+  </script>
+</Base>

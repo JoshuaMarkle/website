@@ -3,15 +3,23 @@ import Base from "./Base.astro";
 import Footer from "../components/Footer.astro";
 
 // dark long-form page shared by blog posts and project write-ups
-const { title, description, back } = Astro.props;
+const { title, description, back, home } = Astro.props;
 ---
 
 <Base title={`${title} · Joshua Markle`} description={description}>
-  <main class="mx-auto max-w-[640px] px-6 pt-[8vh] pb-32">
+  <main class="mx-auto max-w-[760px] px-6 pt-[8vh] pb-32">
     <p class="text-sm tracking-[0.12em] text-[#6a6a6a]">
-      <a href={back.href}>← {back.label}</a>
+      {
+        home ? (
+          <>
+            <a href="/" class="text-[#e8e8e8]">Joshua Markle</a> / <a href={back.href}>{back.label}</a>
+          </>
+        ) : (
+          <a href={back.href}>← {back.label}</a>
+        )
+      }
     </p>
-    <h1 class="mt-10 text-4xl leading-tight font-bold">{title}</h1>
+    <h1 class="mt-10 text-[min(64px,6.5vh,13vw)] leading-[1.05] font-bold">{title}</h1>
     <slot name="meta" />
     <div class="prose-post mt-10">
       <slot />
@@ -29,26 +37,141 @@ const { title, description, back } = Astro.props;
     color-scheme: dark;
     -webkit-font-smoothing: antialiased;
   }
+  .prose-post {
+    font-size: 16px;
+  }
   .prose-post p {
     margin: 0 0 1.25em;
     line-height: 1.6;
     color: #9a9a9a;
   }
-  footer {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 0 24px 48px;
-    font-size: 14px;
-    font-weight: 500;
+  .prose-post h1,
+  .prose-post h2,
+  .prose-post h3,
+  .prose-post h4 {
+    margin: 2em 0 0.75em;
+    line-height: 1.2;
+    font-weight: 600;
+    color: #e8e8e8;
+  }
+  .prose-post h1 {
+    margin-top: 2.5em;
+    font-size: 28px;
+  }
+  .prose-post h2 {
+    font-size: 24px;
+  }
+  .prose-post h3 {
+    font-size: 19px;
+  }
+  .prose-post h4 {
+    font-size: 16px;
+  }
+  .prose-post a {
+    color: #4ea1ff;
+    text-decoration: underline;
+    text-decoration-color: rgb(78 161 255 / 0.4);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s ease;
+  }
+  .prose-post a:hover {
+    text-decoration-color: currentColor;
+  }
+  .prose-post strong {
+    font-weight: 600;
+    color: #e8e8e8;
+  }
+  /* bullets and numbers */
+  .prose-post ul,
+  .prose-post ol {
+    margin: 0 0 1.25em;
+    padding-left: 1.5em;
+    line-height: 1.6;
+    color: #9a9a9a;
+  }
+  .prose-post ul {
+    list-style: disc;
+  }
+  .prose-post ul ul {
+    list-style: circle;
+  }
+  .prose-post ol {
+    list-style: decimal;
+  }
+  .prose-post li {
+    margin: 0.35em 0;
+    padding-left: 0.25em;
+  }
+  .prose-post ol > li::marker {
+    font-size: 0.9em;
+    font-weight: 600;
+  }
+  .prose-post li > ul,
+  .prose-post li > ol {
+    margin: 0.35em 0 0;
+  }
+  .prose-post img {
+    max-width: 100%;
+    height: auto;
+    margin: 0.5em auto 1.5em;
+  }
+  .prose-post code {
+    font-size: 0.875em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .prose-post :not(pre) > code {
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    background: #1c1c1c;
+    color: #e8e8e8;
+  }
+  .prose-post pre {
+    margin: 0 0 1.5em;
+    padding: 16px 18px;
+    border-radius: 6px;
+    background: #111 !important; /* over shiki's theme background */
+    border: 1px solid #222;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  .prose-post blockquote {
+    margin: 0 0 1.25em;
+    padding-left: 16px;
+    border-left: 3px solid #333;
+  }
+  /* > [!NOTE] style callouts, see src/plugins/alerts.js */
+  .prose-post blockquote.alert {
+    --tone: #ffd60a; /* note */
+    margin: 0 0 1.5em;
+    padding: 14px 18px;
+    border-left: 3px solid var(--tone);
+    border-radius: 0 6px 6px 0;
+    background: color-mix(in srgb, var(--tone) 8%, transparent);
+  }
+  .prose-post .alert p {
+    margin: 0 0 0.75em;
+    color: #c8c8c8;
+  }
+  .prose-post .alert > :last-child {
+    margin-bottom: 0;
+  }
+  .prose-post .alert .alert-title {
+    margin-bottom: 0.4em;
+    font-size: 12px;
+    font-weight: 600;
     letter-spacing: 0.12em;
+    color: var(--tone);
   }
-  footer .row {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  .prose-post blockquote.alert-tip {
+    --tone: #2ee66b;
   }
-  footer .row > * {
-    margin: 0;
-    font: inherit;
+  .prose-post blockquote.alert-important {
+    --tone: #2e8bff;
+  }
+  .prose-post blockquote.alert-warning {
+    --tone: #ff8c1a; /* same as the home page's planet */
+  }
+  .prose-post blockquote.alert-caution {
+    --tone: #ff3b3b;
   }
 </style>

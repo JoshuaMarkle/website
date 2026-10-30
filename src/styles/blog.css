@@ -45,7 +45,13 @@ h1 a {
   color: inherit;
   text-decoration: none;
 }
-h1 span {
+h1 {
+  visibility: hidden; /* until blog.js splits it into chars, so it doesn't flash before glitching in */
+}
+h1 .ch {
+  visibility: visible;
+}
+h1 a > span {
   display: block;
   white-space: nowrap;
   letter-spacing: 0.1em;
@@ -97,6 +103,11 @@ nav a,
   text-decoration: none;
   white-space: nowrap;
   will-change: transform;
+}
+/* the page you're on (BLOG); on the chars, since an underline doesn't carry into inline-blocks */
+.fly.nav[aria-current] .ch {
+  text-decoration: underline;
+  text-underline-offset: 6px;
 }
 button.fly {
   padding: 0;
@@ -202,6 +213,31 @@ main {
 .instant .side-title {
   transition: none;
 }
+.entry.has-cover {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  grid-auto-flow: dense;
+  column-gap: 28px;
+  align-items: start;
+}
+/* main image on the right, date/title/excerpt/tags stacked on the left */
+.entry .cover {
+  grid-column: 2;
+  grid-row: 1 / span 4; /* when, title, excerpt, tags */
+  aspect-ratio: 16 / 9;
+  background: var(--box) center / cover no-repeat; /* gray until the image exists */
+}
+/* too narrow for side by side: image on top, full width */
+@media (max-width: 560px) {
+  .entry.has-cover {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .entry .cover {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 20px;
+  }
+}
 .entry .when {
   display: none;
   margin: 0 0 10px;
@@ -263,52 +299,4 @@ html:not(.roomy) .entry .when {
 .entry .tags button:hover,
 .entry .tags button.active {
   color: var(--fg);
-}
-
-/* footer: same row as site's */
-footer {
-  max-width: var(--content);
-  margin: 0 auto;
-  padding: 0 var(--gutter) 48px;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  line-height: 1.2;
-  white-space: nowrap;
-}
-footer .row {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 0 var(--footer-inset, 16px);
-}
-footer .row > * {
-  margin: 0;
-  font: inherit;
-}
-footer .row a {
-  color: inherit;
-  text-decoration: none;
-}
-footer .label {
-  position: absolute;
-  right: calc(100% + var(--pad));
-}
-footer .github {
-  position: absolute;
-  left: calc(100% + var(--pad));
-}
-@media (max-width: 1000px) {
-  footer .row {
-    flex-direction: column;
-    gap: 8px;
-  }
-  footer .label,
-  footer .github {
-    position: static;
-  }
-  footer .label {
-    order: -1;
-  }
 }

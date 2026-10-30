@@ -1,0 +1,127 @@
+/* one 3D book, drawn by bookFaces() in src/scripts/book.js. the box is the spine (--d wide,
+   --h tall); the other faces fold back from it --w deep. turn it with a transform on .book3d */
+.book3d {
+  --pages: #ddd6c6;
+  position: relative;
+  width: var(--d);
+  height: var(--h);
+  transform-style: preserve-3d;
+}
+.book3d .face {
+  position: absolute;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  background: var(--spine) center / cover no-repeat;
+  overflow: hidden;
+}
+.book3d .spine {
+  inset: 0;
+  transform: translateZ(calc(var(--w) / 2));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0 12px;
+  color: var(--ink);
+  /* rounded spine: darker at both edges */
+  box-shadow:
+    inset 4px 0 6px -2px rgb(0 0 0 / 0.45),
+    inset -4px 0 6px -2px rgb(0 0 0 / 0.45);
+}
+.book3d .spine span {
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.book3d .spine-title {
+  max-height: 78%;
+  font-size: clamp(9px, calc(var(--d) * 0.4), 14px);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.book3d .spine-author {
+  max-height: 18%;
+  font-size: clamp(8px, calc(var(--d) * 0.3), 11px);
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+.book3d .bands::before,
+.book3d .bands::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-block: 1px solid var(--ink);
+  opacity: 0.55;
+}
+.book3d .bands::before {
+  top: 6%;
+}
+.book3d .bands::after {
+  bottom: 6%;
+}
+.book3d .font-serif {
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+.book3d .font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* front on the right, back on the left; their left edge is the hinge */
+.book3d .front,
+.book3d .back {
+  top: 0;
+  left: calc((var(--d) - var(--w)) / 2);
+  width: var(--w);
+  height: var(--h);
+}
+.book3d .front {
+  transform: rotateY(90deg) translateZ(calc(var(--d) / 2));
+  box-shadow: inset 6px 0 8px -4px rgb(0 0 0 / 0.5);
+}
+.book3d .front.plain {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 14px;
+  color: var(--ink);
+}
+.book3d .front-title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.book3d .front-author {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.book3d .back {
+  transform: rotateY(-90deg) translateZ(calc(var(--d) / 2));
+  filter: brightness(0.7);
+}
+
+/* the paper: the fore-edge opposite the spine, and the top and bottom edges */
+.book3d .fore {
+  inset: 0;
+  transform: rotateY(180deg) translateZ(calc(var(--w) / 2));
+  background: repeating-linear-gradient(90deg, var(--pages) 0 2px, #c4bcaa 2px 3px);
+}
+.book3d .top,
+.book3d .bottom {
+  left: 0;
+  top: calc((var(--h) - var(--w)) / 2);
+  width: var(--d);
+  height: var(--w);
+  background: repeating-linear-gradient(90deg, var(--pages) 0 2px, #c4bcaa 2px 3px);
+}
+.book3d .top {
+  transform: rotateX(90deg) translateZ(calc(var(--h) / 2));
+}
+.book3d .bottom {
+  transform: rotateX(-90deg) translateZ(calc(var(--h) / 2));
+}
