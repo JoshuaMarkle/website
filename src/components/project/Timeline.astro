@@ -1,0 +1,15 @@
+---
+// items = [[when, what, big?], ...]
+const { items } = Astro.props;
+---
+
+<ol class="p-time">
+  {
+    items.map(([when, what, big]) => (
+      <li class={big ? "big" : undefined}>
+        <b>{when}</b>
+        <span>{what}</span>
+      </li>
+    ))
+  }
+</ol>

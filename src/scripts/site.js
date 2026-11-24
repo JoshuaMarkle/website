@@ -115,10 +115,9 @@ const flies = slots.map((s) => {
   const a = document.createElement("a");
   a.className = "fly";
   a.href =
-    { ABOUT: "/about/", BLOG: "/blog/", LIBRARY: "/library/", RESUME: "/JoshuaMarkleResume.pdf" }[
+    { ABOUT: "/about/", BLOG: "/blog/", LIBRARY: "/library/", RESUME: "/resume/" }[
       s.textContent
     ] ?? "#";
-  if (s.textContent === "RESUME") a.target = "_blank";
   chars(a, s.textContent);
   document.body.appendChild(a);
   return a;
@@ -139,6 +138,9 @@ let sideStop = 0; // y where the nav stack (and the project names) stick
 let rest = {}; // box layout at rest (first top, short and tall heights, gap), for picking focus
 let focused = -1;
 let focusMs = 0;
+let still = false; // true while the page is being put back as it was (see restore)
+const SPOT_KEY = "homeSpot";
+const WAKE = ["wheel", "touchstart", "keydown", "pointerdown"];
 let docked = false; // toggled by scroll; the flight follows it
 let dockP = 0; // flight progress, 0 at the bar to 1 at the dock
 let dockRun = 0;
@@ -317,7 +319,7 @@ const blurbRun = blurbs.map(() => 0); // bumped to cancel a paragraph's pending 
 function dwellOn(i) {
   clearTimeout(dwell);
   blurbs.forEach((b, k) => k !== i && hideBlurb(k));
-  if (i >= 0) dwell = setTimeout(() => showBlurb(i), BLURB_DWELL);
+  if (i >= 0) dwell = still ? showBlurb(i) : setTimeout(() => showBlurb(i), BLURB_DWELL);
 }
 
 // words wrapped so they never break inside, chars split for the glitch
@@ -382,7 +384,7 @@ async function showBlurb(i) {
   fillBlurb(i);
   b.classList.add("on");
   render(); // its name may need to ride higher to fit it
-  if (reduceMotion) {
+  if (reduceMotion || still) {
     for (const c of b.querySelectorAll(".ch")) c.className = "ch";
     b.classList.add("box-shape");
     return;
@@ -484,8 +486,9 @@ function loosen() {
   mosaic.style.height = g.height + "px";
   tiles.forEach((t, i) => {
     const r = rects[i];
-    t.style.width = r.width * TILE_SIZE + "px";
-    t.style.height = r.height * TILE_SIZE + "px";
+    const k = TILE_SIZE * (Number(t.dataset.size) || 1); // some tiles scatter a little smaller
+    t.style.width = r.width * k + "px";
+    t.style.height = r.height * k + "px";
     t.classList.add("loose");
     t.style.transform = "none";
     const o = t.getBoundingClientRect(); // measured, not assumed to be the mosaic's corner
@@ -1069,20 +1072,12 @@ function placeStars() {
   const half = Math.min(box.width / 2, (a.width * STAR_SPREAD) / 2);
   const cy = a.top + a.height / 2 - box.top;
   const halfY = (a.height * STAR_SPREAD_Y) / 2;
-  const t = planet.querySelector(".about").getBoundingClientRect(); // keep stars off the about line
   for (let n = 0, tries = 0; n < STARS && tries < STARS * 20; tries++) {
     const x = cx + (Math.random() * 2 - 1) * half;
     const y = cy + (Math.random() * 2 - 1) * halfY;
     const ox = (x - cx) / (a.width / 2 + STAR_CLEAR);
     const oy = (y - cy) / (a.height / 2 + STAR_CLEAR);
     if (ox * ox + oy * oy < 1) continue;
-    if (
-      x > t.left - box.left - STAR_CLEAR &&
-      x < t.right - box.left + STAR_CLEAR &&
-      y > t.top - box.top - STAR_CLEAR &&
-      y < t.bottom - box.top + STAR_CLEAR
-    )
-      continue;
     const s = document.createElement("span");
     s.className = "star";
     s.textContent = STAR_GLYPHS[(Math.random() * STAR_GLYPHS.length) | 0];
@@ -1099,9 +1094,62 @@ const starsRO = new ResizeObserver(placeStars);
 starsRO.observe(planet);
 starsRO.observe(planet.querySelector("ascii-art"));
 
-// always start the intro at the top
+// always start the intro at the top, unless we're coming back from a project: then the page is
+// put back where it was left, already settled (no intro, no flight, no paragraph typing)
 history.scrollRestoration = "manual";
-scrollTo(0, 0);
+const backSpot = cameBack();
+scrollTo(0, backSpot ? backSpot.y : 0);
+
+function cameBack() {
+  const raw = sessionStorage.getItem(SPOT_KEY);
+  const type = performance.getEntriesByType("navigation")[0]?.type;
+  const ref = document.referrer.startsWith(location.origin) ? new URL(document.referrer).pathname : "";
+  if (!raw || type === "reload" || !(type === "back_forward" || ref.startsWith("/projects/"))) {
+    sessionStorage.removeItem(SPOT_KEY);
+    return null;
+  }
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function restore(y) {
+  root.classList.add("instant"); // no CSS transitions for the first frames
+  still = true;
+  scrollTo(0, y);
+  docked = scrollY > DOCK_AT;
+  dockP = docked ? 1 : 0;
+  showAll();
+  planet.classList.add("on");
+  render();
+  requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove("instant")));
+  // the first thing the visitor does hands the page back to its normal animations
+  const wake = () => {
+    still = false;
+    for (const ev of WAKE) removeEventListener(ev, wake);
+  };
+  for (const ev of WAKE) addEventListener(ev, wake, { passive: true });
+}
+
+// remember the spot when a project is opened (not in a new tab)
+let toProject = false;
+addEventListener("click", (e) => {
+  const a = e.target.closest?.('a[href^="/projects/"]');
+  if (!a || e.defaultPrevented || e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+  toProject = true;
+  sessionStorage.setItem(SPOT_KEY, JSON.stringify({ y: scrollY, to: a.getAttribute("href") }));
+});
+addEventListener("pagehide", () => {
+  if (!toProject) sessionStorage.removeItem(SPOT_KEY);
+});
+// back from the browser's page cache: everything is as it was; just restart the focused promo
+addEventListener("pageshow", (e) => {
+  if (!e.persisted) return;
+  toProject = false;
+  playFocused(focused);
+});
 
 // PROJECTS scrolls to the boxes, landing where the names / nav stack stick
 const mosaicGoal = () => mosaic.getBoundingClientRect().top + scrollY - sideStop;
@@ -1181,5 +1229,6 @@ Promise.race([
   wait(2000),
 ]).then(() => {
   refresh();
-  intro();
+  if (backSpot) restore(backSpot.y);
+  else intro();
 });

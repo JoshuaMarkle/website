@@ -7,7 +7,7 @@ const items = [
   ["PROJECTS", "/"],
   ["BLOG", "/blog/"],
   ["LIBRARY", "/library/"],
-  ["RESUME", "/JoshuaMarkleResume.pdf"],
+  ["RESUME", "/resume/"],
 ];
 ---
 
@@ -16,7 +16,6 @@ const items = [
     items.map(([label, href]) => (
       <a
         href={href}
-        target={label === "RESUME" ? "_blank" : undefined}
         aria-current={href === here && href !== "/" ? "page" : undefined}
       >{label}</a>
     ))

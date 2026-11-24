@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from "astro:content";
 import Article from "../../layouts/Article.astro";
+import Video from "../../components/project/Video.astro";
+import "../../styles/project.css";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
@@ -9,25 +11,45 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
+const { title, video, poster, links, facts } = project.data;
+const external = (href) => /^https?:/.test(href);
 ---
 
-<Article title={project.data.title} description={project.data.summary} back={{ href: "/", label: "HOME" }}>
-  {
-    project.data.video ? (
-      <video
-        slot="meta"
-        class="mt-8 aspect-video w-full bg-[#1c1c1c]"
-        src={project.data.video}
-        poster={project.data.poster}
-        controls
-        muted
-        loop
-        playsinline
-        preload="metadata"
-      />
-    ) : (
-      <img slot="meta" class="mt-8 aspect-video w-full bg-[#1c1c1c]" src={project.data.poster} alt="" />
-    )
-  }
-  <Content />
+<Article title={title} description={project.data.summary} back={{ href: "/", label: "PROJECTS" }} home>
+  <Fragment slot="meta">
+    {
+      video ? (
+        <Video src={video} poster={poster} label={`${title} promo video`} />
+      ) : (
+        <img class="p-poster" src={poster} alt="" />
+      )
+    }
+    {
+      facts.length > 0 && (
+        <dl class="p-facts">
+          {facts.map((f) => (
+            <div>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+    {
+      links.length > 0 && (
+        <div class="p-links">
+          {links.map((l) => (
+            <a href={l.href} target={external(l.href) ? "_blank" : undefined} rel={external(l.href) ? "noopener" : undefined}>
+              {l.label}
+              <span aria-hidden="true">{external(l.href) ? "↗" : "→"}</span>
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </Fragment>
+  <div class="project-body">
+    <Content />
+  </div>
 </Article>

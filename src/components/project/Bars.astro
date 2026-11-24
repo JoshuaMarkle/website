@@ -1,0 +1,22 @@
+---
+// horizontal bars. rows = [[name, value, mine?], ...]; max sets the full width, fmt the number
+const { rows, max = Math.max(...rows.map((r) => r[1])), digits = 2, unit = "", caption, kicker } = Astro.props;
+---
+
+<div class="p-panel">
+  {kicker && <p class="kicker">{kicker}</p>}
+  <div class="p-bars">
+    {
+      rows.map(([name, v, me]) => (
+        <div class={me ? "row me" : "row"}>
+          <span class="name">{name}</span>
+          <span class="track">
+            <span class="fill" style={`--w:${Math.min(100, (v / max) * 100)}%`} />
+          </span>
+          <span class="num">{v.toFixed(digits)}{unit}</span>
+        </div>
+      ))
+    }
+  </div>
+  {caption && <p class="cap">{caption}</p>}
+</div>

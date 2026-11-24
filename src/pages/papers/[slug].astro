@@ -1,0 +1,18 @@
+---
+import { getEntry } from "astro:content";
+import PdfViewer from "../../components/PdfViewer.astro";
+import { papers } from "../../data/papers.js";
+
+export function getStaticPaths() {
+  return papers.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+
+const { p } = Astro.props;
+const project = await getEntry("projects", p.project);
+---
+
+<PdfViewer
+  src={`/papers/${p.slug}.pdf`}
+  title={p.title}
+  crumbs={[[project.data.title, `/projects/${p.project}/`], [p.title]]}
+/>

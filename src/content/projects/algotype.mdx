@@ -1,9 +1,66 @@
 ---
 title: "ALGOTYPE"
-order: 1
-summary: "A typing platform for programmers, live at algotype.net. You type real solutions in Python, C++, Java, JavaScript and Rust while a syntax-aware engine tracks WPM, accuracy and errors by key across 7,000+ curated samples, with accounts, progress history and payments on Next.js and Supabase."
+order: 2
+summary: "A typing platform for programmers, live at algotype.net. You type real solutions in Python, C++, Java, JavaScript and Rust while a syntax-aware engine tracks WPM and accuracy across 7,000+ curated samples, with accounts, progress history and editor themes on Next.js and Supabase."
 video: "/promos/algotype.mp4"
 poster: "/promos/algotype.webp"
+links:
+  - { label: "algotype.net", href: "https://algotype.net" }
+  - { label: "GitHub", href: "https://github.com/JoshuaMarkle/algotype" }
+facts:
+  - { label: "Started", value: "May 2025" }
+  - { label: "Stack", value: "Next.js · Supabase · Prism" }
+  - { label: "Hosting", value: "Vercel" }
+  - { label: "Status", value: "Live" }
 ---
 
-Write-up for AlgoType goes here. This is MDX, so components can be dropped in.
+import TypingDemo from "../../components/project/TypingDemo.astro";
+import TokenLine from "../../components/project/TokenLine.astro";
+import Stats from "../../components/project/Stats.astro";
+
+<p class="lede">Typing tests train you on English. Code is a different workload: brackets, underscores, operators, and indentation your editor usually handles for you. AlgoType is a typing test built on real source code.</p>
+
+The test below is the real thing: AlgoType's engine and rules, on a short binary search run through the site's own tokenizer. It plays itself until you click into it.
+
+<TypingDemo />
+
+## What's in it
+
+The main pool is about 7,000 LeetCode-style solutions in Python, C++, Java, JavaScript and Rust. Each one is formatted with that language's standard formatter (black, clang-format, prettier, google-java-format, rustfmt), tokenized offline and stored in Postgres. The home page serves a random short one, and Tab skips to the next.
+
+- **Algorithms**: the main library, searchable and filterable by language and length.
+- **Files**: longer real-world implementations, for endurance.
+- **Syntax drills**: generated in the browser from templates (for loops, functions, classes, idioms) with random names, so they never repeat.
+- **Timed**: 15, 30 or 60 second sprints on drill code.
+
+Signing in (email, GitHub or Google) keeps your history, a WPM-over-time chart, and your theme and language settings across devices. Without an account everything still works.
+
+<Stats
+  items={[
+    [["7,000", "+", ""], "solutions to type"],
+    ["5", "languages"],
+    ["874", "tests taken by real users (Oct 2026)"],
+    [["32", "", " wpm"], "average speed on code across those tests"],
+  ]}
+/>
+
+## Typing code is not typing prose
+
+The engine took the most work. A naive version breaks on the first indented line, because nobody wants to type eight spaces. AlgoType runs every file through Prism once, splits each line into tokens, and marks what's typed and what's skipped:
+
+<TokenLine line={5} />
+
+A few rules follow from that:
+
+- **Indentation, comments and Python docstrings are skipped.** You type the code, not the formatting. When you press Enter, the cursor lands on the first real character of the next line, like an editor with auto-indent.
+- **Errors stack.** A wrong key doesn't advance. It sits in a red buffer that you have to backspace out. A test where you can blow past mistakes measures the wrong thing.
+- **One space press finishes any run of spaces**, so alignment padding doesn't punish you.
+- **Lines with nothing to type disappear**, and blank lines and trailing comments don't count toward your line total.
+
+The tokenizer is shared between the offline token builder (Node) and the browser, which is how syntax drills can be generated and tokenized on the spot.
+
+## Under the hood
+
+Next.js on Vercel, with Supabase for auth and Postgres. Random tests are picked by a Postgres function, so the client never loads the full challenge list. Row-level security limits each user to their own history. Profiles and history are cached in `localStorage` and checked against a `data_version` counter that a trigger bumps on every write, so returning to your account page usually costs one small query. Themes (Dracula, Gruvbox, Nord, Catppuccin, Tokyo Night and more) restyle both the site and the syntax highlighting.
+
+The video at the top isn't a screen recording. It's rendered in Remotion, with the site's components redrawn and the same quicksort tokens as the diagram above.

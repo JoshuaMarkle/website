@@ -1,0 +1,15 @@
+---
+// a row of big numbers: items = [[value, label], ...]; wrap part of a value in <em> via [pre, accent, post]
+const { items } = Astro.props;
+---
+
+<div class="p-stats">
+  {
+    items.map(([v, l]) => (
+      <div>
+        <div class="v">{Array.isArray(v) ? <>{v[0]}<em>{v[1]}</em>{v[2]}</> : v}</div>
+        <div class="l">{l}</div>
+      </div>
+    ))
+  }
+</div>

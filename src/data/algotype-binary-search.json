@@ -1,0 +1,594 @@
+{
+  "title": "Binary Search",
+  "description": "Binary search over a sorted list in Python",
+  "language": "python",
+  "source": "LeetCode 704, formatted with black",
+  "slug": "binary-search",
+  "mode": "algorithms",
+  "lines": 11,
+  "tokens": [
+    [
+      {
+        "type": "keyword",
+        "content": "def",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "function",
+        "content": "binary_search",
+        "wlength": 4
+      },
+      {
+        "type": "punctuation",
+        "content": "(",
+        "wlength": 3
+      },
+      {
+        "type": "plain",
+        "content": "nums",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": ",",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "target",
+        "wlength": 3
+      },
+      {
+        "type": "punctuation",
+        "content": ")",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": ":",
+        "wlength": 1
+      },
+      {
+        "type": "newline",
+        "content": "↵"
+      }
+    ],
+    [
+      {
+        "type": "space",
+        "content": "    ",
+        "skip": true
+      },
+      {
+        "type": "plain",
+        "content": "lo",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": ",",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "hi",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "=",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "number",
+        "content": "0",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": ",",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "builtin",
+        "content": "len",
+        "wlength": 4
+      },
+      {
+        "type": "punctuation",
+        "content": "(",
+        "wlength": 3
+      },
+      {
+        "type": "plain",
+        "content": "nums",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": ")",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "-",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "number",
+        "content": "1",
+        "wlength": 1
+      },
+      {
+        "type": "newline",
+        "content": "↵"
+      }
+    ],
+    [
+      {
+        "type": "space",
+        "content": "    ",
+        "skip": true
+      },
+      {
+        "type": "keyword",
+        "content": "while",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "lo",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "<=",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "hi",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": ":",
+        "wlength": 1
+      },
+      {
+        "type": "newline",
+        "content": "↵"
+      }
+    ],
+    [
+      {
+        "type": "space",
+        "content": "        ",
+        "skip": true
+      },
+      {
+        "type": "plain",
+        "content": "mid",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "=",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "punctuation",
+        "content": "(",
+        "wlength": 2
+      },
+      {
+        "type": "plain",
+        "content": "lo",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "+",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "hi",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": ")",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "//",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "number",
+        "content": "2",
+        "wlength": 1
+      },
+      {
+        "type": "newline",
+        "content": "↵"
+      }
+    ],
+    [
+      {
+        "type": "space",
+        "content": "        ",
+        "skip": true
+      },
+      {
+        "type": "keyword",
+        "content": "if",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "nums",
+        "wlength": 4
+      },
+      {
+        "type": "punctuation",
+        "content": "[",
+        "wlength": 3
+      },
+      {
+        "type": "plain",
+        "content": "mid",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": "]",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "==",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "target",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": ":",
+        "wlength": 1
+      },
+      {
+        "type": "newline",
+        "content": "↵"
+      }
+    ],
+    [
+      {
+        "type": "space",
+        "content": "            ",
+        "skip": true
+      },
+      {
+        "type": "keyword",
+        "content": "return",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "mid",
+        "wlength": 1
+      },
+      {
+        "type": "newline",
+        "content": "↵"
+      }
+    ],
+    [
+      {
+        "type": "space",
+        "content": "        ",
+        "skip": true
+      },
+      {
+        "type": "keyword",
+        "content": "if",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "nums",
+        "wlength": 4
+      },
+      {
+        "type": "punctuation",
+        "content": "[",
+        "wlength": 3
+      },
+      {
+        "type": "plain",
+        "content": "mid",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": "]",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "<",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "target",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": ":",
+        "wlength": 1
+      },
+      {
+        "type": "newline",
+        "content": "↵"
+      }
+    ],
+    [
+      {
+        "type": "space",
+        "content": "            ",
+        "skip": true
+      },
+      {
+        "type": "plain",
+        "content": "lo",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "=",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "mid",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "+",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "number",
+        "content": "1",
+        "wlength": 1
+      },
+      {
+        "type": "newline",
+        "content": "↵"
+      }
+    ],
+    [
+      {
+        "type": "space",
+        "content": "        ",
+        "skip": true
+      },
+      {
+        "type": "keyword",
+        "content": "else",
+        "wlength": 2
+      },
+      {
+        "type": "punctuation",
+        "content": ":",
+        "wlength": 1
+      },
+      {
+        "type": "newline",
+        "content": "↵"
+      }
+    ],
+    [
+      {
+        "type": "space",
+        "content": "            ",
+        "skip": true
+      },
+      {
+        "type": "plain",
+        "content": "hi",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "=",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "plain",
+        "content": "mid",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "-",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "number",
+        "content": "1",
+        "wlength": 1
+      },
+      {
+        "type": "newline",
+        "content": "↵"
+      }
+    ],
+    [
+      {
+        "type": "space",
+        "content": "    ",
+        "skip": true
+      },
+      {
+        "type": "keyword",
+        "content": "return",
+        "wlength": 1
+      },
+      {
+        "type": "space",
+        "content": " "
+      },
+      {
+        "type": "operator",
+        "content": "-",
+        "wlength": 2
+      },
+      {
+        "type": "number",
+        "content": "1",
+        "wlength": 1
+      },
+      {
+        "type": "newline",
+        "content": "↵"
+      }
+    ]
+  ]
+}

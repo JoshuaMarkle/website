@@ -1,0 +1,303 @@
+---
+// pick a layout and the letters fly to their keys. Keys are shaded by how often the letter is typed
+// (90M words of web English); arcs join the worst same-finger pairs. Scores are GECKO's own (prose, default
+// profile, from bench/english-layout-2026-10-24); the percentages are computed here from in-word letter pairs
+import data from "../../data/gecko.json";
+const names = data.layouts.map((l) => l.name);
+---
+
+<layout-explorer class="p-panel le">
+  <div class="p-seg le-pick">
+    {names.map((n, i) => <button type="button" aria-pressed={i === 0 ? "true" : "false"} data-i={i}>{n}</button>)}
+  </div>
+  <div class="le-main">
+    <div class="le-board">
+      <svg class="le-arcs" viewBox="0 0 1075 300" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
+    <dl class="le-stats">
+      <div class="score"><dt>GECKO score <small>lower is better</small></dt><dd data-k="score">–</dd></div>
+      <div><dt>Home row</dt><dd data-k="home">–</dd><span class="le-bar"><i data-b="home"></i></span></div>
+      <div><dt>Same-finger pairs</dt><dd data-k="sfb">–</dd><span class="le-bar bad"><i data-b="sfb"></i></span></div>
+      <div><dt>Hand alternation</dt><dd data-k="alt">–</dd><span class="le-bar"><i data-b="alt"></i></span></div>
+      <div><dt>Left / right</dt><dd data-k="hands">–</dd><span class="le-bar"><i data-b="hands"></i></span></div>
+    </dl>
+  </div>
+  <p class="cap">
+    Darker keys carry more letters. Red arcs join the five most frequent same-finger pairs. The score comes from GECKO's full model
+    (47 metrics, evidence-fitted weights, mixed web, chat and book text). The four percentages are computed live from letter pairs
+    inside words, so they're a rough sketch of that model.
+  </p>
+</layout-explorer>
+
+<style is:global>
+  layout-explorer {
+    display: block;
+  }
+  .le-main {
+    display: grid;
+    gap: 22px;
+    margin-top: 22px;
+  }
+  .le-board {
+    position: relative;
+    aspect-ratio: 1075 / 300;
+  }
+  .le-arcs {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .le-arcs path {
+    fill: none;
+    stroke: #ff5a5a;
+    stroke-linecap: round;
+    opacity: 0.6;
+    mix-blend-mode: screen;
+    animation: le-draw 0.6s 0.35s ease both;
+  }
+  @keyframes le-draw {
+    from {
+      opacity: 0;
+    }
+  }
+  .le-key,
+  .le-cap {
+    position: absolute;
+    width: calc(100% / 10.75 - 6px);
+    height: calc(100% / 3 - 6px);
+    border-radius: 7px;
+  }
+  .le-key {
+    border: 1px solid #1d1d1d;
+    background: #0a0a0a;
+  }
+  .le-key.home::after {
+    content: "";
+    position: absolute;
+    bottom: 14%;
+    left: 50%;
+    width: 18%;
+    height: 2px;
+    border-radius: 1px;
+    background: #333;
+    transform: translateX(-50%);
+  }
+  .le-cap {
+    display: grid;
+    place-items: center;
+    font: 600 clamp(12px, 3.2cqi, 22px) var(--mono);
+    color: #e8e8e8;
+    background: color-mix(in srgb, var(--tone) calc(var(--f) * 100%), #121212);
+    border: 1px solid color-mix(in srgb, var(--tone) calc(var(--f) * 100%), #262626);
+    text-shadow: 0 0 6px rgb(0 0 0 / 0.5);
+    transition:
+      left 0.7s cubic-bezier(0.5, 0, 0.2, 1),
+      top 0.7s cubic-bezier(0.5, 0, 0.2, 1);
+    transition-delay: var(--d, 0s);
+    z-index: 1;
+  }
+  .le-cap.dark {
+    color: #000;
+    text-shadow: none;
+  }
+  .le-cap.sym {
+    color: #555;
+  }
+  .le-stats {
+    display: grid;
+    grid-template-columns: 1.3fr repeat(4, 1fr);
+    gap: 16px 18px;
+    margin: 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .le-stats dt {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: #6a6a6a;
+  }
+  .le-stats dt small {
+    display: block;
+    font-size: 10px;
+    color: #4a4a4a;
+  }
+  .le-stats dd {
+    margin: 2px 0 6px;
+    font: 500 18px var(--mono);
+    color: #e8e8e8;
+    font-variant-numeric: tabular-nums;
+  }
+  .le-stats .score dd {
+    margin-top: 0;
+    font-size: 30px;
+    line-height: 1.1;
+    color: #e8e8e8;
+  }
+  .le-stats .score dd small {
+    display: block;
+    font-size: 11px;
+    color: #6a6a6a;
+  }
+  .le-bar {
+    display: block;
+    height: 3px;
+    background: #1a1a1a;
+  }
+  .le-bar i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: #e8e8e8;
+    transition: width 0.6s ease;
+  }
+  .le-bar.bad i {
+    background: #ff5a5a;
+  }
+  @container panel (max-width: 560px) {
+    .le-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .le-stats .score {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
+
+<script>
+  import data from "../../data/gecko.json";
+
+  // ansi-30: row stagger in key units, and the finger for each column (0-3 left pinky..index, 4-7 right index..pinky)
+  const STAGGER = [0, 0.25, 0.75];
+  const FINGER = [0, 1, 2, 3, 3, 4, 4, 5, 6, 7];
+  const W = 1075 / 10.75; // svg units per key
+
+  class LayoutExplorer extends HTMLElement {
+    connectedCallback() {
+      this.board = this.querySelector(".le-board");
+      this.arcs = this.querySelector(".le-arcs");
+      const max = Math.max(...Object.values(data.freq));
+      // the 30 key wells
+      for (let r = 0; r < 3; r++)
+        for (let c = 0; c < 10; c++) {
+          const k = document.createElement("span");
+          k.className = r === 1 && (c === 3 || c === 6) ? "le-key home" : "le-key";
+          Object.assign(k.style, this.at(r, c));
+          this.board.append(k);
+        }
+      // one cap per character, which moves between layouts
+      this.caps = {};
+      for (const ch of new Set(data.layouts.flatMap((l) => [...l.chars]))) {
+        const cap = document.createElement("span");
+        const f = data.freq[ch] ? Math.pow(data.freq[ch] / max, 0.6) : 0;
+        cap.className = "le-cap" + (data.freq[ch] ? (f > 0.5 ? " dark" : "") : " sym");
+        cap.style.setProperty("--f", f.toFixed(3));
+        cap.textContent = ch;
+        cap.style.opacity = 0;
+        this.board.append(cap);
+        this.caps[ch] = cap;
+      }
+      this.stat = Object.fromEntries([...this.querySelectorAll("[data-k]")].map((e) => [e.dataset.k, e]));
+      this.bar = Object.fromEntries([...this.querySelectorAll("[data-b]")].map((e) => [e.dataset.b, e]));
+      this.querySelectorAll(".le-pick button").forEach((b) =>
+        b.addEventListener("click", () => {
+          this.querySelectorAll(".le-pick button").forEach((o) => o.setAttribute("aria-pressed", o === b));
+          this.show(+b.dataset.i);
+        }),
+      );
+      this.show(0, true);
+    }
+
+    at(r, c) {
+      return {
+        left: `calc(${((c + STAGGER[r]) / 10.75) * 100}% + 3px)`,
+        top: `calc(${(r / 3) * 100}% + 3px)`,
+      };
+    }
+
+    show(i, first) {
+      const L = data.layouts[i];
+      const pos = {};
+      [...L.chars].forEach((ch, j) => (pos[ch] = [Math.floor(j / 10), j % 10]));
+      for (const [ch, cap] of Object.entries(this.caps)) {
+        if (!pos[ch]) {
+          cap.style.opacity = 0;
+          continue;
+        }
+        const [r, c] = pos[ch];
+        Object.assign(cap.style, this.at(r, c));
+        cap.style.opacity = 1;
+        // letters leave in a ripple from the left
+        cap.style.setProperty("--d", first ? "0s" : `${(c + r * 0.5) * 0.025}s`);
+      }
+
+      // stats over letters only
+      const F = data.freq;
+      let home = 0,
+        left = 0,
+        tot = 0;
+      for (const [ch, f] of Object.entries(F)) {
+        if (!pos[ch]) continue;
+        tot += f;
+        if (pos[ch][0] === 1) home += f;
+        if (pos[ch][1] < 5) left += f;
+      }
+      let sfb = 0,
+        alt = 0,
+        btot = 0;
+      const sf = [];
+      for (const [bg, f] of data.bigrams) {
+        const a = pos[bg[0]],
+          b = pos[bg[1]];
+        if (!a || !b) continue;
+        btot += f;
+        const fa = FINGER[a[1]],
+          fb = FINGER[b[1]];
+        if (fa === fb) {
+          sfb += f;
+          sf.push([bg, f, a, b]);
+        }
+        if (a[1] < 5 !== b[1] < 5) alt += f;
+      }
+      const pct = (x) => (x * 100).toFixed(1) + "%";
+      const best = Math.min(...data.layouts.map((l) => l.score));
+      this.stat.score.innerHTML = `${L.score.toFixed(2)} <small>${L.score === best ? "best here" : "+" + Math.round((L.score / best - 1) * 100) + "% vs best"}</small>`;
+      this.stat.home.textContent = pct(home / tot);
+      this.stat.sfb.textContent = pct(sfb / btot);
+      this.stat.alt.textContent = pct(alt / btot);
+      this.stat.hands.textContent = `${Math.round((100 * left) / tot)} / ${Math.round((100 * (tot - left)) / tot)}`;
+      this.bar.home.style.width = pct(home / tot);
+      this.bar.sfb.style.width = pct(Math.min(1, (sfb / btot) * 6));
+      this.bar.alt.style.width = pct(alt / btot);
+      this.bar.hands.style.width = pct(left / tot);
+
+      // arcs for the top same-finger pairs, bowed away from the board's centre line
+      sf.sort((x, y) => y[1] - x[1]);
+      const top = sf.slice(0, 5);
+      const maxf = top[0]?.[1] || 1;
+      const xy = ([r, c]) => [(c + STAGGER[r] + 0.5) * W, (r + 0.5) * 100];
+      this.arcs.innerHTML = top
+        .map(([, f, a, b]) => {
+          const [x1, y1] = xy(a),
+            [x2, y2] = xy(b);
+          // control point off the pair's midpoint, perpendicular to it, outward for each hand
+          const dx = x2 - x1,
+            dy = y2 - y1,
+            len = Math.hypot(dx, dy) || 1;
+          let nx = -dy / len,
+            ny = dx / len;
+          const out = a[1] < 5 ? -1 : 1;
+          if (Math.abs(nx) > 0.2 ? Math.sign(nx) !== out : ny > 0) (nx = -nx), (ny = -ny);
+          const bow = 34 + len * 0.22;
+          const mx = (x1 + x2) / 2 + nx * bow,
+            my = (y1 + y2) / 2 + ny * bow;
+          return `<path d="M${x1} ${y1} Q${mx} ${my} ${x2} ${y2}" stroke-width="${(1.5 + 4 * (f / maxf)).toFixed(1)}" vector-effect="non-scaling-stroke"/>`;
+        })
+        .join("");
+    }
+  }
+  customElements.define("layout-explorer", LayoutExplorer);
+</script>

@@ -143,10 +143,9 @@
     const a = document.createElement("a");
     a.className = "fly nav";
     a.href =
-      { BLOG: "#", ABOUT: "/about/", PROJECTS: "/", LIBRARY: "/library/", RESUME: "/JoshuaMarkleResume.pdf" }[
+      { BLOG: "#", ABOUT: "/about/", PROJECTS: "/", LIBRARY: "/library/", RESUME: "/resume/" }[
         s.textContent
       ] ?? "/";
-    if (s.textContent === "RESUME") a.target = "_blank";
     if (s.hasAttribute("aria-current")) a.setAttribute("aria-current", "page");
     chars(a, s.textContent);
     document.body.appendChild(a);

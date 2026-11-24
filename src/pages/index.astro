@@ -7,17 +7,18 @@ import "../styles/site.css";
 
 const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
 
-// side project tiles, in mosaic order: image in /promos, the name it's read out as, where a click goes
+// side project tiles, in mosaic order: image in /promos, the name it's read out as, where a click goes,
+// and optionally how big it scatters relative to the others (default 1)
 const GITHUB = "https://github.com/JoshuaMarkle";
 const tiles = [
   ["pigedex", "Pigedex", `${GITHUB}/pigedex`],
   ["midi2furnace", "midi2furnace", `${GITHUB}/midi2furnace`],
   ["fluid-sim", "Fluid Simulation", `${GITHUB}/fluid-simulation`],
   ["evolution-sim", "Evolution Simulation", `${GITHUB}/evolution-simulation`],
-  ["drone-ai", "Drone Stabilization AI", `${GITHUB}/drone-ai`],
+  ["drone-ai", "Drone Stabilization AI", `${GITHUB}/drone-ai`, 0.8],
   ["sandwich", "Sandwich", `${GITHUB}/sandwich`],
-  ["emacs", "Emacs config", `${GITHUB}/emacs`],
-  ["nvim", "Neovim config", `${GITHUB}/nvim`],
+  ["emacs", "Emacs config", `${GITHUB}/emacs`, 0.8],
+  ["nvim", "Neovim config", `${GITHUB}/nvim`, 0.8],
 ];
 ---
 
@@ -28,7 +29,6 @@ const tiles = [
     </h1>
     <Nav />
     <div class="planet">
-      <p class="about">happy halloween</p>
       <ascii-art piece="ringed"></ascii-art>
     </div>
   </header>
@@ -57,8 +57,8 @@ const tiles = [
 
     <section class="mosaic">
       {
-        tiles.map(([src, name, href]) => (
-          <a class="tile" href={href} target="_blank" rel="noopener" draggable="false">
+        tiles.map(([src, name, href, size]) => (
+          <a class="tile" href={href} data-size={size} target="_blank" rel="noopener" draggable="false">
             <img src={`/promos/${src}.webp`} alt={name} loading="lazy" draggable="false" />
           </a>
         ))

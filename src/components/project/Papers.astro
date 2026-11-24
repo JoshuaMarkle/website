@@ -1,0 +1,20 @@
+---
+// a shelf of a project's papers (src/data/papers.js), each opening in the site's PDF reader
+import { papers } from "../../data/papers.js";
+const { project } = Astro.props;
+const list = papers.filter((p) => p.project === project);
+---
+
+<div class="p-papers">
+  {
+    list.map((p, i) => (
+      <a href={`/papers/${p.slug}/`}>
+        <span class="sheet">
+          <img src={`/papers/thumbs/${p.slug}.png`} alt="" loading="lazy" />
+        </span>
+        <span class="no">{String(i + 1).padStart(2, "0")}</span>
+        <span class="t">{p.title}</span>
+      </a>
+    ))
+  }
+</div>

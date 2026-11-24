@@ -1,9 +1,52 @@
 ---
 title: "UVA CHATBOT"
 order: 5
-summary: "An AI assistant for the UVA Career Center that answers student career questions. A Next.js app streams answers from Gemini, with a RAG pipeline that pulls in Career Center material so responses stay grounded in what the office actually offers."
+summary: "A prototype AI assistant for the UVA Career Center that answers student career questions. A single-page Next.js app streams answers from Gemini through an edge function, so replies appear word by word. Grounding them in the Career Center's own material with RAG is the planned next step."
 video: "/promos/uva-chatbot.mp4"
 poster: "/promos/uva-chatbot.webp"
+links:
+  - { label: "Live demo", href: "https://uva-chatbot.vercel.app" }
+  - { label: "GitHub", href: "https://github.com/JoshuaMarkle/chatbot" }
+facts:
+  - { label: "Built", value: "July 2025, one week" }
+  - { label: "Stack", value: "Next.js · Tailwind" }
+  - { label: "Model", value: "Gemini 1.5 Flash" }
+  - { label: "Status", value: "Prototype" }
 ---
 
-Write-up for the UVA Career Center chatbot goes here. This is MDX, so components can be dropped in.
+import StreamFlow from "../../components/project/StreamFlow.astro";
+
+<p class="lede">A chat assistant for the UVA Career Center, built as a one-week prototype. A student asks a career question, like how to find an internship or what goes on a resume, and the answer streams back as it's written.</p>
+
+It's intentionally small: one page, one API route, no database.
+
+<StreamFlow />
+
+## How it works
+
+When you send a message, the page posts the conversation to `/api/chat`, which runs as an edge function. The route wraps the latest question in a short system prompt for the Career Center and calls Gemini with `generateContentStream`. Instead of waiting for the full answer, it forwards each chunk as soon as it arrives:
+
+```js
+const readable = new ReadableStream({
+  async start(ctrl) {
+    for await (const chunk of stream.stream) {
+      ctrl.enqueue(encoder.encode(chunk.text()));
+    }
+    ctrl.close();
+  },
+});
+```
+
+On the page, a stream reader decodes the chunks into one growing string and re-renders the bot's reply as Markdown after each one, so lists and bold text format themselves as the answer types out. If the stream breaks partway, the reply keeps what it already has and says it was interrupted, rather than throwing everything away.
+
+## The interface
+
+The input bar starts in the middle of the screen under the UVA logo, like a search box. After the first message it slides to the bottom and the conversation fills in above it. Messages fade in, the text box grows with what you type, Enter sends and Shift+Enter adds a new line. The palette is UVA navy and orange on white.
+
+## What's next
+
+The prototype answers from Gemini's general knowledge, which works for generic advice but knows nothing about UVA in particular. The plan:
+
+- **RAG.** Index the Career Center's own pages, guides and event listings in a vector store (Pinecone was the candidate), retrieve the relevant passages for each question, and answer from those, with links back to the source.
+- **Conversation memory.** Right now each question is answered on its own. Sending the history makes follow-up questions work.
+- **Cost estimates and hosting** that the Career Center could actually run and pay for, then deployment on their domain.

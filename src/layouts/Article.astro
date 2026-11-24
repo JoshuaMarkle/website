@@ -12,7 +12,7 @@ const { title, description, back, home } = Astro.props;
       {
         home ? (
           <>
-            <a href="/" class="text-[#e8e8e8]">Joshua Markle</a> / <a href={back.href}>{back.label}</a>
+            <a href="/" class="text-[#e8e8e8]">Joshua Markle</a> / <a href={back.href} data-back>{back.label}</a>
           </>
         ) : (
           <a href={back.href}>← {back.label}</a>
@@ -27,6 +27,21 @@ const { title, description, back, home } = Astro.props;
   </main>
   <Footer />
 </Base>
+
+<script>
+  // the crumb back to the list: when the list is the page we came from, step back in history instead of
+  // loading it fresh, so it comes back exactly as it was left (scroll spot and all, from the page cache)
+  for (const a of document.querySelectorAll("a[data-back]"))
+    a.addEventListener("click", (e) => {
+      if (e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+      const nav = window.navigation;
+      const prev = nav?.entries?.()[nav.currentEntry.index - 1];
+      if (prev && new URL(prev.url).pathname === a.pathname) {
+        e.preventDefault();
+        history.back();
+      }
+    });
+</script>
 
 <style is:global>
   html,
@@ -169,7 +184,7 @@ const { title, description, back, home } = Astro.props;
     --tone: #2e8bff;
   }
   .prose-post blockquote.alert-warning {
-    --tone: #ff8c1a; /* same as the home page's planet */
+    --tone: #ff8c1a;
   }
   .prose-post blockquote.alert-caution {
     --tone: #ff3b3b;

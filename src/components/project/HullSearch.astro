@@ -1,0 +1,538 @@
+---
+// JAGUAR's hull shape search, replayed shape by shape: all 508 hulls the real run tried, in the order it tried
+// them (96 Latin-hypercube samples, then pattern search), each drawn from its own `jaguar gen-hull` offsets.
+// The dashed outline is the shape being tried (red if it fails a check), the filled one is the lightest
+// passing hull so far. Data: public/data/jaguar-search.json, built by src/data/build-jaguar-search.py
+---
+
+<hull-search class="p-panel hs">
+  <div class="hs-head">
+    <div>
+      <p class="kicker">Hull shape search · the real run</p>
+      <div class="hs-big"><b data-k="lb">–</b> lb</div>
+      <div class="hs-sub" data-k="sub">lightest passing hull so far</div>
+    </div>
+    <dl class="hs-count">
+      <div><dt>Shape</dt><dd><b data-k="n">–</b> / <span data-k="of">508</span></dd></div>
+      <div><dt>Passing</dt><dd><b data-k="pass">–</b></dd></div>
+      <div><dt>New bests</dt><dd><b data-k="bests">–</b></dd></div>
+    </dl>
+  </div>
+
+  <div class="hs-view plan">
+    <span class="hs-label">Plan <small>beam ×2</small><span class="hs-phase" data-k="phase"></span></span>
+    <svg viewBox="0 0 1000 230" aria-label="Plan view: the shape being tried over the lightest passing hull so far">
+      <g class="trail"></g><path class="best"></path><path class="try"></path>
+    </svg>
+  </div>
+  <div class="hs-view prof">
+    <span class="hs-label">Underwater profile <small>depth ×3</small></span>
+    <svg viewBox="0 0 1000 100" aria-label="Side view below the waterline">
+      <line class="wl" x1="0" x2="1000" y1="8" y2="8"></line>
+      <g class="trail"></g><path class="best"></path><path class="try"></path>
+    </svg>
+  </div>
+
+  <div class="hs-low">
+    <div class="hs-view chart">
+      <span class="hs-label">Every shape's weight <small>red fails a check</small></span>
+      <svg viewBox="0 0 600 170" aria-label="Weight of every shape tried, with the best so far">
+        <defs><clipPath id="hs-upto"><rect x="0" y="-10" height="200" width="0"></rect></clipPath></defs>
+        <g class="axis"></g>
+        <g class="dots" clip-path="url(#hs-upto)"></g>
+        <path class="step" clip-path="url(#hs-upto)"></path>
+        <line class="now" y1="0" y2="150"></line>
+      </svg>
+    </div>
+    <div class="hs-view sec">
+      <span class="hs-label">Midship section <small>true scale</small></span>
+      <svg viewBox="-16 -1.5 32 11" aria-label="Midship cross section, true scale">
+        <line class="wl" x1="-16" x2="16" y1="0" y2="0"></line>
+        <path class="best"></path><path class="try"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="hs-ctl">
+    <button type="button" class="hs-play" aria-label="Play the search">
+      <svg class="i-play" viewBox="0 0 12 12"><path d="M3 1.8v8.4L10 6z"></path></svg>
+      <svg class="i-pause" viewBox="0 0 12 12"><path d="M3.2 2v8M8.8 2v8"></path></svg>
+      <svg class="i-again" viewBox="0 0 12 12"><path d="M2.2 6a3.8 3.8 0 1 0 1.1-2.7M2.2 1.8v2.1h2.1"></path></svg>
+      <span data-k="btn">Play</span>
+    </button>
+    <input type="range" min="0" max="507" value="507" aria-label="Search step" />
+  </div>
+  <p class="cap">
+    Dashed: the shape being tried, red when it fails a check. Filled: the lightest hull that passes so far, with the earlier
+    ones faint behind it. Every hull is from the real run (<code>jaguar run examples/shape_opt.toml</code>), drawn from its own
+    generated offsets.
+  </p>
+</hull-search>
+
+<style is:global>
+  hull-search {
+    display: block;
+  }
+  .hs-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px 28px;
+  }
+  .hs-big {
+    font-size: 40px;
+    font-weight: 650;
+    line-height: 1;
+    color: #6a6a6a;
+  }
+  .hs-big b {
+    font-weight: inherit;
+    color: #e8e8e8;
+    font-variant-numeric: tabular-nums;
+  }
+  .hs-sub {
+    margin-top: 8px;
+    font: 12px var(--mono);
+    color: #8a8a8a;
+  }
+  .hs-count {
+    display: flex;
+    gap: 22px;
+    margin: 0;
+  }
+  .hs-count dt {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .hs-count dd {
+    margin: 4px 0 0;
+    font: 13px var(--mono);
+    color: var(--dim);
+    font-variant-numeric: tabular-nums;
+  }
+  .hs-count dd b {
+    font-size: 16px;
+    font-weight: 500;
+    color: #e8e8e8;
+  }
+
+  .hs-view {
+    position: relative;
+    margin-top: 20px;
+  }
+  .hs-view svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .hs-label {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .hs-label small {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    color: #444;
+  }
+  .hs-phase {
+    margin-left: auto;
+    padding: 3px 8px;
+    border: 1px solid #262626;
+    border-radius: 999px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--soft);
+  }
+  .hs-phase:empty {
+    display: none;
+  }
+  .hs-view .best {
+    fill: color-mix(in srgb, var(--tone) 16%, transparent);
+    stroke: var(--tone);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+  .hs-view .try {
+    fill: none;
+    stroke: rgb(255 255 255 / 0.55);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+    vector-effect: non-scaling-stroke;
+  }
+  .hs-view .try.fail {
+    stroke: #ff6b6b;
+  }
+  .hs-view .try.same {
+    display: none;
+  }
+  .hs-view .trail path {
+    fill: none;
+    stroke: #fff;
+    stroke-opacity: 0.08;
+    vector-effect: non-scaling-stroke;
+  }
+  .hs-view .wl {
+    stroke: color-mix(in srgb, var(--tone) 40%, transparent);
+    stroke-dasharray: 4 4;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hs-low {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 28px;
+    align-items: end;
+  }
+  .chart .axis line {
+    stroke: #1c1c1c;
+    vector-effect: non-scaling-stroke;
+  }
+  .chart .axis line.split {
+    stroke: #333;
+    stroke-dasharray: 2 3;
+  }
+  .chart .axis text {
+    font: 14px var(--mono);
+    fill: #4a4a4a;
+  }
+  .chart .dots circle {
+    fill: #4a4a4a;
+  }
+  .chart .dots circle.fail {
+    fill: #ff6b6b;
+    opacity: 0.8;
+  }
+  .chart .dots circle.best {
+    fill: var(--tone);
+  }
+  .chart .step {
+    fill: none;
+    stroke: var(--tone);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+  .chart .now {
+    stroke: rgb(255 255 255 / 0.25);
+    vector-effect: non-scaling-stroke;
+  }
+  .hs-view.sec svg {
+    max-height: 170px;
+  }
+
+  .hs-ctl {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 22px;
+  }
+  .hs-play {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 8px;
+    min-width: 96px;
+    padding: 8px 14px 8px 11px;
+    border: 1px solid #2a2a2a;
+    border-radius: 999px;
+    background: #111;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #e8e8e8;
+    cursor: pointer;
+    transition:
+      border-color 0.15s ease,
+      background 0.15s ease;
+  }
+  .hs-play:hover {
+    border-color: color-mix(in srgb, var(--tone) 60%, transparent);
+    background: color-mix(in srgb, var(--tone) 8%, #111);
+  }
+  .hs-play:focus-visible {
+    outline: 1px solid var(--tone);
+    outline-offset: 2px;
+  }
+  .hs-play svg {
+    width: 12px;
+    height: 12px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hs-play .i-play {
+    fill: currentColor;
+    stroke: none;
+  }
+  .hs-play:not([data-s="play"]) .i-play,
+  .hs-play:not([data-s="pause"]) .i-pause,
+  .hs-play:not([data-s="again"]) .i-again {
+    display: none;
+  }
+  /* the scrubber: a hairline that fills blue up to a round handle */
+  .hs-ctl input {
+    flex: 1;
+    min-width: 0;
+    height: 18px;
+    margin: 0;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+    --p: 100%;
+  }
+  .hs-ctl input::-webkit-slider-runnable-track {
+    height: 2px;
+    border-radius: 1px;
+    background: linear-gradient(90deg, var(--tone) var(--p), #262626 var(--p));
+  }
+  .hs-ctl input::-moz-range-track {
+    height: 2px;
+    border-radius: 1px;
+    background: linear-gradient(90deg, var(--tone) var(--p), #262626 var(--p));
+  }
+  .hs-ctl input::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+    margin-top: -5px;
+    border: 0;
+    border-radius: 50%;
+    background: #e8e8e8;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--tone) 35%, transparent);
+    appearance: none;
+  }
+  .hs-ctl input::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: 0;
+    border-radius: 50%;
+    background: #e8e8e8;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--tone) 35%, transparent);
+  }
+  .hs-ctl input:focus-visible {
+    outline: none;
+  }
+  .hs-ctl input:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px var(--tone);
+  }
+
+  @container panel (max-width: 540px) {
+    .hs-big {
+      font-size: 30px;
+    }
+    .hs-low {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .hs-view.sec svg {
+      max-width: 240px;
+    }
+  }
+</style>
+
+<script>
+  const STEP_MS = 45; // per shape: the whole run in about half a minute
+  const BEST_HOLD_MS = 320; // and a beat on every new best
+
+  class HullSearch extends HTMLElement {
+    connectedCallback() {
+      this.k = Object.fromEntries([...this.querySelectorAll("[data-k]")].map((e) => [e.dataset.k, e]));
+      this.range = this.querySelector("input");
+      this.btn = this.querySelector(".hs-play");
+      this.views = ["plan", "prof", "sec"].map((c) => {
+        const v = this.querySelector(`.hs-view.${c}`);
+        return { c, best: v.querySelector(".best"), try: v.querySelector(".try"), trail: v.querySelector(".trail") };
+      });
+      this.state("play");
+      // fetch the run when the widget gets near the screen
+      const near = new IntersectionObserver(
+        ([e]) => {
+          if (!e.isIntersecting) return;
+          near.disconnect();
+          this.load();
+        },
+        { rootMargin: "600px 0px" },
+      );
+      near.observe(this);
+    }
+
+    async load() {
+      const d = await (await fetch("/data/jaguar-search.json")).json();
+      const S = (this.S = d.shapes);
+      this.lhs = d.lhs;
+      this.last = S.length - 1;
+      this.range.max = this.last;
+      this.k.of.textContent = S.length;
+      // the best passing shape at every step, and the running counts
+      this.bestAt = [];
+      this.passAt = [];
+      this.bestsAt = [];
+      this.incumbents = [];
+      let best = -1,
+        pass = 0;
+      S.forEach((s, i) => {
+        if (s.ok) pass++;
+        if (s.ok && (best < 0 || s.lb < S[best].lb)) (best = i), this.incumbents.push(i);
+        this.bestAt.push(best);
+        this.passAt.push(pass);
+        this.bestsAt.push(this.incumbents.length);
+      });
+      this.Lmax = Math.max(...S.map((s) => s.L));
+      this.chart();
+      this.range.addEventListener("input", () => (this.stop(), this.show(+this.range.value)));
+      this.btn.addEventListener("click", () => (this.timer ? this.stop() : this.play()));
+      this.show(this.last);
+      this.state("again");
+
+      // play it once when it's on screen; leaving pauses it
+      new IntersectionObserver(
+        ([e]) => {
+          if (e.isIntersecting && !this.played && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            this.played = true;
+            this.play(0);
+          } else if (!e.isIntersecting && this.timer) this.stop();
+        },
+        { threshold: 0.4 },
+      ).observe(this);
+    }
+
+    // ---- outlines, from the compact offsets (21 stations, 11 waterlines, evenly spaced) ----
+    // every hull is centred, so longer and shorter ones grow and shrink from the middle
+    X(s, k) {
+      return 20 + (((this.Lmax - s.L) / 2 + (s.L * k) / 20) / this.Lmax) * 960;
+    }
+    plan(s) {
+      const sc = (960 / this.Lmax) * 2; // beam x2
+      const top = s.plan.map((b, k) => `${this.X(s, k).toFixed(1)} ${(115 - (b / 10) * sc).toFixed(1)}`);
+      const bot = s.plan.map((b, k) => `${this.X(s, k).toFixed(1)} ${(115 + (b / 10) * sc).toFixed(1)}`).reverse();
+      return `M${top.join(" L")} L${bot.join(" L")} Z`;
+    }
+    prof(s) {
+      const sc = (960 / this.Lmax) * 3; // depth x3
+      const keel = s.keel.map((z, k) => `${this.X(s, k).toFixed(1)} ${(8 + (s.T - z / 100) * sc).toFixed(1)}`);
+      return `M${this.X(s, 0).toFixed(1)} 8 L${keel.join(" L")} L${this.X(s, 20).toFixed(1)} 8 Z`;
+    }
+    sec(s) {
+      const pts = s.sec.map((b, j) => [b / 10, s.T - (s.T * j) / 10]);
+      const r = pts.map(([b, z]) => `${b.toFixed(2)} ${z.toFixed(2)}`);
+      const l = pts.map(([b, z]) => `${(-b).toFixed(2)} ${z.toFixed(2)}`).reverse();
+      return `M${l.join(" L")} L${r.join(" L")}`;
+    }
+
+    // every shape's weight; the blue step is the best so far, which only ever drops
+    chart() {
+      const svg = this.querySelector(".chart svg");
+      const S = this.S;
+      const lo = 83,
+        hi = 117; // pounds; the heavier ones sit on the top edge
+      this.cx = (i) => 4 + (i / this.last) * 592;
+      const cy = (lb) => 6 + (1 - (Math.min(lb, hi) - lo) / (hi - lo)) * 138;
+      const axis = svg.querySelector(".axis");
+      let a = "";
+      for (const lb of [85, 95, 105, 115])
+        a += `<line x1="0" x2="600" y1="${cy(lb)}" y2="${cy(lb)}"/><text x="598" y="${cy(lb) - 3}" text-anchor="end">${lb} lb</text>`;
+      const sx = this.cx(this.lhs - 0.5);
+      a += `<line class="split" x1="${sx}" x2="${sx}" y1="0" y2="150"/>`;
+      a += `<text x="${sx - 4}" y="168" text-anchor="end">sampling</text><text x="${sx + 4}" y="168">pattern search</text>`;
+      axis.innerHTML = a;
+      const inc = new Set(this.incumbents);
+      svg.querySelector(".dots").innerHTML = S.map(
+        (s, i) =>
+          `<circle cx="${this.cx(i).toFixed(1)}" cy="${cy(s.lb).toFixed(1)}" r="${inc.has(i) ? 2.6 : 1.6}"${
+            !s.ok ? ' class="fail"' : inc.has(i) ? ' class="best"' : ""
+          }/>`,
+      ).join("");
+      let d = "";
+      this.bestAt.forEach((b, i) => {
+        if (b < 0) return;
+        const y = cy(S[b].lb).toFixed(1);
+        d += d ? ` H${this.cx(i).toFixed(1)} V${y}` : `M${this.cx(i).toFixed(1)} ${y}`;
+      });
+      svg.querySelector(".step").setAttribute("d", d + " H596");
+      this.clip = svg.querySelector("#hs-upto rect");
+      this.now = svg.querySelector(".now");
+    }
+
+    show(i) {
+      const S = this.S;
+      const s = S[i],
+        b = this.bestAt[i];
+      this.i = i;
+      this.range.value = i;
+      this.range.style.setProperty("--p", `${(100 * i) / this.last}%`);
+      this.k.n.textContent = i + 1;
+      this.k.pass.textContent = this.passAt[i];
+      this.k.bests.textContent = this.bestsAt[i];
+      this.k.phase.textContent = i < this.lhs ? "Sampling" : "Pattern search";
+      if (b >= 0) {
+        const B = S[b];
+        this.k.lb.textContent = B.lb.toFixed(2);
+        this.k.sub.textContent = `${(B.L / 12).toFixed(1)} ft long · ${B.B.toFixed(1)} in beam · ${B.t} in wall at ${B.pcf} pcf`;
+      } else {
+        this.k.lb.textContent = "–";
+        this.k.sub.textContent = "no passing hull yet";
+      }
+      for (const v of this.views) {
+        const f = (x) => this[v.c](x);
+        v.try.setAttribute("d", f(s));
+        v.try.classList.toggle("fail", !s.ok);
+        v.try.classList.toggle("same", b === i);
+        if (b >= 0) v.best.setAttribute("d", f(S[b]));
+        v.best.style.visibility = b >= 0 ? "" : "hidden";
+        // a faint trail of the earlier bests
+        if (v.trail) {
+          const upto = this.incumbents.filter((j) => j < b);
+          if (v.trailN !== upto.length) {
+            v.trail.innerHTML = upto.map((j) => `<path d="${f(S[j])}"/>`).join("");
+            v.trailN = upto.length;
+          }
+        }
+      }
+      const x = this.cx(i);
+      this.clip.setAttribute("width", x + 3);
+      this.now.setAttribute("x1", x);
+      this.now.setAttribute("x2", x);
+    }
+
+    state(s) {
+      this.btn.dataset.s = s;
+      this.k.btn.textContent = { play: "Play", pause: "Pause", again: "Replay" }[s];
+      this.btn.ariaLabel = { play: "Play the search", pause: "Pause", again: "Replay the search" }[s];
+    }
+    play(from) {
+      if (!this.S) return;
+      let i = from ?? (this.i >= this.last ? 0 : this.i);
+      this.show(i);
+      this.state("pause");
+      const next = () => {
+        if (++i > this.last) return this.stop();
+        this.show(i);
+        this.timer = setTimeout(next, this.bestAt[i] === i ? BEST_HOLD_MS : STEP_MS);
+      };
+      this.timer = setTimeout(next, STEP_MS);
+    }
+    stop() {
+      clearTimeout(this.timer);
+      this.timer = null;
+      this.state(this.i >= this.last ? "again" : "play");
+    }
+  }
+  customElements.define("hull-search", HullSearch);
+</script>

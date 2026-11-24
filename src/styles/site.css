@@ -4,9 +4,7 @@
   --fg: #e8e8e8;
   --box: #1c1c1c;
   --accent: #7cc4ff; /* focused box outline and its project name */
-  --planet: #6a6a6a; /* ascii rings and stars ink */
-  --globe: #ff8c1a; /* ascii planet's globe ink */
-  --stem: #0b6623; /* ascii pumpkin stem ink */
+  --planet: #6a6a6a; /* ascii planet ink */
   --blurb: #9a9a9a; /* project paragraphs */
   --gutter: 24px; /* page edge */
   --content: 640px; /* width of the centered content column */
@@ -55,7 +53,6 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 14px; /* about line sits close to the planet, farther from the nav */
   padding-top: 32px;
   color: var(--planet);
   font-size: min(
@@ -64,21 +61,6 @@ header {
   ); /* 64 cols fit on phones */
   opacity: 0;
   transition: opacity 1.2s ease;
-}
-/* short about line just above the planet, same gray ink */
-.about {
-  margin: 0;
-  font-family: ui-monospace, Menlo, Consolas, monospace;
-  font-size: 1em; /* same as the planet (16px, smaller on phones) */
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  text-align: center;
-}
-.planet .globe {
-  color: var(--globe);
-}
-.planet .stem {
-  color: var(--stem);
 }
 .planet.on {
   opacity: 1;
@@ -450,4 +432,11 @@ footer,
 .press:hover {
   background: var(--fg);
   color: var(--bg);
+}
+
+/* coming back from a project: the page is put back without any of its transitions (site.js restore) */
+.instant *,
+.instant *::before,
+.instant *::after {
+  transition: none !important;
 }

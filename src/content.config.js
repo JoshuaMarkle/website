@@ -28,6 +28,10 @@ const projects = defineCollection({
     summary: z.string(),
     video: z.string().optional(),
     poster: z.string(),
+    // project page only: the links under the title and the facts row under the video.
+    // every project shares the site's blue (--accent in site.css), so there's no per-project color
+    links: z.array(z.object({ label: z.string(), href: z.string() })).default([]),
+    facts: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
   }),
 });
 

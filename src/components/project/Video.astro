@@ -1,0 +1,207 @@
+---
+// the promo at the top of a project page. No browser controls: it plays (muted, looping) while it's on
+// screen and pauses when it leaves. Hovering shows a thin bar with play/pause, sound, a seekable
+// progress line and fullscreen. Reduced motion: it waits for a click instead
+const { src, poster, label = "Project video" } = Astro.props;
+---
+
+<project-video class="pvid">
+  <video src={src} poster={poster} muted loop playsinline preload="metadata" aria-label={label}></video>
+  <div class="pvid-ctl">
+    <button type="button" data-a="play" aria-label="Play">
+      <svg class="i-play" viewBox="0 0 16 16"><path d="M5 3.5v9l7.5-4.5z"></path></svg>
+      <svg class="i-pause" viewBox="0 0 16 16"><path d="M5 3.5v9M11 3.5v9"></path></svg>
+    </button>
+    <div class="pvid-seek" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <i></i>
+    </div>
+    <span class="pvid-time" data-k="time">0:00</span>
+    <button type="button" data-a="mute" aria-label="Unmute">
+      <svg class="i-muted" viewBox="0 0 16 16"><path d="M2.5 6h2.5L8.5 3v10L5 10H2.5zM11 6l3.5 4M14.5 6 11 10"></path></svg>
+      <svg class="i-sound" viewBox="0 0 16 16"><path d="M2.5 6h2.5L8.5 3v10L5 10H2.5zM11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.5a6 6 0 0 1 0 9"></path></svg>
+    </button>
+    <button type="button" data-a="full" aria-label="Fullscreen">
+      <svg viewBox="0 0 16 16"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"></path></svg>
+    </button>
+  </div>
+</project-video>
+
+<style is:global>
+  project-video {
+    position: relative;
+    display: block;
+    margin-top: 40px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: #1c1c1c;
+  }
+  project-video video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  project-video:fullscreen video {
+    object-fit: contain;
+    background: #000;
+  }
+  .pvid-ctl {
+    position: absolute;
+    inset: auto 0 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 28px 14px 10px;
+    background: linear-gradient(transparent, rgb(0 0 0 / 0.7));
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+  project-video:is(:hover, :focus-within, .paused) .pvid-ctl {
+    opacity: 1;
+    transform: none;
+  }
+  .pvid-ctl button {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: #e8e8e8;
+    cursor: pointer;
+  }
+  .pvid-ctl button:hover {
+    background: rgb(255 255 255 / 0.1);
+  }
+  .pvid-ctl svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .pvid-ctl .i-play {
+    fill: currentColor;
+  }
+  project-video:not(.paused) .i-play,
+  project-video.paused .i-pause,
+  project-video:not(.sound) .i-sound,
+  project-video.sound .i-muted {
+    display: none;
+  }
+  .pvid-seek {
+    position: relative;
+    flex: 1;
+    height: 16px;
+    cursor: pointer;
+    outline: none;
+  }
+  .pvid-seek::before,
+  .pvid-seek i {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    height: 2px;
+    border-radius: 1px;
+  }
+  .pvid-seek::before {
+    right: 0;
+    background: rgb(255 255 255 / 0.2);
+  }
+  .pvid-seek i {
+    width: var(--p, 0%);
+    background: #55aaff;
+  }
+  .pvid-seek:focus-visible::before {
+    outline: 1px solid #55aaff;
+    outline-offset: 4px;
+  }
+  .pvid-time {
+    min-width: 4.5ch;
+    font: 11px ui-monospace, SFMono-Regular, Menlo, monospace;
+    text-align: right;
+    color: #b0b0b0;
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+
+<script>
+  const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+
+  class ProjectVideo extends HTMLElement {
+    connectedCallback() {
+      const v = (this.video = this.querySelector("video"));
+      const seek = this.querySelector(".pvid-seek");
+      const time = this.querySelector("[data-k=time]");
+      this.classList.add("paused");
+      this.still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      const sync = () => {
+        this.classList.toggle("paused", v.paused);
+        this.classList.toggle("sound", !v.muted);
+        this.querySelector("[data-a=play]").ariaLabel = v.paused ? "Play" : "Pause";
+        this.querySelector("[data-a=mute]").ariaLabel = v.muted ? "Unmute" : "Mute";
+      };
+      v.addEventListener("play", sync);
+      v.addEventListener("pause", sync);
+      v.addEventListener("volumechange", sync);
+      v.addEventListener("timeupdate", () => {
+        const p = v.duration ? (100 * v.currentTime) / v.duration : 0;
+        seek.style.setProperty("--p", p + "%");
+        seek.ariaValueNow = Math.round(p);
+        time.textContent = fmt(v.currentTime);
+      });
+
+      const toggle = () => {
+        // once someone pauses it by hand, scrolling past doesn't restart it
+        this.held = !v.paused;
+        v.paused ? v.play() : v.pause();
+      };
+      v.addEventListener("click", toggle);
+      this.querySelector("[data-a=play]").addEventListener("click", toggle);
+      this.querySelector("[data-a=mute]").addEventListener("click", () => {
+        v.muted = !v.muted;
+        if (!v.muted && v.paused) v.play();
+      });
+      this.querySelector("[data-a=full]").addEventListener("click", () => {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else if (this.requestFullscreen) this.requestFullscreen();
+        else v.webkitEnterFullscreen?.(); // iOS only fullscreens the video itself
+      });
+
+      const to = (e) => {
+        const r = seek.getBoundingClientRect();
+        if (v.duration) v.currentTime = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * v.duration;
+      };
+      seek.addEventListener("pointerdown", (e) => {
+        seek.setPointerCapture(e.pointerId);
+        to(e);
+        seek.onpointermove = to;
+      });
+      seek.addEventListener("pointerup", () => (seek.onpointermove = null));
+      seek.addEventListener("keydown", (e) => {
+        const d = { ArrowRight: 5, ArrowLeft: -5 }[e.key];
+        if (d && v.duration) (e.preventDefault(), (v.currentTime = Math.max(0, Math.min(v.duration, v.currentTime + d))));
+      });
+
+      // play while at least half of it is on screen
+      new IntersectionObserver(
+        ([e]) => {
+          if (e.isIntersecting && !this.still && !this.held) v.play().catch(() => {});
+          else if (!e.isIntersecting && !v.paused) v.pause();
+        },
+        { threshold: 0.5 },
+      ).observe(this);
+    }
+  }
+  customElements.define("project-video", ProjectVideo);
+</script>
