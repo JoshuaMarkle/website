@@ -1,7 +1,8 @@
 node_modules/
 dist/
 .astro/
+.vercel/
 .env
 .DS_Store
-.wrangler/
-public/promos/raw/
+# original recordings and screenshots, too big to commit
+media/raw/

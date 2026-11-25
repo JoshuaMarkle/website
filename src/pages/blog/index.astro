@@ -1,49 +1,36 @@
 ---
-import { getCollection } from "astro:content";
-import Base from "../../layouts/Base.astro";
-import Nav from "../../components/Nav.astro";
-import Footer from "../../components/Footer.astro";
-import "../../styles/blog.css";
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
 
-const posts = (await getCollection("blog", (p) => import.meta.env.DEV || !p.data.draft)).sort((a, b) => +b.data.date - +a.data.date);
-const iso = (d) => d.toISOString().slice(0, 10);
+const posts = (await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft)).sort((a, b) => +b.data.date - +a.data.date);
+const day = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const strip = (s = '') => s.replace(/```[\s\S]*?```/g, ' ').replace(/[`#>*_[\]()!|-]/g, ' ').replace(/https?:\S+/g, ' ').replace(/\s+/g, ' ');
 ---
-
-<Base title="Blog · Joshua Markle" description="Notes, experiments, build logs.">
-  <header>
-    <h1>
-      <a href="/" aria-label="Joshua Markle"><span>JOSHUA</span><span>MARKLE</span></a>
-    </h1>
-    <Nav />
-    <div class="tag-row" aria-hidden="true"></div>
-  </header>
-
-  <main>
-    {
-      posts.map((p) => (
-        <article
-          class:list={["entry", { "has-cover": p.data.cover }]}
-          data-date={iso(p.data.date)}
-          data-min={p.data.minutes}
-          data-tags={p.data.tags.join(" ")}
-        >
-          {p.data.cover && (
-            <div class="cover" style={`background-image: url(${p.data.cover})`} aria-hidden="true" />
-          )}
-          <h3>
-            <a href={`/blog/${p.id}/`}>{p.data.title}</a>
-          </h3>
-          <a class="excerpt" href={`/blog/${p.id}/`}>
-            <p>{p.data.excerpt}</p>
-          </a>
-        </article>
-      ))
-    }
-  </main>
-
-  <Footer />
-
-  <script>
-    import "../../scripts/blog.js";
-  </script>
+<Base page="blog" title="Blog, Joshua Markle">
+  <h1 class="halo marquee" data-marquee="blog">Blog</h1>
+  <div class="column">
+    <div class="listing">
+      <ul class="posts">
+        {posts.map((p) => (
+          <li class="row" data-tags={p.data.tags.join(' ')} data-date={+p.data.date} data-search={`${p.data.title} ${p.data.tags.join(' ')} ${p.data.excerpt} ${strip(p.body)}`}>
+            <a href={`/blog/${p.id}/`}>
+              <span class="in">
+                <span class="t">{p.data.title}</span>
+                <span class="m">{day(p.data.date)}<i></i>{p.data.minutes} min</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="none" hidden>Nothing matches that.</p>
+      <div class="finder">
+        <label class="field">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 4a6.6 6.6 0 1 0 0 13.2 6.6 6.6 0 0 0 0-13.2zM15.6 15.6l4.6 4.6"/></svg>
+          <input type="text" inputmode="search" enterkeyhint="go" spellcheck="false" autocomplete="off" placeholder="Search" aria-label="Search posts" />
+          <button type="button" class="clr" aria-label="Clear search" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.8 5.8l12.4 12.4M18.2 5.8 5.8 18.2"/></svg></button>
+        </label>
+        <button type="button" class="filter round" aria-label="Filter posts"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.2 7.4h15.6M7.4 12h9.2M10.4 16.6h3.2"/></svg></button>
+      </div>
+    </div>
+  </div>
 </Base>

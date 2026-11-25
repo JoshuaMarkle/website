@@ -1,19 +1,39 @@
 ---
-import "../styles/global.css";
+import '@fontsource-variable/inter/opsz.css';
+import '@fontsource/special-gothic-expanded-one';
+import '../styles/site.css';
+import { ClientRouter } from 'astro:transitions';
+import Footer from '../components/Footer.astro';
 
-const { title = "Joshua Markle", description = "Joshua Markle: programmer, artist, entrepreneur." } = Astro.props;
+const { title = 'Joshua Markle', description = 'Joshua Markle: programmer, artist, entrepreneur.', page } = Astro.props;
 ---
-
 <!doctype html>
-<html lang="en">
+<html lang="en" transition:animate="none">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+    <meta name="theme-color" content="#000000" />
     <meta name="description" content={description} />
-    <slot name="head" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%237a2cff'/></svg>" />
+    <title>{title}</title>
+    <noscript><style>main { opacity: 1 !important; } .halo, [data-say] { color: #fff !important; }</style></noscript>
+    <ClientRouter fallback="swap" />
   </head>
-  <body>
-    <slot />
+  <body data-page={page}>
+    <canvas id="gl" aria-hidden="true" transition:persist></canvas>
+    <a class="skip" href="#page">Skip to content</a>
+    <nav id="nav" aria-label="Main" transition:persist>
+      <div class="items">
+        <a href="/about/">About</a>
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+      </div>
+    </nav>
+    <main id="page" class={page}>
+      <slot />
+      <Footer />
+    </main>
+    <div id="over" transition:persist></div>
+    <script>import '../scripts/boot.js';</script>
   </body>
 </html>

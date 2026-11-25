@@ -1,58 +1,22 @@
 ---
-import Base from "../layouts/Base.astro";
-import Nav from "../components/Nav.astro";
-import Footer from "../components/Footer.astro";
-import "../styles/plain.css";
+import Base from '../layouts/Base.astro';
 ---
-
-<Base title="About · Joshua Markle" description="About Joshua Markle.">
-  <header>
-    <h1>
-      <a href="/" aria-label="Joshua Markle"><span>JOSHUA</span><span>MARKLE</span></a>
-    </h1>
-    <Nav />
-  </header>
-
-  <main>
-    <p>
-    I am passionate and obsessive about fitness, programming, business, and philosophy. Currently a computer science student at UVA.
-    </p>
-    <p>
-    Outside of academia, I race on the triathlon team, surf and snowboard whenever I can, and read a lot about psychology and technology.
-    </p>
-    <p>
-    I'm currently looking for internships/job opportunities. Reach me at <a href="mailto:joshuamarkle25@gmail.com">joshuamarkle25@gmail.com</a>, or check out my <a href="/resume/">resume</a>.
-    </p>
-  </main>
-
-  <Footer />
-
-  <script>
-    import "../scripts/about.js";
-  </script>
+<Base page="about" title="About, Joshua Markle">
+  <section class="is">
+    <h1 data-fade data-say>Joshua Markle is a</h1>
+    <div class="halo" data-liquid="prog/rammer, art/ist, entre/preneur, tink/erer, type/nerd" role="img" aria-label="programmer, artist, entrepreneur, tinkerer, type nerd"></div>
+  </section>
+  <section class="says">
+    <p class="say" data-fade data-say>I am passionate and obsessive about fitness, programming, business, and philosophy. Currently a computer science student at UVA.</p>
+    <p class="say" data-fade data-say>Outside of academia, I race on the triathlon team, surf and snowboard whenever I can, and read a lot about psychology and technology.</p>
+    <p class="say" data-fade data-say>I'm currently looking for internships and job opportunities. Reach me at <a href="mailto:joshuamarkle25@gmail.com">joshuamarkle25@gmail.com</a> or check out my resume.</p>
+    <a class="pill" data-pill href="/JoshuaMarkleResume.pdf"><span class="lab">Resume</span></a>
+  </section>
+  <section class="keys">
+    <div class="typed" data-type aria-hidden="true"></div>
+    <div class="corne" data-corne role="img" aria-label="A Corne split keyboard, in glass. Type to press its keys."></div>
+    <img class="flat" src="/work/corne.webp" alt="" loading="lazy" />
+    <h2 data-fade>My keyboard</h2>
+    <a class="pill" data-pill href="/blog/corne-build-guide/"><span class="lab">Build guide</span></a>
+  </section>
 </Base>
-
-<style is:global>
-  main {
-    max-width: var(--content);
-    margin: 0 auto;
-    padding: 72px var(--gutter) 96px;
-  }
-  main p {
-    margin: 0;
-    margin-bottom: 16px;
-    font-size: 18px;
-    line-height: 1.6;
-  }
-  /* links as in blog posts */
-  main a {
-    color: #4ea1ff;
-    text-decoration: underline;
-    text-decoration-color: rgb(78 161 255 / 0.4);
-    text-underline-offset: 3px;
-    transition: text-decoration-color 0.15s ease;
-  }
-  main a:hover {
-    text-decoration-color: currentColor;
-  }
-</style>

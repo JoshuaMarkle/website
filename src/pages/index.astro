@@ -1,75 +1,52 @@
 ---
-import { getCollection } from "astro:content";
-import Base from "../layouts/Base.astro";
-import Nav from "../components/Nav.astro";
-import Footer from "../components/Footer.astro";
-import "../styles/site.css";
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
 
-const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
-
-// side project tiles, in mosaic order: image in /promos, the name it's read out as, where a click goes,
-// and optionally how big it scatters relative to the others (default 1)
-const GITHUB = "https://github.com/JoshuaMarkle";
-const tiles = [
-  ["pigedex", "Pigedex", `${GITHUB}/pigedex`],
-  ["midi2furnace", "midi2furnace", `${GITHUB}/midi2furnace`],
-  ["fluid-sim", "Fluid Simulation", `${GITHUB}/fluid-simulation`],
-  ["evolution-sim", "Evolution Simulation", `${GITHUB}/evolution-simulation`],
-  ["drone-ai", "Drone Stabilization AI", `${GITHUB}/drone-ai`, 0.8],
-  ["sandwich", "Sandwich", `${GITHUB}/sandwich`],
-  ["emacs", "Emacs config", `${GITHUB}/emacs`, 0.8],
-  ["nvim", "Neovim config", `${GITHUB}/nvim`, 0.8],
-];
+const marks = import.meta.glob('../logos/*.svg', { query: '?raw', import: 'default', eager: true });
+const shape = (id) => /\sd="([^"]+)"/.exec(marks[`../logos/${id}.svg`])[1];
+const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order).map((p) => ({ id: p.id, ...p.data, text: p.body.trim(), d: shape(p.id) }));
+const main = all.filter((p) => p.main), rest = all.filter((p) => !p.main);
 ---
-
-<Base title="Joshua Markle">
-  <header>
-    <h1>
-      <a href="/" aria-label="Joshua Markle"><span>JOSHUA</span><span>MARKLE</span></a>
-    </h1>
-    <Nav />
-    <div class="planet">
-      <ascii-art piece="ringed"></ascii-art>
+<Base page="work" title="Joshua Markle">
+  <section class="hero">
+    <h1 class="halo" data-halo="joshua/markle" data-tall="jos/hua/mar/kle" data-fit="fill">Joshua Markle</h1>
+  </section>
+  <section class="line">
+    <p data-fade>Programmer, artist, entrepreneur.</p>
+  </section>
+  <section class="reel" data-reel style={`--n:${main.length}`} aria-label="Projects">
+    <div class="pin">
+      <div class="model" data-model>
+        {main.map((p) => <span class="num halo" data-halo={p.num} data-tall={p.numTall} data-role="num" aria-hidden="true"></span>)}
+      </div>
+      <nav class="names" aria-label="Projects">
+        {main.map((p, i) => <a href={`#${p.id}`} data-go={i}>{p.name}</a>)}
+        <a href="#more" data-go="more">{rest.length} more</a>
+      </nav>
+      <div class="words">
+        {main.map((p) => (
+          <article id={p.id}>
+            <svg class="flat" viewBox="0 0 512 512" aria-hidden="true"><path fill-rule="evenodd" d={p.d} /></svg>
+            <h2>{p.name}</h2>
+            <p>{p.line}</p>
+            <div class="plainlinks">{p.links.map((l) => <a href={l.href}>{l.label}</a>)}</div>
+          </article>
+        ))}
+        <button type="button" class="pill" data-pill data-open={main[0].id}><span class="lab">Open</span></button>
+      </div>
     </div>
-  </header>
-
-  <main>
-    <p class="hint" aria-hidden="true">j / k to navigate</p>
-    {
-      projects.map((p) => (
-        <a
-          class="box"
-          href={`/projects/${p.id}/`}
-          data-title={p.data.title}
-          data-blurb={p.data.summary}
-          aria-label={p.data.title}
-        >
-          {p.data.video ? (
-            <video src={p.data.video} poster={p.data.poster} muted loop playsinline preload="none" />
-          ) : (
-            <img src={p.data.poster} alt="" />
-          )}
-        </a>
-      ))
-    }
-
-    <div class="marquee" role="marquee" aria-label="Side projects"></div>
-
-    <section class="mosaic">
-      {
-        tiles.map(([src, name, href, size]) => (
-          <a class="tile" href={href} data-size={size} target="_blank" rel="noopener" draggable="false">
-            <img src={`/promos/${src}.webp`} alt={name} loading="lazy" draggable="false" />
-          </a>
-        ))
-      }
-      <button class="press" type="button">PRESS ME</button>
-    </section>
-  </main>
-
-  <Footer />
-
-  <script>
-    import "../scripts/site.js";
-  </script>
+  </section>
+  <section class="more" id="more" aria-label="More projects">
+    <ul class="wall">
+      {rest.map((p) => (
+        <li>
+          <button type="button" data-open={p.id}>
+            <span class="mark" data-mark={p.id} aria-hidden="true"><svg class="flat" viewBox="0 0 512 512"><path fill-rule="evenodd" d={p.d} /></svg></span>
+            <span class="t">{p.name}</span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  </section>
+  <script type="application/json" id="projects" is:inline set:html={JSON.stringify(all).replace(/</g, '\\u003c')} />
 </Base>

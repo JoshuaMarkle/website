@@ -1,0 +1,39 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft)).sort((a, b) => +b.data.date - +a.data.date);
+  // the one written before this; the oldest leads back round to the newest
+  return posts.map((post, i) => ({ params: { slug: post.id }, props: { post, next: posts.length > 1 ? posts[(i + 1) % posts.length] : null } }));
+}
+const { post, next } = Astro.props;
+const { title, date, minutes, excerpt, cover } = post.data;
+const { Content } = await render(post);
+const day = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+<Base page="post" title={`${title}, Joshua Markle`} description={excerpt}>
+  <a class="back pill small" data-pill data-stay href="/blog/" aria-label="Back to the blog"><span class="lab"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.8 4.8 7.9 12l6.9 7.2"/></svg><span>Blog</span></span></a>
+  <article class="reading">
+    <header class="top">
+      <h1 data-fade>{title}</h1>
+      <p class="meta" data-fade><time datetime={date.toISOString().slice(0, 10)}>{day(date)}</time><i></i>{minutes} min</p>
+    </header>
+    {cover && <figure class="cover" data-fade><img src={cover} alt="" decoding="async" /></figure>}
+    <div class="prose"><Content /></div>
+    {next && (
+      <nav class="next" aria-label="Next post">
+        <p data-fade>Next</p>
+        <div class="row">
+          <i class="glide"></i>
+          <a href={`/blog/${next.id}/`}>
+            <span class="in">
+              <span class="t">{next.data.title}</span>
+              <span class="m">{day(next.data.date)}<i></i>{next.data.minutes} min</span>
+            </span>
+          </a>
+        </div>
+      </nav>
+    )}
+  </article>
+</Base>

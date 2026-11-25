@@ -1,9 +1,0 @@
----
-// a row of screenshots that shares the column evenly (two per row on phones)
-const { images, caption } = Astro.props;
----
-
-<figure>
-  <div class="p-shots">{images.map(([src, alt]) => <img src={src} alt={alt} loading="lazy" />)}</div>
-  {caption && <figcaption>{caption}</figcaption>}
-</figure>
