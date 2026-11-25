@@ -3,6 +3,7 @@ import { satteri } from '@astrojs/markdown-satteri';
 import alerts from './src/plugins/alerts.js';
 
 export default defineConfig({
+  site: 'https://joshuamarkle.com',
   output: 'static',
   markdown: { processor: satteri({ hastPlugins: [alerts] }), shikiConfig: { theme: 'min-dark' } },
   devToolbar: { enabled: false },

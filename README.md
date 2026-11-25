@@ -48,7 +48,8 @@ One WebGL canvas sits behind every page and stays there as pages change (Astro's
 | `src/ui/` | Glass interface kit, panels and icons |
 | `src/plugins/alerts.js` | GitHub-style callouts in posts |
 | `src/logos/` | Project marks the site uses |
-| `logos/` | Where the marks are drawn (`build.py`) |
+| `logos/` | Where the marks (`build.py`) and the site icon (`icon.py`) are drawn |
+| `public/share.jpg` | The picture shown when a page is shared: the home page hero at 1200 by 630 |
 | `public/work/` | Project clips and stills |
 | `media/raw/` | Original recordings and screenshots. Not in git, so back it up separately |
 

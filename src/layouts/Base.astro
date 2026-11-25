@@ -6,6 +6,8 @@ import { ClientRouter } from 'astro:transitions';
 import Footer from '../components/Footer.astro';
 
 const { title = 'Joshua Markle', description = 'Joshua Markle: programmer, artist, entrepreneur.', page } = Astro.props;
+const lost = page === 'lost';
+const url = new URL(Astro.url.pathname, Astro.site).href, share = new URL('/share.jpg', Astro.site).href;
 ---
 <!doctype html>
 <html lang="en" transition:animate="none">
@@ -14,7 +16,20 @@ const { title = 'Joshua Markle', description = 'Joshua Markle: programmer, artis
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content={description} />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%237a2cff'/></svg>" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {lost ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={url} />}
+    <meta property="og:site_name" content="Joshua Markle" />
+    <meta property="og:type" content={page === 'post' ? 'article' : 'website'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {!lost && <meta property="og:url" content={url} />}
+    <meta property="og:image" content={share} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Joshua Markle, in black letters with light spilling from behind them" />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>{title}</title>
     <noscript><style>main { opacity: 1 !important; } .halo, [data-say] { color: #fff !important; }</style></noscript>
     <ClientRouter fallback="swap" />

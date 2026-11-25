@@ -2,12 +2,10 @@
 
 What is known to be open, as of 2026-11-25. Take items out as they are done.
 
-## Before release
+## Still open (live since 2026-11-25)
 
-- [ ] **Old URLs.** The site live until now has `/library`, `/projects/<slug>` and `/keyboard`, which will reach the 404 page. The library is dropped on purpose. A redirect in `vercel.json` would keep the other links working. `/papers` and `/resume` were never live.
-- [ ] **No share image.** Pages have no Open Graph or Twitter tags, so a shared link shows no picture. An older card is in history at `pre-redesign-backup`, `public/images/twitter-card.png`.
-- [ ] **No sitemap, `robots.txt` or canonical URLs.** Astro's `site` is not set; it should be `https://joshuamarkle.com`.
-- [ ] **The favicon is a placeholder,** a plain purple dot. Older ones are in the same place.
+- [ ] **Old URLs.** The last site had `/library`, `/projects/<slug>` and `/keyboard`, which now reach the 404 page. The library is dropped on purpose. A redirect in `vercel.json` would keep the other links working. `/papers` and `/resume` were never live.
+- [ ] **No sitemap or `robots.txt`.**
 - [ ] **Nine post images load from other sites,** including Reddit, Geekhack, shops and a DuckDuckGo proxy. All loaded on 2026-11-25. They can vanish, and one is 5,984 px wide. Check they can be reused, then copy them in, resize them and add alt text to the ones in the Corne guide.
 
 ## Resume (left alone for now)
@@ -22,7 +20,6 @@ What is known to be open, as of 2026-11-25. Take items out as they are done.
 - [ ] The Live links on the project panels. Source repos were checked and are public.
 - [ ] Recovery when the graphics context is lost. `stage.js` stops the default but has no code of its own to restore what was drawn.
 - [ ] Screen readers
-- [ ] Node 22, which the host uses. The build was run on Node 26.
 
 ## Improvements
 
