@@ -16,8 +16,7 @@ const url = new URL(Astro.url.pathname, Astro.site).href, share = new URL('/shar
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content={description} />
-    <link rel="icon" href="/favicon.ico" sizes="32x32" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     {lost ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={url} />}
     <meta property="og:site_name" content="Joshua Markle" />
