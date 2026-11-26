@@ -1,5 +1,5 @@
-// The site icon: JM in the lit Halo type, drawn by the site itself and saved as favicon.ico and
-// apple-touch-icon.png in public/. Needs a build served on PORT (npm run build, then npm run preview),
+// The site icon: JM in the lit Halo type, drawn by the site itself and saved to public/ as favicon.ico,
+// favicon-16x16.png, favicon-32x32.png, apple-touch-icon.png, and icon-192.png and icon-512.png for the manifest. Needs a build served on PORT (npm run build, then npm run preview),
 // Chromium and ImageMagick.  node logos/icon.mjs [port]
 import { spawn, execFileSync } from 'node:child_process';
 import fs from 'node:fs'; import os from 'node:os'; import path from 'node:path';
@@ -23,8 +23,9 @@ await sleep(3800);
 const shot = await cdp('Page.captureScreenshot', { format: 'png' });
 fs.writeFileSync(`${tmp}/raw.png`, Buffer.from(shot.data, 'base64'));
 const sq = `${tmp}/sq.png`;
-execFileSync('magick', [`${tmp}/raw.png`, '-crop', '1120x1060+0+40', '+repage', '-fuzz', '6%', '-trim', '+repage', '-gravity', 'center', '-background', 'black', '-extent', '106%x106%', '-resize', '512x512', '-extent', '512x512', sq]);
-execFileSync('magick', [sq, '-resize', '180x180', '-strip', `${OUT}apple-touch-icon.png`]);
+execFileSync('magick', [`${tmp}/raw.png`, '-crop', '1120x1060+0+40', '+repage', '-fuzz', '6%', '-trim', '+repage', '-gravity', 'center', '-background', 'black', '-extent', '106%x106%', '-resize', '1024x1024', '-extent', '1024x1024', sq]);
+const png = (n, name) => execFileSync('magick', [sq, '-filter', 'Lanczos', '-resize', `${n}x${n}`, '-strip', `${OUT}${name}`]);
+png(16, 'favicon-16x16.png'); png(32, 'favicon-32x32.png'); png(180, 'apple-touch-icon.png'); png(192, 'icon-192.png'); png(512, 'icon-512.png');
 execFileSync('magick', [sq, '-filter', 'Lanczos', '-define', 'icon:auto-resize=48,32,16', `${OUT}favicon.ico`]);
-console.log('wrote public/favicon.ico and public/apple-touch-icon.png');
+console.log('wrote the icons to public/');
 done(0);
